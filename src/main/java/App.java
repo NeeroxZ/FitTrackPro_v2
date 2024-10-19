@@ -1,3 +1,4 @@
+import de.neeroxz.db.H2InitDatabase;
 import de.neeroxz.ui.AppPanel;
 
 /**
@@ -9,6 +10,8 @@ import de.neeroxz.ui.AppPanel;
 public class App {
     public static void main(String[] args) {
         System.out.println("test");
+        H2InitDatabase db = new H2InitDatabase();
+        db.initDatabase();
         new AppPanel().showPanel();
     }
 }
