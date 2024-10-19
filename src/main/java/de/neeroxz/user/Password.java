@@ -35,6 +35,10 @@ public class Password {
     public String getHashedPassword() {
         return hashedPassword;
     }
+    @Override
+    public String toString(){
+        return hashedPassword;
+    }
 }
 
 
