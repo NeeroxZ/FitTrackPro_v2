@@ -31,14 +31,18 @@ public class H2InitDatabase {
             System.out.println("Datenbank wird initialisiert...");
 
             // Tabelle "users" erstellen
-            String createUserTable = "CREATE TABLE IF NOT EXISTS users ("
-                    + "id INT PRIMARY KEY AUTO_INCREMENT, "
-                    + "username VARCHAR(255) NOT NULL, "
-                    + "password VARCHAR(255) NOT NULL)";
-            try (PreparedStatement stmt = connection.prepareStatement(createUserTable)) {
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS users (" +
+                    "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "username VARCHAR(255) NOT NULL, " +
+                    "password VARCHAR(255) NOT NULL, " +
+                    "gewicht DOUBLE NOT NULL, " +
+                    "grosse DOUBLE NOT NULL, " +
+                    "geburtstag DATE NOT NULL" +
+                    ")";
+            try (PreparedStatement stmt = connection.prepareStatement(createTableSQL)) {
                 stmt.execute();
+                System.out.println("Tabelle 'users' erstellt oder existiert bereits.");
             }
-
             // Tabelle "exercises" erstellen
             String createExerciseTable = "CREATE TABLE IF NOT EXISTS exercises ("
                     + "id INT PRIMARY KEY AUTO_INCREMENT, "
