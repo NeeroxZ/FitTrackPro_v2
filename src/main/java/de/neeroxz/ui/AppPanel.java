@@ -13,8 +13,7 @@ public class AppPanel extends AbstractConsolePanel {
 
         // Menüaktionen dynamisch hinzufügen
         removeMainMenu();
-        addMenuAction("User anlegen", this::createUser);
-        addMenuAction("User anzeigen", this::showUsers);
+        addMenuAction("User Einstellungen", this::userSettings);
         addMenuAction("Training auswählen", this::selectTraining);
         addMenuAction("Beenden", this::exitApp);
 
@@ -26,11 +25,7 @@ public class AppPanel extends AbstractConsolePanel {
         handleInput();
     }
 
-    private void createUser() {
-    }
-
-    private void showUsers() {
-
+    private void userSettings() {
     }
 
     private void selectTraining()
