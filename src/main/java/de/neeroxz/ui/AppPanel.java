@@ -30,7 +30,7 @@ public class AppPanel extends AbstractConsolePanel {
 
     private void selectTraining()
     {
-        System.out.println("Trainingsauswahl (noch nicht implementiert).");
+        new ExercisePanel().showPanel();
     }
 
     @Override
