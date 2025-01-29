@@ -1,13 +1,5 @@
 import de.neeroxz.db.H2InitDatabase;
-import de.neeroxz.exercise.Exercise;
-import de.neeroxz.exercise.ExerciseService;
-import de.neeroxz.exercise.H2ExerciseRepository;
 import de.neeroxz.ui.AppPanel;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Class: App
@@ -17,12 +9,11 @@ import java.util.Optional;
  */
 public class App {
     public static void main(String[] args) {
-       /*
         System.out.println("test");
         H2InitDatabase db = new H2InitDatabase();
         db.initDatabase();
         new AppPanel().showPanel();
-    */
+    /*
         String url = "jdbc:h2:./fittracker"; // H2-Datenbankverbindung
         String username = "sa";
         String password = "";
@@ -41,7 +32,8 @@ public class App {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
+
 
 }
