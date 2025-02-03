@@ -6,10 +6,7 @@ package de.neeroxz.user;
  * @author NeeroxZ
  * @date 19.10.2024
  */
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 
 public class H2UserDB implements UserRepository {
@@ -46,6 +43,42 @@ public class H2UserDB implements UserRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM users WHERE username = ?")) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new User(
+                        rs.getString("username"),
+                        new Password(rs.getString("password")),
+                        rs.getDouble("gewicht"),
+                        rs.getDouble("grosse"),
+                        new Birthday(rs.getDate("geburtstag").toLocalDate())
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Abrufen des Benutzers", e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void saveUser(User user) {
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "INSERT INTO users (username, password, gewicht, grosse, geburtstag) VALUES (?, ?, ?, ?, ?)")) {
+            stmt.setString(1, user.username());
+            stmt.setString(2, user.password().getHashedPassword());
+            stmt.setDouble(3, user.gewicht());
+            stmt.setDouble(4, user.grosse());
+            stmt.setDate(5, Date.valueOf(user.geburtstag().getBirthDate()));
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Speichern des Benutzers", e);
         }
     }
 }
