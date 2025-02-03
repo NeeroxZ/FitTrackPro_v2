@@ -71,18 +71,48 @@ public class H2WorkoutRepository implements WorkoutRepository {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
+
             while (rs.next()) {
-                workouts.add(new Workout(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        WorkoutType.valueOf(rs.getString("type")),
-                        new ArrayList<>(),
-                        rs.getString("username")
-                ));
+                int workoutId = rs.getInt("id");
+                String name = rs.getString("name");
+                WorkoutType type = WorkoutType.valueOf(rs.getString("type"));
+                String exerciseIds = rs.getString("exercise_ids"); // 🔥 Übungs-IDs als String
+                List<Exercise> exercises = loadExercisesByIds(exerciseIds); // ✅ Übungen laden
+
+                workouts.add(new Workout(workoutId, name, type, exercises, username));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Laden der Workouts", e);
         }
         return workouts;
     }
+
+    private List<Exercise> loadExercisesByIds(String exerciseIds) {
+        List<Exercise> exercises = new ArrayList<>();
+
+        if (exerciseIds == null || exerciseIds.isEmpty()) {
+            return exercises; // 🔥 Falls keine Übungen vorhanden sind
+        }
+
+        String query = "SELECT * FROM exercises WHERE id IN (" + exerciseIds + ")";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                ExerciseCategory category = ExerciseCategory.valueOf(rs.getString("category").toUpperCase());
+
+                Exercise exercise = new Exercise(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        category,
+                        rs.getString("difficulty")
+                );
+                exercises.add(exercise);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Laden der Übungen für Workout", e);
+        }
+        return exercises;
+    }
+
 }
