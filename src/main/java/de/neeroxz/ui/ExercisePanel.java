@@ -4,8 +4,10 @@ import de.neeroxz.exercise.Exercise;
 import de.neeroxz.exercise.Workout;
 import de.neeroxz.exercise.WorkoutService;
 import de.neeroxz.exercise.WorkoutType;
+import de.neeroxz.user.LoggedInUser;
 import de.neeroxz.util.AppStrings;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +19,7 @@ import java.util.Scanner;
  */
 public class ExercisePanel extends AbstractConsolePanel{
     WorkoutService workoutService;
+    Scanner scanner = new Scanner(System.in);
 
     public ExercisePanel(WorkoutService workoutService) {
         this.workoutService = workoutService;
@@ -35,7 +38,78 @@ public class ExercisePanel extends AbstractConsolePanel{
     }
 
     private void createWorkout() {
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("1: Random");
+        System.out.println("2: Individuell");
+
+        String typ = scanner.nextLine();
+
+        switch (typ) {
+            case "1": randomWorkout();
+            case "2": individuellWorkout();
+            default: break;
+        }
+    }
+
+    private void individuellWorkout() {
+        System.out.print("Gib dem Workout einen Namen: ");
+        String name = scanner.nextLine();
+
+        System.out.println("Wähle Workout-Typ:");
+        System.out.println("1. Kraftsport");
+        System.out.println("2. Cardio");
+        System.out.println("3. Yoga");
+        System.out.print("Deine Wahl: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Zeilenumbruch entfernen
+
+        WorkoutType type;
+        switch (choice) {
+            case 1 -> type = WorkoutType.KRAFTSPORT;
+            case 2 -> type = WorkoutType.CARDIO;
+            case 3 -> type = WorkoutType.YOGA;
+            default -> {
+                System.out.println("❌ Ungültige Eingabe! Abbruch.");
+                return;
+            }
+        }
+
+        List<Exercise> allExercises = workoutService.getAllExercises();
+        List<Exercise> selectedExercises = new ArrayList<>();
+
+        System.out.println("\n📋 Wähle deine Übungen (Nummern eingeben, getrennt durch Leerzeichen, z. B. '1 3 5'):");
+        for (int i = 0; i < allExercises.size(); i++) {
+            Exercise exercise = allExercises.get(i);
+            System.out.println((i + 1) + ". " + exercise.name() + " (" + exercise.category() + ")");
+        }
+
+        System.out.print("\nDeine Auswahl: ");
+        String[] input = scanner.nextLine().split(" ");
+
+        for (String number : input) {
+            try {
+                int exerciseIndex = Integer.parseInt(number) - 1;
+                if (exerciseIndex >= 0 && exerciseIndex < allExercises.size()) {
+                    selectedExercises.add(allExercises.get(exerciseIndex));
+                } else {
+                    System.out.println("⚠ Nummer " + number + " ist ungültig.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("⚠ '" + number + "' ist keine gültige Nummer.");
+            }
+        }
+
+        if (selectedExercises.isEmpty()) {
+            System.out.println("❌ Kein Workout erstellt, da keine gültigen Übungen ausgewählt wurden.");
+            return;
+        }
+
+        Workout workout = new Workout(0, name, type, selectedExercises, LoggedInUser.getCurrentUser().get().username());
+        workoutService.saveWorkout(workout);
+
+        System.out.println("\n✅ Workout '" + workout.name() + "' mit " + selectedExercises.size() + " Übungen wurde gespeichert!");
+    }
+
+    private void randomWorkout(){
         System.out.print("Gib dem Workout einen Namen: ");
         String name = scanner.nextLine();
 
@@ -99,7 +173,6 @@ public class ExercisePanel extends AbstractConsolePanel{
         }
         System.out.println(AppStrings.LINESEPARATOR);
     }
-
 
     @Override
     public void showPanel() {

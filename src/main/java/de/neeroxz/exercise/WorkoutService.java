@@ -57,4 +57,12 @@ public class WorkoutService {
         User currentUser = LoggedInUser.getCurrentUser().orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
         return workoutRepository.findByUser(currentUser.username());
     }
+
+    public List<Exercise> getAllExercises() {
+        return exerciseRepository.findAll();
+    }
+
+    public void saveWorkout(Workout workout) {
+        workoutRepository.saveWorkout(workout);
+    }
 }
