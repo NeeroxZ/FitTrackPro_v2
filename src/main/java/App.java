@@ -1,5 +1,13 @@
+import de.neeroxz.db.DatabaseConnectionFactory;
 import de.neeroxz.db.H2InitDatabase;
+import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.ui.AppPanel;
+import de.neeroxz.user.H2UserDB;
+import de.neeroxz.user.PasswordHasher;
+import de.neeroxz.user.SHA256PasswordHasher;
+import de.neeroxz.user.UserRepository;
+
+import java.sql.Connection;
 
 /**
  * Class: App
@@ -9,31 +17,14 @@ import de.neeroxz.ui.AppPanel;
  */
 public class App {
     public static void main(String[] args) {
-        System.out.println("test");
-        H2InitDatabase db = new H2InitDatabase();
-        db.initDatabase();
-        new AppPanel().showPanel();
-    /*
-        String url = "jdbc:h2:./fittracker"; // H2-Datenbankverbindung
-        String username = "sa";
-        String password = "";
+    //      H2InitDatabase db = new H2InitDatabase();
+    //        db.initDatabase();
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            H2ExerciseRepository exerciseRepository = new H2ExerciseRepository(connection);
-            ExerciseService exerciseService = new ExerciseService(exerciseRepository);
+        Connection connection = DatabaseConnectionFactory.getConnection();
+        UserRepository userRepository = new H2UserDB(connection);
+        PasswordHasher passwordHasher = new SHA256PasswordHasher();
 
-            // Abrufen aller Übungen
-            List<Exercise> allExercises = exerciseService.getAllExercises();
-            allExercises.forEach(System.out::println);
-
-            // Abrufen einer Übung nach ID
-            Optional<Exercise> exercise = exerciseService.getExerciseById(1);
-            exercise.ifPresent(System.out::println);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        AuthenticationService authService = new AuthenticationService(userRepository, passwordHasher);
+        new AppPanel(authService).showPanel();
     }
-
-
 }
