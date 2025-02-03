@@ -1,5 +1,6 @@
 import de.neeroxz.db.DatabaseConnectionFactory;
 import de.neeroxz.db.H2InitDatabase;
+import de.neeroxz.exercise.*;
 import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.ui.AppPanel;
 import de.neeroxz.user.H2UserDB;
@@ -24,7 +25,12 @@ public class App {
         UserRepository userRepository = new H2UserDB(connection);
         PasswordHasher passwordHasher = new SHA256PasswordHasher();
 
+
+        ExerciseRepository exerciseRepository = new H2ExerciseRepository(connection);
+        WorkoutRepository  workoutRepository = new H2WorkoutRepository(connection);
+
+        WorkoutService workoutService = new WorkoutService(workoutRepository, exerciseRepository);
         AuthenticationService authService = new AuthenticationService(userRepository, passwordHasher);
-        new AppPanel(authService).showPanel();
+        new AppPanel(authService,workoutService).showPanel();
     }
 }
