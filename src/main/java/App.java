@@ -1,5 +1,4 @@
-import de.neeroxz.db.DatabaseConnectionFactory;
-import de.neeroxz.db.H2InitDatabase;
+
 import de.neeroxz.exercise.*;
 import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.ui.AppPanel;
