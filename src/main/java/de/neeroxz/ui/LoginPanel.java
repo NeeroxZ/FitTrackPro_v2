@@ -1,25 +1,21 @@
 package de.neeroxz.ui;
 
-import de.neeroxz.user.*;
+import de.neeroxz.services.AuthenticationService;
+import de.neeroxz.user.Birthday;
+import de.neeroxz.user.UserInputValidator;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Optional;
+import java.time.LocalDate;
 import java.util.Scanner;
 
-/**
- * Class: LoginPanel
- *
- * @author NeeroxZ
- * @date 19.10.2024
- */
-public class LoginPanel extends AbstractConsolePanel{
+public class LoginPanel extends AbstractConsolePanel {
+    private final AuthenticationService authenticationService;
+    private final Scanner scanner = new Scanner(System.in); //todo
+    private final UserInputValidator validator;
 
-    private PasswordHasher passwordHasher;
+    public LoginPanel(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+        this.validator = new UserInputValidator(scanner);
 
-    public LoginPanel(PasswordHasher passwordHasher) {
-        this.passwordHasher = passwordHasher;
         removeMainMenu();
         addMenuAction("Login", this::login);
         addMenuAction("Register", this::register);
@@ -32,42 +28,44 @@ public class LoginPanel extends AbstractConsolePanel{
     }
 
     private void register() {
+        System.out.print("Benutzername: ");
+        String username = scanner.nextLine();
+        System.out.print("Passwort: ");
+        String password = scanner.nextLine();
+        System.out.print("Gewicht (kg): ");
+        double gewicht = validator.readValidDouble("Gewicht (kg): ", 20, 300);
+        double grosse = validator.readValidDouble("Größe (m): ", 0.5, 2.5);
+        Birthday geburtstag = validator.readValidBirthday("Geburtsdatum (yyyy-mm-dd): ");
+
+        boolean success = authenticationService.registerUser(username, password, gewicht, grosse, geburtstag);
+        if (success) {
+            System.out.println("Registrierung erfolgreich! Du kannst dich jetzt einloggen.");
+        } else {
+            System.out.println("Fehler: Benutzername existiert bereits!");
+        }
     }
 
-    // TODO: Datenabank verbindungshalter
-    private void login() {
-        Scanner scanner = new Scanner(System.in);
 
+    private void login() {
         while (true) {
             System.out.print("Benutzername: ");
             String username = scanner.nextLine();
             System.out.print("Passwort: ");
-            Password password = Password.hash(scanner.nextLine(), passwordHasher);
-            String url = "jdbc:h2:./fittracker"; // Die Datei "fittracker.mv.db" wird im aktuellen Verzeichnis gespeichert
-            Connection connection = null;
-            try {
-                connection = DriverManager.getConnection(url, "sa", "");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            UserRepository userRepository = new H2UserDB(connection);
-            System.out.println(username + "  " + password.getHashedPassword());
-            Optional<User> userOptional = userRepository.findUserByUsernameAndPassword(username, password.getHashedPassword());
+            String password = scanner.nextLine();
 
-            // Überprüfen, ob ein Benutzer mit den Anmeldeinformationen existiert
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();  // Den Benutzer aus dem Optional extrahieren
-                //LoggedInUser.getInstance(username);  // Benutzer im Singleton speichern
+            if (authenticationService.authenticate(username, password).isPresent()) {
                 System.out.println("Login erfolgreich!");
-                break;  // Login erfolgreich, Schleife verlassen
+                break;
             } else {
                 System.out.println("Benutzername oder Passwort ist falsch. Bitte versuche es erneut.");
             }
+
             System.out.println("1: Erneut Versuchen");
             System.out.println("2: Beenden");
             System.out.print("Wähle eine Option: ");
             int option = scanner.nextInt();
-            scanner.nextLine();  // Zeilenumbruch entfernen
+            scanner.nextLine();
+
             if (option == 2) {
                 scanner.close();
                 exitApp();
@@ -80,4 +78,6 @@ public class LoginPanel extends AbstractConsolePanel{
     public void showPanel() {
         super.handleInput();
     }
+
+
 }

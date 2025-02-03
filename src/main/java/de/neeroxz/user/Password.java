@@ -19,7 +19,7 @@ public class Password {
      *
      * @param hashedPassword Das bereits gehashte Passwort.
      */
-    private Password(String hashedPassword) {
+    public Password(String hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
 
