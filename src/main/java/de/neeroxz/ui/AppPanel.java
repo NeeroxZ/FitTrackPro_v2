@@ -1,5 +1,8 @@
 package de.neeroxz.ui;
 
+import de.neeroxz.services.AuthenticationService;
+import de.neeroxz.user.SHA256PasswordHasher;
+
 /**
  * Class: AppPanel
  *
@@ -9,8 +12,9 @@ package de.neeroxz.ui;
 
 public class AppPanel extends AbstractConsolePanel {
 
-    public AppPanel() {
-
+    AuthenticationService authService;
+    public AppPanel(AuthenticationService authService) {
+        this.authService = authService;
         // Menüaktionen dynamisch hinzufügen
         removeMainMenu();
         addMenuAction("User Einstellungen", this::userSettings);
@@ -21,7 +25,8 @@ public class AppPanel extends AbstractConsolePanel {
 
     @Override
     public void showPanel() {
-        new LoadingAnimation().progressBar(20);
+        new LoginPanel(this.authService).showPanel();
+        new LoadingAnimation().progressBar(10);
         handleInput();
     }
 
