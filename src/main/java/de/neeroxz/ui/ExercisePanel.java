@@ -1,9 +1,12 @@
 package de.neeroxz.ui;
 
+import de.neeroxz.exercise.Exercise;
 import de.neeroxz.exercise.Workout;
 import de.neeroxz.exercise.WorkoutService;
 import de.neeroxz.exercise.WorkoutType;
+import de.neeroxz.util.AppStrings;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -60,8 +63,43 @@ public class ExercisePanel extends AbstractConsolePanel{
 
 
     private void showWorkouts() {
-        System.out.println("Zurzeit noch nicht Verfügbar");
+        Scanner scanner = new Scanner(System.in);
+       List<Workout> workouts = workoutService.getUserWorkouts();
+        if (workouts.isEmpty()) {
+            System.out.println("🔹 Du hast noch keine gespeicherten Workouts.");
+            return;
+        }
+
+        System.out.println("\n📋 Deine gespeicherten Workouts:");
+        for (int i = 0; i < workouts.size(); i++) {
+            Workout workout = workouts.get(i);
+            System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
+        }
+
+        System.out.print("\nWähle ein Workout (Nummer eingeben) oder 0 für Abbruch: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Zeilenumbruch entfernen
+
+        if (choice < 1 || choice > workouts.size()) {
+            System.out.println("Ungültige Eingabe oder Abbruch.");
+            return;
+        }
+
+        Workout selectedWorkout = workouts.get(choice - 1);
+        displayWorkoutDetails(selectedWorkout);
+
     }
+    private void displayWorkoutDetails(Workout workout) {
+        System.out.println("\n🆔 Workout-ID: " + workout.id());
+        System.out.println("📌 Name: " + workout.name());
+        System.out.println("🏋 Typ: " + workout.type());
+        System.out.println("📃 Übungen:");
+        for (Exercise exercise : workout.exercises()) {
+            System.out.println("   - " + exercise.name() + " (" + exercise.category() + ")");
+        }
+        System.out.println(AppStrings.LINESEPARATOR);
+    }
+
 
     @Override
     public void showPanel() {
