@@ -1,5 +1,11 @@
 package de.neeroxz.ui;
 
+import de.neeroxz.exercise.Workout;
+import de.neeroxz.exercise.WorkoutService;
+import de.neeroxz.exercise.WorkoutType;
+
+import java.util.Scanner;
+
 /**
  * Class: ExercisePanel
  *
@@ -7,8 +13,10 @@ package de.neeroxz.ui;
  * @date 21.10.2024
  */
 public class ExercisePanel extends AbstractConsolePanel{
+    WorkoutService workoutService;
 
-    public ExercisePanel() {
+    public ExercisePanel(WorkoutService workoutService) {
+        this.workoutService = workoutService;
         super.addMenuAction("Workouts anzeigen", this::showWorkouts);
         super.addMenuAction("Workout erstellen", this::createWorkout);
         super.addMenuAction("Workout löschen", this::deleteWorkout);
@@ -24,8 +32,32 @@ public class ExercisePanel extends AbstractConsolePanel{
     }
 
     private void createWorkout() {
-        System.out.println("Zurzeit noch nicht Verfügbar");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Gib dem Workout einen Namen: ");
+        String name = scanner.nextLine();
+
+        System.out.println("Wähle Workout-Typ:");
+        System.out.println("1. Kraftsport");
+        System.out.println("2. Cardio");
+        System.out.println("3. Yoga");
+        System.out.print("Deine Wahl: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Zeilenumbruch entfernen
+
+        WorkoutType type;
+        switch (choice) {
+            case 1 -> type = WorkoutType.KRAFTSPORT;
+            case 2 -> type = WorkoutType.CARDIO;
+            case 3 -> type = WorkoutType.YOGA;
+            default -> {
+                System.out.println("Ungültige Eingabe! Abbruch.");
+                return;
+            }
+        }
+        Workout workout = workoutService.createRandomWorkout(name, type);
+        System.out.println("Workout '" + workout.name() + "' wurde gespeichert!");
     }
+
 
     private void showWorkouts() {
         System.out.println("Zurzeit noch nicht Verfügbar");
