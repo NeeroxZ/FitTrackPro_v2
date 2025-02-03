@@ -65,4 +65,7 @@ public class WorkoutService {
     public void saveWorkout(Workout workout) {
         workoutRepository.saveWorkout(workout);
     }
+    public void removeWorkout(int id) {
+        workoutRepository.deleteById(id);
+    }
 }

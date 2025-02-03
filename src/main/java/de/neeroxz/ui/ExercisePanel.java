@@ -34,19 +34,47 @@ public class ExercisePanel extends AbstractConsolePanel{
     }
 
     private void deleteWorkout() {
-        System.out.println("Zurzeit noch nicht Verfügbar");
+        List<Workout> workouts = workoutService.getUserWorkouts();
+        if (workouts.isEmpty()) {
+            System.out.println("🔹 Du hast noch keine gespeicherten Workouts.");
+            return;
+        }
+
+        System.out.println("\n📋 Deine gespeicherten Workouts:");
+        for (int i = 0; i < workouts.size(); i++) {
+            Workout workout = workouts.get(i);
+            System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
+        }
+
+        System.out.print("\nWähle ein Workout zum Löschen (Nummer eingeben) oder 0 für Abbruch: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Zeilenumbruch entfernen
+
+        if (choice < 1 || choice > workouts.size()) {
+            System.out.println("❌ Ungültige Eingabe oder Abbruch.");
+            return;
+        }
+
+        Workout workoutToDelete = workouts.get(choice - 1);
+        workoutService.removeWorkout(workoutToDelete.id());
+
+        System.out.println("🗑️ Workout '" + workoutToDelete.name() + "' wurde gelöscht.");
     }
+
 
     private void createWorkout() {
         System.out.println("1: Random");
         System.out.println("2: Individuell");
 
-        String typ = scanner.nextLine();
+        int typ = scanner.nextInt();
 
         switch (typ) {
-            case "1": randomWorkout();
-            case "2": individuellWorkout();
-            default: break;
+            case 1 -> randomWorkout();
+            case 2 -> individuellWorkout();
+            default -> {
+                System.out.println("❌ Ungültige Eingabe! Abbruch.");
+                return;
+            }
         }
     }
 
@@ -60,7 +88,7 @@ public class ExercisePanel extends AbstractConsolePanel{
         System.out.println("3. Yoga");
         System.out.print("Deine Wahl: ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Zeilenumbruch entfernen
+        scanner.nextLine();
 
         WorkoutType type;
         switch (choice) {

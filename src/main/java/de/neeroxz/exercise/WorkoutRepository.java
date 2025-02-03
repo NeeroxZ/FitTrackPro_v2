@@ -14,5 +14,5 @@ public interface WorkoutRepository {
     List<Workout> findAll();
     Optional<Workout> findById(int id);
     List<Workout> findByUser(String username);
-
+    void deleteById(int id);
 }

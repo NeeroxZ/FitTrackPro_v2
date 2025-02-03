@@ -39,4 +39,10 @@ public class InMemoryWorkoutRepository implements WorkoutRepository {
                 .filter(w -> w.username().equals(username))
                 .toList();
     }
+
+    @Override
+    public void deleteById(int id) {
+        this.workouts.removeIf(w -> w.id() == id);
+        System.out.println("✅ Workout gelöscht (ID: " + id + ")");
+    }
 }
