@@ -15,8 +15,13 @@ public class AuthenticationService {
 
     public Optional<User> authenticate(String username, String password) {
         String hashedPassword = Password.hash(password, passwordHasher).getHashedPassword();
-        return userRepository.findUserByUsernameAndPassword(username, hashedPassword);
+        Optional<User> userOptional = userRepository.findUserByUsernameAndPassword(username, hashedPassword);
+
+        userOptional.ifPresent(LoggedInUser::login); // ✅ Speichert den User nach Login
+
+        return userOptional;
     }
+
 
     public boolean registerUser(String username, String password, double gewicht, double grosse, Birthday geburtstag) {
         if (userRepository.findUserByUsername(username).isPresent()) {
