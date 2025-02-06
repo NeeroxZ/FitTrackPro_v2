@@ -36,6 +36,7 @@ public class AppPanel extends AbstractConsolePanel {
     }
 
     private void userSettings() {
+        new UserPanel().showPanel();
     }
 
     private void selectTraining()
