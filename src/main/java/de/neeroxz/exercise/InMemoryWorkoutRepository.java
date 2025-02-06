@@ -18,7 +18,13 @@ public class InMemoryWorkoutRepository implements WorkoutRepository {
     @Override
     public void saveWorkout(Workout workout) {
         int id = idCounter.getAndIncrement(); // Auto-Increment ID vergeben
-        Workout storedWorkout = new Workout(id, workout.name(), workout.type(), workout.exercises(), workout.username());
+        Workout storedWorkout = new Workout(
+                id,
+                workout.name(),
+                workout.type(),
+                workout.exercises(),
+                workout.username()
+        );
         workouts.add(storedWorkout);
         System.out.println("✅ Workout gespeichert: " + storedWorkout);
     }

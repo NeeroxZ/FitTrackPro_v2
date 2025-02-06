@@ -1,5 +1,6 @@
 package de.neeroxz.ui;
 
+import de.neeroxz.exercise.ExerciseService;
 import de.neeroxz.exercise.WorkoutService;
 import de.neeroxz.services.AuthenticationService;
 
@@ -14,15 +15,17 @@ public class AppPanel extends AbstractConsolePanel {
 
     AuthenticationService authService;
     WorkoutService workoutService;
-    public AppPanel(AuthenticationService authService, WorkoutService workoutService) {
+    ExerciseService exerciseService;
+    public AppPanel(AuthenticationService authService, WorkoutService workoutService, ExerciseService exerciseService) {
         this.authService = authService;
         this.workoutService = workoutService;
+        this.exerciseService = exerciseService;
+
         // Menüaktionen dynamisch hinzufügen
         removeMainMenu();
         addMenuAction("User Einstellungen", this::userSettings);
         addMenuAction("Training auswählen", this::selectTraining);
         addMenuAction("Beenden", this::exitApp);
-
     }
 
     @Override
@@ -37,7 +40,7 @@ public class AppPanel extends AbstractConsolePanel {
 
     private void selectTraining()
     {
-        new ExercisePanel(workoutService).showPanel();
+        new ExercisePanel(workoutService, exerciseService).showPanel();
     }
 
     @Override

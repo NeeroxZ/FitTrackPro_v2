@@ -31,10 +31,10 @@ public class App {
         UserRepository userRepository = new InMemoryUserRepository();
 
 
-
-        WorkoutService workoutService = new WorkoutService(workoutRepository, exerciseRepository);
+        ExerciseService exerciseService = new ExerciseService(exerciseRepository);
+        WorkoutService workoutService = new WorkoutService(workoutRepository, exerciseService);
         AuthenticationService authService = new AuthenticationService(userRepository, passwordHasher);
 
-        new AppPanel(authService,workoutService).showPanel();
+        new AppPanel(authService,workoutService, exerciseService).showPanel();
     }
 }

@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 
 public class WorkoutService {
     private final WorkoutRepository workoutRepository;
-    private final ExerciseRepository exerciseRepository;
+    private final ExerciseService exerciseService;
 
-    public WorkoutService(WorkoutRepository workoutRepository, ExerciseRepository exerciseRepository) {
+    public WorkoutService(WorkoutRepository workoutRepository, ExerciseService exerciseService) {
         this.workoutRepository = workoutRepository;
-        this.exerciseRepository = exerciseRepository;
+        this.exerciseService = exerciseService;
     }
 
     public Workout createRandomWorkout(String name, WorkoutType type) {
@@ -27,9 +27,7 @@ public class WorkoutService {
         User currentUser = LoggedInUser.getCurrentUser().orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
 
         // 🔥 Hol alle passenden Übungen für den Typ
-        List<Exercise> exercises = exerciseRepository.findAll().stream()
-                .filter(e -> e.category().getWorkoutType() == type)
-                .collect(Collectors.toList());
+        List<Exercise> exercises = exerciseService.getExercisesByType(type);
 
         if (exercises.size() < 4) {
             throw new RuntimeException("Nicht genug Übungen in der Datenbank!");
@@ -59,7 +57,7 @@ public class WorkoutService {
     }
 
     public List<Exercise> getAllExercises() {
-        return exerciseRepository.findAll();
+        return exerciseService.getAllExercises();
     }
 
     public void saveWorkout(Workout workout) {

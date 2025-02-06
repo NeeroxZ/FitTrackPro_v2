@@ -1,9 +1,6 @@
 package de.neeroxz.ui;
 
-import de.neeroxz.exercise.Exercise;
-import de.neeroxz.exercise.Workout;
-import de.neeroxz.exercise.WorkoutService;
-import de.neeroxz.exercise.WorkoutType;
+import de.neeroxz.exercise.*;
 import de.neeroxz.user.LoggedInUser;
 import de.neeroxz.util.AppStrings;
 
@@ -19,10 +16,12 @@ import java.util.Scanner;
  */
 public class ExercisePanel extends AbstractConsolePanel{
     WorkoutService workoutService;
+    ExerciseService exerciseService;
     Scanner scanner = new Scanner(System.in);
 
-    public ExercisePanel(WorkoutService workoutService) {
+    public ExercisePanel(WorkoutService workoutService, ExerciseService exerciseService) {
         this.workoutService = workoutService;
+        this.exerciseService = exerciseService;
         super.addMenuAction("Workouts anzeigen", this::showWorkouts);
         super.addMenuAction("Workout erstellen", this::createWorkout);
         super.addMenuAction("Workout löschen", this::deleteWorkout);
@@ -60,7 +59,6 @@ public class ExercisePanel extends AbstractConsolePanel{
 
         System.out.println("🗑️ Workout '" + workoutToDelete.name() + "' wurde gelöscht.");
     }
-
 
     private void createWorkout() {
         System.out.println("1: Random");
@@ -163,7 +161,6 @@ public class ExercisePanel extends AbstractConsolePanel{
         System.out.println("Workout '" + workout.name() + "' wurde gespeichert!");
     }
 
-
     private void showWorkouts() {
         Scanner scanner = new Scanner(System.in);
        List<Workout> workouts = workoutService.getUserWorkouts();
@@ -191,6 +188,7 @@ public class ExercisePanel extends AbstractConsolePanel{
         displayWorkoutDetails(selectedWorkout);
 
     }
+
     private void displayWorkoutDetails(Workout workout) {
         System.out.println("\n🆔 Workout-ID: " + workout.id());
         System.out.println("📌 Name: " + workout.name());
