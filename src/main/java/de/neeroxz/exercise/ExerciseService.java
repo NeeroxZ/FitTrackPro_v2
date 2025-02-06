@@ -2,6 +2,7 @@ package de.neeroxz.exercise;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Class: ExerciseService
@@ -22,5 +23,14 @@ public class ExerciseService {
 
     public List<Exercise> getAllExercises() {
         return exerciseRepository.findAll();
+    }
+
+    public void createExercise(Exercise exercise) {
+
+    }
+    public List<Exercise> getExercisesByType(WorkoutType type) {
+        return exerciseRepository.findAll().stream()
+                .filter(e -> e.category().getWorkoutType() == type)
+                .collect(Collectors.toList());
     }
 }
