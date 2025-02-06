@@ -10,7 +10,7 @@ import java.util.Optional;
  */
 public interface UserRepository
 {
-    Optional<User> findUserByUsernameAndPassword(String username, String hashedPassword);
+    Optional<User> findUserByUsernameAndPassword(String username, Password password);
     Optional<User> findUserByUsername(String username);
     void saveUser(User user);
 }

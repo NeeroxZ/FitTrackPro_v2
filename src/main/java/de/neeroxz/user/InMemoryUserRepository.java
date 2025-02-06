@@ -27,13 +27,13 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findUserByUsernameAndPassword(String username, String hashedPassword) {
-        System.out.println(hashedPassword);
+    public Optional<User> findUserByUsernameAndPassword(String username, Password password) {
+        System.out.println(password.getHashedPassword());
         for (User user : users) {
             System.out.println(user.password());
         }
         return users.stream()
-                .filter(user -> user.username().equals(username) && user.password().getHashedPassword().equals(hashedPassword))
+                .filter(user -> user.username().equals(username) && user.password().getHashedPassword().equals(password.getHashedPassword()))
                 .findFirst();
     }
 
