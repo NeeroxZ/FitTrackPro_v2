@@ -31,9 +31,10 @@ public class App {
         UserRepository userRepository = new InMemoryUserRepository();
 
 
+        UserService userService = new UserService(userRepository);
         ExerciseService exerciseService = new ExerciseService(exerciseRepository);
         WorkoutService workoutService = new WorkoutService(workoutRepository, exerciseService);
-        AuthenticationService authService = new AuthenticationService(userRepository, passwordHasher);
+        AuthenticationService authService = new AuthenticationService(userService, passwordHasher);
 
         new AppPanel(authService,workoutService, exerciseService).showPanel();
     }
