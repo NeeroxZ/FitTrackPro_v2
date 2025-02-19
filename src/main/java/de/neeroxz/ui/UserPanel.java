@@ -8,7 +8,8 @@ package de.neeroxz.ui;
  */
 public class UserPanel extends AbstractConsolePanel{
 
-    public UserPanel() {
+    public UserPanel()
+    {
         super.addMenuAction(
                 "Gewicht ändern",
                 this::changeWeight
@@ -23,12 +24,14 @@ public class UserPanel extends AbstractConsolePanel{
         );
     }
 
-    private void deleteAccount() {
+    private void deleteAccount()
+    {
 
         System.out.println("Möchten Sie ihren Account Wirklich löschen");
     }
 
-    private void changeUserName() {
+    private void changeUserName()
+    {
 
         System.out.println("Willst du deinen Namen ändern");
     }
@@ -39,7 +42,8 @@ public class UserPanel extends AbstractConsolePanel{
     }
 
     @Override
-    public void showPanel()  {
+    public void showPanel()
+    {
         super.handleInput();
     }
 }

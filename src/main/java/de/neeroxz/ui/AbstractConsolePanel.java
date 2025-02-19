@@ -18,25 +18,32 @@ public abstract class AbstractConsolePanel {
         addMenuAction("Zurück zum Hauptmenü", this::exitPanel);
     }
 
-    protected void addMenuAction(String name, Runnable action) {
+    protected void addMenuAction(String name, Runnable action)
+    {
         menuActions.add(new MenuAction(name, action));
     }
-    protected void removeMainMenu(){
+
+    protected void removeMainMenu()
+    {
         menuActions.remove(0);
     }
 
-    protected int getMenuActionCount() {
+    protected int getMenuActionCount()
+    {
         return menuActions.size();
     }
 
-    public void handleInput() {
+    public void handleInput()
+    {
         boolean validInput = false;
 
-        while (!validInput) {
+        while (!validInput)
+        {
             System.out.println("\nWählen Sie bitte aus der Auswahl:");
 
             // Menüoptionen anzeigen
-            for (int i = 0; i < menuActions.size(); i++) {
+            for (int i = 0; i < menuActions.size(); i++)
+            {
                 System.out.println((i + 1) + ". " + menuActions.get(i).getName());
             }
 
@@ -45,23 +52,28 @@ public abstract class AbstractConsolePanel {
             scanner.nextLine();
 
             // Überprüfen, ob die Eingabe gültig ist
-            if (choice > 0 && choice <= menuActions.size()) {
+            if (choice > 0 && choice <= menuActions.size())
+            {
                 menuActions.get(choice - 1).execute();
                 if (isExitOption(choice)) {  // Wenn "Beenden" gewählt wird
                     validInput = true;
                 }
-            } else {
+            }
+            else
+            {
                 System.out.println("Ungültige Auswahl! Bitte erneut versuchen.");
             }
         }
     }
 
     // Standard Exit-Logik
-    protected void exitPanel() {
+    protected void exitPanel()
+    {
         System.out.println("Zurück zum Hauptmenü...");
     }
 
-    protected boolean isExitOption(int choice) {
+    protected boolean isExitOption(int choice)
+    {
         return choice == 1;  // Standardmäßig ist "1" die Exit-Option
     }
 

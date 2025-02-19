@@ -28,28 +28,35 @@ public class ExercisePanel extends AbstractConsolePanel{
         super.addMenuAction("individuell übung erstellen", this::createOwnExercise);
     }
 
-    private void createOwnExercise() {
+    private void createOwnExercise()
+    {
         System.out.println("Zurzeit noch nicht Verfügbar");
     }
 
-    private void deleteWorkout() {
+    private void deleteWorkout()
+    {
         List<Workout> workouts = workoutService.getUserWorkouts();
-        if (workouts.isEmpty()) {
+        if (workouts.isEmpty())
+        {
             System.out.println("🔹 Du hast noch keine gespeicherten Workouts.");
             return;
         }
 
         System.out.println("\n📋 Deine gespeicherten Workouts:");
-        for (int i = 0; i < workouts.size(); i++) {
+        for (int i = 0; i < workouts.size(); i++)
+        {
             Workout workout = workouts.get(i);
             System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
         }
 
-        System.out.print("\nWähle ein Workout zum Löschen (Nummer eingeben) oder 0 für Abbruch: ");
+        System.out.print(
+                "\nWähle ein Workout zum Löschen (Nummer eingeben) oder 0 für Abbruch: "
+        );
         int choice = scanner.nextInt();
         scanner.nextLine(); // Zeilenumbruch entfernen
 
-        if (choice < 1 || choice > workouts.size()) {
+        if (choice < 1 || choice > workouts.size())
+        {
             System.out.println("❌ Ungültige Eingabe oder Abbruch.");
             return;
         }
@@ -60,13 +67,15 @@ public class ExercisePanel extends AbstractConsolePanel{
         System.out.println("🗑️ Workout '" + workoutToDelete.name() + "' wurde gelöscht.");
     }
 
-    private void createWorkout() {
+    private void createWorkout()
+    {
         System.out.println("1: Random");
         System.out.println("2: Individuell");
 
         int typ = scanner.nextInt();
 
-        switch (typ) {
+        switch (typ)
+        {
             case 1 -> randomWorkout();
             case 2 -> individuellWorkout();
             default -> {
@@ -76,7 +85,8 @@ public class ExercisePanel extends AbstractConsolePanel{
         }
     }
 
-    private void individuellWorkout() {
+    private void individuellWorkout()
+    {
         System.out.print("Gib dem Workout einen Namen: ");
         String name = scanner.nextLine();
 
@@ -102,40 +112,64 @@ public class ExercisePanel extends AbstractConsolePanel{
         List<Exercise> allExercises = workoutService.getAllExercises();
         List<Exercise> selectedExercises = new ArrayList<>();
 
-        System.out.println("\n📋 Wähle deine Übungen (Nummern eingeben, getrennt durch Leerzeichen, z. B. '1 3 5'):");
+        System.out.println(
+                "📋 Wähle deine Übungen (Nummern eingeben," +
+                        " getrennt durch Leerzeichen, z. B. '1 3 5'):"
+        );
         for (int i = 0; i < allExercises.size(); i++) {
             Exercise exercise = allExercises.get(i);
-            System.out.println((i + 1) + ". " + exercise.name() + " (" + exercise.category() + ")");
+            System.out.println(
+                    (i + 1) + ". " + exercise.name() + " (" + exercise.category() + ")"
+            );
         }
 
         System.out.print("\nDeine Auswahl: ");
         String[] input = scanner.nextLine().split(" ");
 
-        for (String number : input) {
-            try {
+        for (String number : input)
+        {
+            try
+            {
                 int exerciseIndex = Integer.parseInt(number) - 1;
-                if (exerciseIndex >= 0 && exerciseIndex < allExercises.size()) {
+                if (exerciseIndex >= 0 && exerciseIndex < allExercises.size())
+                {
                     selectedExercises.add(allExercises.get(exerciseIndex));
-                } else {
+                }
+                else {
                     System.out.println("⚠ Nummer " + number + " ist ungültig.");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e)
+            {
                 System.out.println("⚠ '" + number + "' ist keine gültige Nummer.");
             }
         }
 
-        if (selectedExercises.isEmpty()) {
-            System.out.println("❌ Kein Workout erstellt, da keine gültigen Übungen ausgewählt wurden.");
+        if (selectedExercises.isEmpty())
+        {
+            System.out.println("❌ Kein Workout erstellt," +
+                    " da keine gültigen Übungen ausgewählt wurden."
+            );
             return;
         }
 
-        Workout workout = new Workout(0, name, type, selectedExercises, LoggedInUser.getCurrentUser().get().username());
+        Workout workout = new Workout(0,
+                name,
+                type,
+                selectedExercises,
+                LoggedInUser.getCurrentUser().get().username()
+        );
         workoutService.saveWorkout(workout);
 
-        System.out.println("\n✅ Workout '" + workout.name() + "' mit " + selectedExercises.size() + " Übungen wurde gespeichert!");
+        System.out.println(
+                "\n✅ Workout '"
+                        + workout.name()
+                        + "' mit "
+                        + selectedExercises.size()
+                        + " Übungen wurde gespeichert!");
     }
 
-    private void randomWorkout(){
+    private void randomWorkout()
+    {
         System.out.print("Gib dem Workout einen Namen: ");
         String name = scanner.nextLine();
 
@@ -161,25 +195,32 @@ public class ExercisePanel extends AbstractConsolePanel{
         System.out.println("Workout '" + workout.name() + "' wurde gespeichert!");
     }
 
-    private void showWorkouts() {
+    private void showWorkouts()
+    {
         Scanner scanner = new Scanner(System.in);
        List<Workout> workouts = workoutService.getUserWorkouts();
-        if (workouts.isEmpty()) {
+        if (workouts.isEmpty())
+        {
             System.out.println("🔹 Du hast noch keine gespeicherten Workouts.");
             return;
         }
 
         System.out.println("\n📋 Deine gespeicherten Workouts:");
-        for (int i = 0; i < workouts.size(); i++) {
+        for (int i = 0; i < workouts.size(); i++)
+        {
             Workout workout = workouts.get(i);
-            System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
+            System.out.println((i + 1) + ". "
+                    + workout.name()
+                    + " (" + workout.type() + ")"
+            );
         }
 
         System.out.print("\nWähle ein Workout (Nummer eingeben) oder 0 für Abbruch: ");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Zeilenumbruch entfernen
 
-        if (choice < 1 || choice > workouts.size()) {
+        if (choice < 1 || choice > workouts.size())
+        {
             System.out.println("Ungültige Eingabe oder Abbruch.");
             return;
         }
@@ -189,19 +230,22 @@ public class ExercisePanel extends AbstractConsolePanel{
 
     }
 
-    private void displayWorkoutDetails(Workout workout) {
+    private void displayWorkoutDetails(Workout workout)
+    {
         System.out.println("\n🆔 Workout-ID: " + workout.id());
         System.out.println("📌 Name: " + workout.name());
         System.out.println("🏋 Typ: " + workout.type());
         System.out.println("📃 Übungen:");
-        for (Exercise exercise : workout.exercises()) {
+        for (Exercise exercise : workout.exercises())
+        {
             System.out.println("   - " + exercise.name() + " (" + exercise.category() + ")");
         }
         System.out.println(AppStrings.LINESEPARATOR);
     }
 
     @Override
-    public void showPanel() {
+    public void showPanel()
+    {
         super.handleInput();
     }
 }

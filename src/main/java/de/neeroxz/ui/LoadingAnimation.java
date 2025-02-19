@@ -11,11 +11,13 @@ import de.neeroxz.util.AppStrings;
 
 public class LoadingAnimation {
 
-    public void progressBar(int total) {
+    public void progressBar(int total)
+    {
         int barLength = 50; // Länge des Fortschrittsbalkens
         System.out.println(AppStrings.ASCIIART.getAppString()); // Ausgabe der ASCII-Art
 
-        for (int i = 0; i <= total; i++) {
+        for (int i = 0; i <= total; i++)
+        {
             // Berechnung des Anteils
             double progress = (double) i / total;
             // Berechnung der Anzahl der Zeichen im Balken
@@ -23,7 +25,8 @@ public class LoadingAnimation {
 
             // Erstellen des Fortschrittsbalkens
             StringBuilder bar = new StringBuilder();
-            for (int j = 0; j < barLength; j++) {
+            for (int j = 0; j < barLength; j++)
+            {
                 if (j < chars) {
                     bar.append("#"); // Teil des Fortschritts
                 } else {

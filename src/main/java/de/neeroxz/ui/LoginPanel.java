@@ -12,7 +12,8 @@ public class LoginPanel extends AbstractConsolePanel {
     private final Scanner scanner = new Scanner(System.in); //todo
     private final UserInputValidator validator;
 
-    public LoginPanel(AuthenticationService authenticationService) {
+    public LoginPanel(AuthenticationService authenticationService)
+    {
         this.authenticationService = authenticationService;
         this.validator = new UserInputValidator(scanner);
 
@@ -22,12 +23,14 @@ public class LoginPanel extends AbstractConsolePanel {
         addMenuAction("Beenden", this::exitApp);
     }
 
-    private void exitApp() {
+    private void exitApp()
+    {
         System.out.println("Programm wird beendet...");
         System.exit(0);
     }
 
-    private void register() {
+    private void register()
+    {
         System.out.print("Benutzername: ");
         String username = scanner.nextLine();
         System.out.print("Passwort: ");
@@ -62,8 +65,10 @@ public class LoginPanel extends AbstractConsolePanel {
     }
 
 
-    private void login() {
-        while (true) {
+    private void login()
+    {
+        while (true)
+        {
             System.out.print("Benutzername: ");
             String username = scanner.nextLine();
             System.out.print("Passwort: ");
@@ -84,7 +89,8 @@ public class LoginPanel extends AbstractConsolePanel {
             int option = scanner.nextInt();
             scanner.nextLine();
 
-            if (option == 2) {
+            if (option == 2)
+            {
                 scanner.close();
                 exitApp();
                 return;
@@ -93,7 +99,8 @@ public class LoginPanel extends AbstractConsolePanel {
     }
 
     @Override
-    public void showPanel() {
+    public void showPanel()
+    {
         super.handleInput();
     }
 }
