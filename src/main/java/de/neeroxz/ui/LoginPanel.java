@@ -33,11 +33,27 @@ public class LoginPanel extends AbstractConsolePanel {
         System.out.print("Passwort: ");
         String password = scanner.nextLine();
         System.out.print("Gewicht (kg): ");
-        double gewicht = validator.readValidDouble("Gewicht (kg): ", 20, 300);
-        double grosse = validator.readValidDouble("Größe (m): ", 0.5, 2.5);
-        Birthday geburtstag = validator.readValidBirthday("Geburtsdatum (yyyy-mm-dd): ");
+        double gewicht = validator.readValidDouble(
+                "Gewicht (kg): ",
+                20,
+                300
+        );
+        double grosse = validator.readValidDouble(
+                "Größe (m): ",
+                0.5,
+                2.5
+        );
+        Birthday geburtstag = validator.readValidBirthday(
+                "Geburtsdatum (yyyy-mm-dd): "
+        );
 
-        boolean success = authenticationService.registerUser(username, password, gewicht, grosse, geburtstag);
+        boolean success = authenticationService.registerUser(
+                username,
+                password,
+                gewicht,
+                grosse,
+                geburtstag
+        );
         if (success) {
             System.out.println("Registrierung erfolgreich! Du kannst dich jetzt einloggen.");
         } else {
@@ -53,11 +69,13 @@ public class LoginPanel extends AbstractConsolePanel {
             System.out.print("Passwort: ");
             String password = scanner.nextLine();
 
-            if (authenticationService.authenticate(username, password).isPresent()) {
+            if (authenticationService.authenticate(username, password).isPresent())
+            {
                 System.out.println("Login erfolgreich!");
                 break;
             } else {
-                System.out.println("Benutzername oder Passwort ist falsch. Bitte versuche es erneut.");
+                System.out.println("Benutzername oder Passwort ist falsch." +
+                        " Bitte versuche es erneut.");
             }
 
             System.out.println("1: Erneut Versuchen");
@@ -78,6 +96,4 @@ public class LoginPanel extends AbstractConsolePanel {
     public void showPanel() {
         super.handleInput();
     }
-
-
 }
