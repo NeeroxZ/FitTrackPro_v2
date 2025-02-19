@@ -8,4 +8,10 @@ package de.neeroxz.exercise;
  */
 import java.util.List;
 
-public record Workout(int id, String name, WorkoutType type, List<Exercise> exercises, String username) {}
+public record Workout(
+        int id,
+        String name,
+        WorkoutType type,
+        List<Exercise> exercises,
+        String username)
+{}

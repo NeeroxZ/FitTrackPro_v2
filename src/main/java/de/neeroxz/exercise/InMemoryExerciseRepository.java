@@ -31,17 +31,30 @@ public class InMemoryExerciseRepository implements ExerciseRepository {
         addExercise("Tree Pose", ExerciseCategory.YOGA, "Leicht");
     }
 
-    private void addExercise(String name, ExerciseCategory category, String difficulty) {
-        exercises.add(new Exercise(idCounter.getAndIncrement(), name, category, difficulty));
+    private void addExercise(String name, ExerciseCategory category, String difficulty)
+    {
+        exercises.add(
+                new Exercise(
+                        idCounter.getAndIncrement(),
+                        name,
+                        category,
+                        difficulty
+                )
+        );
     }
 
     @Override
-    public Optional<Exercise> findById(int id) {
-        return exercises.stream().filter(e -> e.id() == id).findFirst();
+    public Optional<Exercise> findById(int id)
+    {
+        return exercises
+                .stream()
+                .filter(e -> e.id() == id)
+                .findFirst();
     }
 
     @Override
-    public List<Exercise> findAll() {
+    public List<Exercise> findAll()
+    {
         return new ArrayList<>(exercises);
     }
 }

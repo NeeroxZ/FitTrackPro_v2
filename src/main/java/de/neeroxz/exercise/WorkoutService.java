@@ -17,14 +17,18 @@ public class WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final ExerciseService exerciseService;
 
-    public WorkoutService(WorkoutRepository workoutRepository, ExerciseService exerciseService) {
+    public WorkoutService(WorkoutRepository workoutRepository, ExerciseService exerciseService)
+    {
         this.workoutRepository = workoutRepository;
         this.exerciseService = exerciseService;
     }
 
-    public Workout createRandomWorkout(String name, WorkoutType type) {
+    public Workout createRandomWorkout(String name, WorkoutType type)
+    {
         // 🔥 Check: Ist ein Benutzer eingeloggt?
-        User currentUser = LoggedInUser.getCurrentUser().orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
+        User currentUser = LoggedInUser
+                .getCurrentUser()
+                .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
 
         // 🔥 Hol alle passenden Übungen für den Typ
         List<Exercise> exercises = exerciseService.getExercisesByType(type);
@@ -35,14 +39,21 @@ public class WorkoutService {
 
         // 🎲 Zufällige 4 Übungen wählen
         Random random = new Random();
-        List<Exercise> selectedExercises = random.ints(0, exercises.size())
+        List<Exercise> selectedExercises = random
+                .ints(0, exercises.size())
                 .distinct()
                 .limit(4)
                 .mapToObj(exercises::get)
                 .collect(Collectors.toList());
 
         // 📌 Neues Workout erstellen & speichern
-        Workout workout = new Workout(0, name, type, selectedExercises, currentUser.username());
+        Workout workout = new Workout(
+                0,
+                name,
+                type,
+                selectedExercises,
+                currentUser.username()
+        );
         workoutRepository.saveWorkout(workout);
 
         for (Exercise e : workout.exercises()){
@@ -51,19 +62,25 @@ public class WorkoutService {
         return workout;
     }
 
-    public List<Workout> getUserWorkouts() {
-        User currentUser = LoggedInUser.getCurrentUser().orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
+    public List<Workout> getUserWorkouts()
+    {
+        User currentUser = LoggedInUser
+                .getCurrentUser()
+                .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
         return workoutRepository.findByUser(currentUser.username());
     }
 
-    public List<Exercise> getAllExercises() {
+    public List<Exercise> getAllExercises()
+    {
         return exerciseService.getAllExercises();
     }
 
-    public void saveWorkout(Workout workout) {
+    public void saveWorkout(Workout workout)
+    {
         workoutRepository.saveWorkout(workout);
     }
-    public void removeWorkout(int id) {
+    public void removeWorkout(int id)
+    {
         workoutRepository.deleteById(id);
     }
 }

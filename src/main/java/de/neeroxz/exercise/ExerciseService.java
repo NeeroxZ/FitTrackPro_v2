@@ -13,23 +13,31 @@ import java.util.stream.Collectors;
 public class ExerciseService {
     private final ExerciseRepository exerciseRepository;
 
-    public ExerciseService(ExerciseRepository exerciseRepository) {
+    public ExerciseService(ExerciseRepository exerciseRepository)
+    {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public Optional<Exercise> getExerciseById(int id) {
+    public Optional<Exercise> getExerciseById(int id)
+    {
         return exerciseRepository.findById(id);
     }
 
-    public List<Exercise> getAllExercises() {
+    public List<Exercise> getAllExercises()
+    {
         return exerciseRepository.findAll();
     }
 
-    public void createExercise(Exercise exercise) {
 
+    public void createExercise(Exercise exercise)
+    {
+    //todo
     }
-    public List<Exercise> getExercisesByType(WorkoutType type) {
-        return exerciseRepository.findAll().stream()
+    public List<Exercise> getExercisesByType(WorkoutType type)
+    {
+        return exerciseRepository
+                .findAll()
+                .stream()
                 .filter(e -> e.category().getWorkoutType() == type)
                 .collect(Collectors.toList());
     }

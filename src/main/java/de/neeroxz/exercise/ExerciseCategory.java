@@ -21,11 +21,13 @@ public enum ExerciseCategory {
 
     private final WorkoutType workoutType;
 
-    ExerciseCategory(WorkoutType workoutType) {
+    ExerciseCategory(WorkoutType workoutType)
+    {
         this.workoutType = workoutType;
     }
 
-    public WorkoutType getWorkoutType() {
+    public WorkoutType getWorkoutType()
+    {
         return workoutType;
     }
 }

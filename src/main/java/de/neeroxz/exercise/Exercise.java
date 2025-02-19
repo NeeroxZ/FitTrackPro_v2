@@ -7,6 +7,11 @@ package de.neeroxz.exercise;
  * @date 21.10.2024
  */
 
-public record Exercise(int id, String name, ExerciseCategory category, String difficulty) {
+public record Exercise(
+        int id,
+        String name,
+        ExerciseCategory category,
+        String difficulty
+) {
 }
 
