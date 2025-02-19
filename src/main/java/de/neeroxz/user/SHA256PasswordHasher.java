@@ -14,14 +14,17 @@ import java.security.NoSuchAlgorithmException;
 public class SHA256PasswordHasher implements PasswordHasher {
 
     @Override
-    public Password hash(String password) {
-        try {
+    public Password hash(String password)
+    {
+        try
+        {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
 
             // Umwandlung in Hex-String (optional könnte man auch Base64 verwenden)
             StringBuilder hexString = new StringBuilder();
-            for (byte b : encodedHash) {
+            for (byte b : encodedHash)
+            {
                 String hex = Integer.toHexString(0xff & b);
                 if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);

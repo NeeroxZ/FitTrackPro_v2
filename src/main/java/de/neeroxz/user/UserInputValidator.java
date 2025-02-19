@@ -1,6 +1,6 @@
 package de.neeroxz.user;
 
-/**
+/*
  * Class: UserInputValidator
  *
  * @author NeeroxZ
@@ -14,18 +14,27 @@ import java.util.Scanner;
 public class UserInputValidator {
     private final Scanner scanner;
 
-    public UserInputValidator(Scanner scanner) {
+    public UserInputValidator(Scanner scanner)
+    {
         this.scanner = scanner;
     }
 
-    public double readValidDouble(String prompt, double min, double max) {
-        while (true) {
-            try {
+    public double readValidDouble(String prompt, double min, double max)
+    {
+        while (true)
+        {
+            try
+            {
                 System.out.print(prompt);
                 double value = Double.parseDouble(scanner.nextLine().trim());
 
                 if (value < min || value > max) {
-                    System.out.println("Bitte einen Wert zwischen " + min + " und " + max + " eingeben.");
+                    System.out.println("Bitte einen Wert zwischen "
+                            + min
+                            + " und "
+                            + max
+                            + " eingeben."
+                    );
                     continue;
                 }
                 return value;
@@ -35,14 +44,17 @@ public class UserInputValidator {
         }
     }
 
-    public Birthday readValidBirthday(String prompt) {
-        while (true) {
+    public Birthday readValidBirthday(String prompt)
+    {
+        while (true)
+        {
             try {
                 System.out.print(prompt);
                 String input = scanner.nextLine().trim();
                 LocalDate date = LocalDate.parse(input);
 
-                if (date.isAfter(LocalDate.now())) {
+                if (date.isAfter(LocalDate.now()))
+                {
                     System.out.println("Das Geburtsdatum kann nicht in der Zukunft liegen.");
                     continue;
                 }

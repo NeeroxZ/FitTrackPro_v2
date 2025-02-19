@@ -1,6 +1,6 @@
 package de.neeroxz.user;
 
-/**
+/*
  * Class: InMemoryUserRepository
  *
  * @author NeeroxZ
@@ -14,7 +14,8 @@ import java.util.Optional;
 public class InMemoryUserRepository implements UserRepository {
     private final List<User> users = new ArrayList<>();
 
-    public InMemoryUserRepository() {
+    public InMemoryUserRepository()
+    {
         // Optional: Standardbenutzer hinzufügen (z. B. für Tests)
         User testUser = new User(
                 "test",
@@ -27,18 +28,27 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findUserByUsernameAndPassword(String username, Password password) {
+    public Optional<User> findUserByUsernameAndPassword(String username, Password password)
+    {
         System.out.println(password.getHashedPassword());
-        for (User user : users) {
+        for (User user : users)
+        {
             System.out.println(user.password());
         }
         return users.stream()
-                .filter(user -> user.username().equals(username) && user.password().getHashedPassword().equals(password.getHashedPassword()))
+                .filter(user -> user.username()
+                        .equals(username)
+                        &&
+                        user.password().getHashedPassword().equals(
+                                password.getHashedPassword()
+                        )
+                )
                 .findFirst();
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
+    public Optional<User> findUserByUsername(String username)
+    {
         return users.stream()
                 .filter(user -> user.username().equals(username))
                 .findFirst();
@@ -46,7 +56,8 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public void saveUser(User user) {
-        if (findUserByUsername(user.username()).isPresent()) {
+        if (findUserByUsername(user.username()).isPresent())
+        {
             throw new RuntimeException("Benutzername bereits vergeben!");
         }
         users.add(user);

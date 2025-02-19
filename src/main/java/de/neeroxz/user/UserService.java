@@ -11,22 +11,27 @@ import java.util.Optional;
 public class UserService implements IUserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository)
+    {
         this.userRepository = userRepository;
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findByUsername(String username)
+    {
         return Optional.empty();
     }
 
     @Override
-    public Optional<User> findByUsernameAndPassword(String username, Password password) {
+    public Optional<User> findByUsernameAndPassword(String username, Password password)
+    {
        return userRepository.findUserByUsernameAndPassword(username, password);
     }
 
-    @Override
-    public void saveUser(User user) {
 
+    @Override
+    public void saveUser(User user)
+    {
+    //todo
     }
 }

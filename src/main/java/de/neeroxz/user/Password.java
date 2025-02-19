@@ -19,7 +19,8 @@ public class Password {
      *
      * @param hashedPassword Das bereits gehashte Passwort.
      */
-    public Password(String hashedPassword) {
+    public Password(String hashedPassword)
+    {
         this.hashedPassword = hashedPassword;
     }
 
@@ -30,7 +31,8 @@ public class Password {
      * @param hashedPassword Das bereits gehashte Passwort.
      * @return Ein Password-Objekt mit dem gegebenen gehashten Passwort.
      */
-    public static Password ofHashed(String hashedPassword) {
+    public static Password ofHashed(String hashedPassword)
+    {
         return new Password(hashedPassword);
     }
 
@@ -42,7 +44,8 @@ public class Password {
      * @param hasher      Der PasswordHasher, der zum Hashen des Passworts verwendet wird.
      * @return Ein Password-Objekt, das das gehashte Passwort enthält.
      */
-    public static Password hash(String rawPassword, PasswordHasher hasher) {
+    public static Password hash(String rawPassword, PasswordHasher hasher)
+    {
         return hasher.hash(rawPassword);  // Verwendet den übergebenen Hasher, um das Passwort zu hashen
     }
 
@@ -56,7 +59,8 @@ public class Password {
      * @return true, wenn das gehashte rohe Passwort mit dem gespeicherten gehashten Passwort übereinstimmt,
      *         sonst false.
      */
-    public boolean matches(String rawPassword, PasswordHasher hasher) {
+    public boolean matches(String rawPassword, PasswordHasher hasher)
+    {
         Password hashedAttempt = hasher.hash(rawPassword);
         return this.hashedPassword.equals(hashedAttempt.hashedPassword);
     }
@@ -67,7 +71,8 @@ public class Password {
      *
      * @return Das gehashte Passwort.
      */
-    public String getHashedPassword() {
+    public String getHashedPassword()
+    {
         return hashedPassword;
     }
 
@@ -77,7 +82,8 @@ public class Password {
      * @return Das gehashte Passwort als String.
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return hashedPassword;
     }
 }
