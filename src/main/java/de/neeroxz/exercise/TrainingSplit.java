@@ -1,0 +1,10 @@
+package de.neeroxz.exercise;
+
+
+public enum TrainingSplit {
+    OBER_UNTER,
+    PUSH,
+    PULL,
+    LEG,
+    GANZKORPER;
+}
