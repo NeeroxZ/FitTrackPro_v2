@@ -63,5 +63,13 @@ public class InMemoryUserRepository implements UserRepository {
         users.add(user);
         System.out.println("✅ Benutzer gespeichert: " + user.username());
     }
+
+    @Override
+    public void deleteUser(User user)
+    {
+        findUserByUsername(user.username())
+                .ifPresent(u -> users.remove(u));
+        LoggedInUser.logout(); //todo gehört das hier her ?
+    }
 }
 

@@ -12,4 +12,6 @@ public interface IUserService {
     Optional<User> findByUsername(String username);
     Optional<User> findByUsernameAndPassword(String username, Password hashedPassword);
     void saveUser(User user);
+    void deleteUser(User user);
+    void updateUser(User user);
 }
