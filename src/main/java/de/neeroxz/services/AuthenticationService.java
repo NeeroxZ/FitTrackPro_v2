@@ -1,6 +1,11 @@
 package de.neeroxz.services;
 
-import de.neeroxz.user.*;
+import de.neeroxz.security.PasswordHasher;
+import de.neeroxz.user.model.Birthday;
+import de.neeroxz.user.model.Password;
+import de.neeroxz.user.model.User;
+import de.neeroxz.user.service.UserService;
+import de.neeroxz.user.session.LoggedInUser;
 
 import java.util.Optional;
 

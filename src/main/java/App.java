@@ -7,9 +7,13 @@ import de.neeroxz.exercise.service.ExerciseService;
 import de.neeroxz.exercise.service.WorkoutService;
 import de.neeroxz.input.ConsoleInputReader;
 import de.neeroxz.input.InputReader;
+import de.neeroxz.security.PasswordHasher;
 import de.neeroxz.services.AuthenticationService;
+import de.neeroxz.user.service.UserService;
 import de.neeroxz.ui.AppPanel;
-import de.neeroxz.user.*;
+import de.neeroxz.user.repository.InMemoryUserRepository;
+import de.neeroxz.user.service.UserRepository;
+import de.neeroxz.util.SHA256PasswordHasher;
 
 import java.util.Scanner;
 

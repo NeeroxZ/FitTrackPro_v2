@@ -1,4 +1,6 @@
-package de.neeroxz.user;
+package de.neeroxz.security;
+
+import de.neeroxz.user.model.Password;
 
 /**
  * interface: PasswordHasher

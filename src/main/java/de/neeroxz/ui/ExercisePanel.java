@@ -7,7 +7,7 @@ import de.neeroxz.exercise.model.WorkoutType;
 import de.neeroxz.exercise.service.ExerciseService;
 import de.neeroxz.exercise.service.WorkoutService;
 import de.neeroxz.input.InputReader;
-import de.neeroxz.user.LoggedInUser;
+import de.neeroxz.user.session.LoggedInUser;
 import de.neeroxz.util.AppStrings;
 
 import java.util.ArrayList;

@@ -12,8 +12,8 @@ import de.neeroxz.exercise.model.TrainingSplit;
 import de.neeroxz.exercise.model.Workout;
 import de.neeroxz.exercise.model.WorkoutType;
 import de.neeroxz.exercise.repository.WorkoutRepository;
-import de.neeroxz.user.LoggedInUser;
-import de.neeroxz.user.User;
+import de.neeroxz.user.session.LoggedInUser;
+import de.neeroxz.user.model.User;
 
 import java.util.List;
 import java.util.Random;

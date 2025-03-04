@@ -1,27 +1,31 @@
 package de.neeroxz.ui;
 
-import static org.junit.Assert.assertTrue;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.*;
 
 public class AbstractConsolePanelTest {
+
     private final InputStream originalIn = System.in;
     private final PrintStream originalOut = System.out;
 
     private ByteArrayInputStream testIn;
     private ByteArrayOutputStream testOut;
 
-    @Before
+    @BeforeEach
     public void setUp() {
+        // Konsole-Ausgabe in einen ByteArrayOutputStream umleiten
         testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
     }
 
-    @After
+    @AfterEach
     public void restoreSystemInputOutput() {
+        // System.in und System.out zurücksetzen
         System.setIn(originalIn);
         System.setOut(originalOut);
     }
@@ -59,7 +63,8 @@ public class AbstractConsolePanelTest {
 
         // Erfasse die Konsolenausgabe und überprüfe, ob "Exit panel called" enthalten ist.
         String output = testOut.toString();
-        assertTrue("Die Ausgabe sollte den Exit-Panel-Text enthalten.",
-                   output.contains("Exit panel called"));
+        // JUnit 5: assertTrue(condition, message)
+        assertTrue(output.contains("Exit panel called"),
+                   "Die Ausgabe sollte den Exit-Panel-Text enthalten.");
     }
 }

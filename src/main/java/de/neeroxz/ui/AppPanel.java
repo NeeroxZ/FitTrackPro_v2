@@ -4,7 +4,7 @@ import de.neeroxz.exercise.service.ExerciseService;
 import de.neeroxz.exercise.service.WorkoutService;
 import de.neeroxz.input.InputReader;
 import de.neeroxz.services.AuthenticationService;
-import de.neeroxz.user.IUserService;
+import de.neeroxz.user.service.IUserService;
 
 /**
  * Class: AppPanel

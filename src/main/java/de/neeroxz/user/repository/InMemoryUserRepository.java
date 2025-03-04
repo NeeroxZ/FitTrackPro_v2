@@ -1,4 +1,4 @@
-package de.neeroxz.user;
+package de.neeroxz.user.repository;
 
 /*
  * Class: InMemoryUserRepository
@@ -6,12 +6,20 @@ package de.neeroxz.user;
  * @author NeeroxZ
  * @date 03.02.2025
  */
+import de.neeroxz.user.session.LoggedInUser;
+import de.neeroxz.user.service.UserRepository;
+import de.neeroxz.user.model.Birthday;
+import de.neeroxz.user.model.Password;
+import de.neeroxz.user.model.User;
+import de.neeroxz.util.SHA256PasswordHasher;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class InMemoryUserRepository implements UserRepository {
+public class InMemoryUserRepository implements UserRepository
+{
     private final List<User> users = new ArrayList<>();
 
     public InMemoryUserRepository()

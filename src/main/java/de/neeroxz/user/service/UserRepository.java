@@ -1,4 +1,7 @@
-package de.neeroxz.user;
+package de.neeroxz.user.service;
+
+import de.neeroxz.user.model.Password;
+import de.neeroxz.user.model.User;
 
 import java.util.Optional;
 

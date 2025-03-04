@@ -1,4 +1,7 @@
-package de.neeroxz.user;
+package de.neeroxz.user.service;
+
+import de.neeroxz.user.model.Password;
+import de.neeroxz.user.model.User;
 
 import java.util.Optional;
 
@@ -8,7 +11,8 @@ import java.util.Optional;
  * @author NeeroxZ
  * @date 06.02.2025
  */
-public class UserService implements IUserService {
+public class UserService implements IUserService
+{
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository)

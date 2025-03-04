@@ -1,4 +1,4 @@
-package de.neeroxz.user;
+package de.neeroxz.user.validation;
 
 /*
  * Class: UserInputValidator
@@ -6,6 +6,8 @@ package de.neeroxz.user;
  * @author NeeroxZ
  * @date 03.02.2025
  */
+
+import de.neeroxz.user.model.Birthday;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

@@ -1,4 +1,4 @@
-package de.neeroxz.user;
+package de.neeroxz.user.session;
 
 /*
  * Class: LoggedInUser
@@ -6,6 +6,8 @@ package de.neeroxz.user;
  * @author NeeroxZ
  * @date 03.02.2025
  */
+import de.neeroxz.user.model.User;
+
 import java.util.Optional;
 
 public class LoggedInUser {

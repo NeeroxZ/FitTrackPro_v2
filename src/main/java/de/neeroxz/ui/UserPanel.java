@@ -1,7 +1,7 @@
 package de.neeroxz.ui;
 
-import de.neeroxz.user.IUserService;
-import de.neeroxz.user.LoggedInUser;
+import de.neeroxz.user.service.IUserService;
+import de.neeroxz.user.session.LoggedInUser;
 
 import java.util.Scanner;
 

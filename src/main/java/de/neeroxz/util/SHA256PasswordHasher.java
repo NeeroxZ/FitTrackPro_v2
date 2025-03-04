@@ -1,5 +1,8 @@
-package de.neeroxz.user;
+package de.neeroxz.util;
 
+
+import de.neeroxz.user.model.Password;
+import de.neeroxz.security.PasswordHasher;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,7 +14,8 @@ import java.security.NoSuchAlgorithmException;
  * @author NeeroxZ
  * @date 12.10.2024
  */
-public class SHA256PasswordHasher implements PasswordHasher {
+public class SHA256PasswordHasher implements PasswordHasher
+{
 
     @Override
     public Password hash(String password)

@@ -1,10 +1,9 @@
 package de.neeroxz.ui;
 
 import de.neeroxz.services.AuthenticationService;
-import de.neeroxz.user.Birthday;
-import de.neeroxz.user.UserInputValidator;
+import de.neeroxz.user.model.Birthday;
+import de.neeroxz.user.validation.UserInputValidator;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class LoginPanel extends AbstractConsolePanel {

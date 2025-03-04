@@ -1,4 +1,4 @@
-package de.neeroxz.user;
+package de.neeroxz.user.model;
 
 /*
  * Class: Birthday
