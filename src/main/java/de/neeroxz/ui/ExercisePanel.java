@@ -11,15 +11,17 @@ import java.util.List;
 /**
  * Refaktorierte Klasse: ExercisePanel.
  */
-public class ExercisePanel extends AbstractConsolePanel {
+public class ExercisePanel extends AbstractConsolePanel
+{
     private final WorkoutService workoutService;
     private final InputReader inputReader;
     private final ExerciseService exerciseService;
 
     public ExercisePanel(WorkoutService workoutService,
-                         ExerciseService exerciseService,
+                         de.neeroxz.exercise.ExerciseService exerciseService,
                          InputReader inputReader
-    ) {
+                        )
+    {
         this.workoutService = workoutService;
         this.exerciseService = exerciseService;
         this.inputReader = inputReader;
@@ -49,9 +51,9 @@ public class ExercisePanel extends AbstractConsolePanel {
             Workout workout = workouts.get(i);
             System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
         }
-        int choice = inputReader.readInt("\nWähle ein Workout zum Löschen (Nummer eingeben) "
-                + "oder 0 für Abbruch: ");
-        if (choice < 1 || choice > workouts.size()) {
+        int choice = inputReader.readInt("\nWähle ein Workout zum Löschen (Nummer eingeben) oder 0 für Abbruch: ");
+        if (choice < 1 || choice > workouts.size())
+        {
             System.out.println("❌ Ungültige Eingabe oder Abbruch.");
             return;
         }
@@ -73,13 +75,35 @@ public class ExercisePanel extends AbstractConsolePanel {
         }
     }
 
-    private void individuellWorkoutPanel() {
+    /**
+     * Individuell erstelltes Workout: Benutzer wählt Übungen aus.
+     */
+    private void individuellWorkoutPanel()
+    {
         String name = inputReader.readLine("Gib dem Workout einen Namen: ");
+
         WorkoutType type = readWorkoutType();
-        if (type == null) {
+        if (type == null)
+        {
             System.out.println("❌ Ungültige Eingabe! Abbruch.");
             return;
         }
+
+        // Zusätzliche Eingaben für individuelle Workouts:
+        int frequency = inputReader.readInt("Wie oft möchtest du pro Woche trainieren? (1-7): ");
+        if (frequency < 1 || frequency > 7)
+        {
+            System.out.println("❌ Ungültige Frequenz! Abbruch.");
+            return;
+        }
+
+        TrainingSplit split = readTrainingSplit();
+        if (split == null)
+        {
+            System.out.println("❌ Ungültiger Split! Abbruch.");
+            return;
+        }
+
         List<Exercise> allExercises = workoutService.getAllExercises();
         List<Exercise> selectedExercises = selectExercises(allExercises);
         if (selectedExercises.isEmpty())
@@ -87,14 +111,21 @@ public class ExercisePanel extends AbstractConsolePanel {
             System.out.println("❌ Kein Workout erstellt, da keine gültigen Übungen ausgewählt wurden.");
             return;
         }
-        String username = LoggedInUser.getCurrentUser().get().username(); // Eventuell könnte auch der aktuelle User injiziert werden.
-        Workout workout = new Workout(0, name, type, selectedExercises, username);
+
+        String username = LoggedInUser.getCurrentUser().get().username();
+        // Erstelle das Workout mit den zusätzlichen Daten: frequency und split
+        Workout workout = new Workout(0, name, type, selectedExercises, username, frequency, split);
         workoutService.saveWorkout(workout);
-        System.out.println("\n✅ Workout '" + workout.name()
-                + "' mit " + selectedExercises.size()
-                + " Übungen wurde gespeichert!");
+
+        System.out.println("\n✅ Workout '" + workout.name() + "' mit "
+                                   + selectedExercises.size() + " Übungen wurde gespeichert!");
     }
 
+
+    /**
+     * Random Workout: Zusätzlich werden Frequenz (Trainingstage pro Woche)
+     * und Trainings-Split abgefragt.
+     */
     private void randomWorkoutPanel()
     {
         String name = inputReader.readLine("Gib dem Workout einen Namen: ");
@@ -104,7 +135,22 @@ public class ExercisePanel extends AbstractConsolePanel {
             System.out.println("❌ Ungültige Eingabe! Abbruch.");
             return;
         }
-        Workout workout = workoutService.createRandomWorkout(name, type);
+        // Neue Frage: Wie oft pro Woche trainieren?
+        int frequency = inputReader.readInt("Wie oft möchtest du pro Woche trainieren? (1-7): ");
+        if (frequency < 1 || frequency > 7)
+        {
+            System.out.println("❌ Ungültige Frequenz! Abbruch.");
+            return;
+        }
+        // Neue Frage: Welchen Trainings-Split möchtest du trainieren?
+        TrainingSplit split = readTrainingSplit();
+        if (split == null)
+        {
+            System.out.println("❌ Ungültiger Split! Abbruch.");
+            return;
+        }
+        // Übergabe der zusätzlichen Parameter an den WorkoutService
+        Workout workout = workoutService.createRandomWorkout(name, type, frequency, split);
         System.out.println("Workout '" + workout.name() + "' wurde gespeichert!");
     }
 
@@ -122,8 +168,7 @@ public class ExercisePanel extends AbstractConsolePanel {
             Workout workout = workouts.get(i);
             System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
         }
-        int choice = inputReader.readInt(
-                "\nWähle ein Workout (Nummer eingeben) oder 0 für Abbruch: ");
+        int choice = inputReader.readInt("\nWähle ein Workout (Nummer eingeben) oder 0 für Abbruch: ");
         if (choice < 1 || choice > workouts.size())
         {
             System.out.println("❌ Ungültige Eingabe oder Abbruch.");
@@ -145,7 +190,6 @@ public class ExercisePanel extends AbstractConsolePanel {
         }
         System.out.println(AppStrings.LINESEPARATOR);
     }
-
 
     /**
      * Zeigt die Workout-Typen an und liefert anhand der Benutzereingabe einen gültigen Typ.
@@ -174,31 +218,67 @@ public class ExercisePanel extends AbstractConsolePanel {
     private List<Exercise> selectExercises(List<Exercise> allExercises)
     {
         List<Exercise> selectedExercises = new ArrayList<>();
-        System.out.println("📋 Wähle deine Übungen " +
-                "(Nummern eingeben, getrennt durch Leerzeichen, z. B. '1 3 5'):");
-        for (int i = 0; i < allExercises.size(); i++) {
+        System.out.println("📋 Wähle deine Übungen (Nummern eingeben, getrennt durch Leerzeichen, z. B. '1 3 5'):");
+        for (int i = 0; i < allExercises.size(); i++)
+        {
             Exercise exercise = allExercises.get(i);
             System.out.println((i + 1) + ". " + exercise.name() + " (" + exercise.category() + ")");
         }
         String input = inputReader.readLine("\nDeine Auswahl: ");
         String[] tokens = input.split("\\s+");
-        for (String token : tokens) {
-            try {
+        for (String token : tokens)
+        {
+            try
+            {
                 int index = Integer.parseInt(token) - 1;
-                if (index >= 0 && index < allExercises.size()) {
+                if (index >= 0 && index < allExercises.size())
+                {
                     selectedExercises.add(allExercises.get(index));
-                } else {
+                }
+                else
+                {
                     System.out.println("⚠ Nummer " + token + " ist ungültig.");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e)
+            {
                 System.out.println("⚠ '" + token + "' ist keine gültige Nummer.");
             }
         }
         return selectedExercises;
     }
 
+    /**
+     * Fragt den Trainings-Split ab und gibt das passende Enum zurück.
+     * Optionen:
+     * 1. Oberkörper/Unterkörper
+     * 2. Push
+     * 3. Pull
+     * 4. Leg
+     * 5. Ganzkörper
+     */
+    private TrainingSplit readTrainingSplit()
+    {
+        System.out.println("Wähle den Trainings-Split:");
+        System.out.println("1. Oberkörper/Unterkörper");
+        System.out.println("2. Push");
+        System.out.println("3. Pull");
+        System.out.println("4. Leg");
+        System.out.println("5. Ganzkörper");
+        int choice = inputReader.readInt("Deine Wahl: ");
+        return switch (choice)
+        {
+            case 1 -> TrainingSplit.OBER_UNTER;
+            case 2 -> TrainingSplit.PUSH;
+            case 3 -> TrainingSplit.PULL;
+            case 4 -> TrainingSplit.LEG;
+            case 5 -> TrainingSplit.GANZKORPER;
+            default -> null;
+        };
+    }
+
     @Override
-    public void showPanel() {
+    public void showPanel()
+    {
         super.handleInput();
     }
 }
