@@ -1,10 +1,13 @@
 
 import de.neeroxz.exercise.*;
+import de.neeroxz.input.ConsoleInputReader;
+import de.neeroxz.input.InputReader;
 import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.ui.AppPanel;
 import de.neeroxz.user.*;
 
 import java.sql.Connection;
+import java.util.Scanner;
 
 /**
  * Class: App
@@ -30,12 +33,13 @@ public class App {
         WorkoutRepository workoutRepository = new InMemoryWorkoutRepository();
         UserRepository userRepository = new InMemoryUserRepository();
 
+        InputReader inputReader = new ConsoleInputReader(new Scanner(System.in));
 
         UserService userService = new UserService(userRepository);
         ExerciseService exerciseService = new ExerciseService(exerciseRepository);
         WorkoutService workoutService = new WorkoutService(workoutRepository, exerciseService);
         AuthenticationService authService = new AuthenticationService(userService, passwordHasher);
 
-        new AppPanel(authService,workoutService, exerciseService).showPanel();
+        new AppPanel(authService,workoutService, exerciseService, userService, inputReader).showPanel();
     }
 }
