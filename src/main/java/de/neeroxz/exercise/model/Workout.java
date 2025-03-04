@@ -1,4 +1,4 @@
-package de.neeroxz.exercise;
+package de.neeroxz.exercise.model;
 
 /**
  * Record: Workout
@@ -6,6 +6,7 @@ package de.neeroxz.exercise;
  * @author NeeroxZ
  * @date 03.02.2025
  */
+
 import java.util.List;
 
 public record Workout(
