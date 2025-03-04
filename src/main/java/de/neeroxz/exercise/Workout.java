@@ -13,5 +13,7 @@ public record Workout(
         String name,
         WorkoutType type,
         List<Exercise> exercises,
-        String username)
+        String username,
+        int frequency,          // Anzahl Trainingstage pro Woche (1-7)
+        TrainingSplit split)
 {}
