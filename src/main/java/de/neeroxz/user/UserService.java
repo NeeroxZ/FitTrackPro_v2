@@ -32,6 +32,20 @@ public class UserService implements IUserService {
     @Override
     public void saveUser(User user)
     {
-    //todo
+        userRepository.saveUser(user);
+    }
+
+    @Override
+    public void deleteUser(User user)
+    {
+        userRepository.deleteUser(user);
+        //todo
+        //wie starte ich jetzt eine neue Login Anwendung ?
+    }
+
+    @Override
+    public void updateUser(User user)
+    {
+
     }
 }
