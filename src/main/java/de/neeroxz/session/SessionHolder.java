@@ -1,6 +1,6 @@
 package de.neeroxz.session;
 
-import de.neeroxz.exercise.Exercise;
+import de.neeroxz.exercise.model.Exercise;
 import de.neeroxz.user.User;
 
 import java.sql.Connection;

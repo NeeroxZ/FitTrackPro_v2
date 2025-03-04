@@ -1,12 +1,16 @@
 
-import de.neeroxz.exercise.*;
+import de.neeroxz.exercise.repository.ExerciseRepository;
+import de.neeroxz.exercise.repository.InMemoryExerciseRepository;
+import de.neeroxz.exercise.repository.InMemoryWorkoutRepository;
+import de.neeroxz.exercise.repository.WorkoutRepository;
+import de.neeroxz.exercise.service.ExerciseService;
+import de.neeroxz.exercise.service.WorkoutService;
 import de.neeroxz.input.ConsoleInputReader;
 import de.neeroxz.input.InputReader;
 import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.ui.AppPanel;
 import de.neeroxz.user.*;
 
-import java.sql.Connection;
 import java.util.Scanner;
 
 /**

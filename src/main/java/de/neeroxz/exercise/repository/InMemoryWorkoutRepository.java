@@ -1,4 +1,4 @@
-package de.neeroxz.exercise;
+package de.neeroxz.exercise.repository;
 
 /**
  * Class: InMemoryWorkoutRepository
@@ -6,12 +6,15 @@ package de.neeroxz.exercise;
  * @author NeeroxZ
  * @date 03.02.2025
  */
+import de.neeroxz.exercise.model.Workout;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryWorkoutRepository implements WorkoutRepository {
+public class InMemoryWorkoutRepository implements WorkoutRepository
+{
     private final List<Workout> workouts = new ArrayList<>();
     private final AtomicInteger idCounter = new AtomicInteger(1); // Simuliert Auto-Increment IDs
 

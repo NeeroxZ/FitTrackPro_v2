@@ -1,4 +1,6 @@
-package de.neeroxz.exercise;
+package de.neeroxz.exercise.repository;
+
+import de.neeroxz.exercise.model.Exercise;
 
 import java.util.List;
 import java.util.Optional;

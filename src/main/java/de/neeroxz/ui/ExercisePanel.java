@@ -1,6 +1,11 @@
 package de.neeroxz.ui;
 
-import de.neeroxz.exercise.*;
+import de.neeroxz.exercise.model.Exercise;
+import de.neeroxz.exercise.model.TrainingSplit;
+import de.neeroxz.exercise.model.Workout;
+import de.neeroxz.exercise.model.WorkoutType;
+import de.neeroxz.exercise.service.ExerciseService;
+import de.neeroxz.exercise.service.WorkoutService;
 import de.neeroxz.input.InputReader;
 import de.neeroxz.user.LoggedInUser;
 import de.neeroxz.util.AppStrings;
@@ -18,7 +23,7 @@ public class ExercisePanel extends AbstractConsolePanel
     private final ExerciseService exerciseService;
 
     public ExercisePanel(WorkoutService workoutService,
-                         de.neeroxz.exercise.ExerciseService exerciseService,
+                         ExerciseService exerciseService,
                          InputReader inputReader
                         )
     {

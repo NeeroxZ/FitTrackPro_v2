@@ -1,4 +1,8 @@
-package de.neeroxz.exercise;
+package de.neeroxz.exercise.service;
+
+import de.neeroxz.exercise.model.Exercise;
+import de.neeroxz.exercise.model.WorkoutType;
+import de.neeroxz.exercise.repository.ExerciseRepository;
 
 import java.util.List;
 import java.util.Optional;

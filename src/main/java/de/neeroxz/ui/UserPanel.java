@@ -1,6 +1,5 @@
 package de.neeroxz.ui;
 
-import de.neeroxz.exercise.WorkoutType;
 import de.neeroxz.user.IUserService;
 import de.neeroxz.user.LoggedInUser;
 

@@ -1,4 +1,4 @@
-package de.neeroxz.exercise;
+package de.neeroxz.exercise.model;
 
 /**
  * Enum: ExerciseCategory

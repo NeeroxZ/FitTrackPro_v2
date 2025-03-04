@@ -1,7 +1,7 @@
 package de.neeroxz.ui;
 
-import de.neeroxz.exercise.ExerciseService;
-import de.neeroxz.exercise.WorkoutService;
+import de.neeroxz.exercise.service.ExerciseService;
+import de.neeroxz.exercise.service.WorkoutService;
 import de.neeroxz.input.InputReader;
 import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.user.IUserService;

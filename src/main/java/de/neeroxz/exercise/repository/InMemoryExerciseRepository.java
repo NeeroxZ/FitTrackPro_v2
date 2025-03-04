@@ -1,4 +1,4 @@
-package de.neeroxz.exercise;
+package de.neeroxz.exercise.repository;
 
 /**
  * Class: InMemoryExerciseRepository
@@ -7,12 +7,16 @@ package de.neeroxz.exercise;
  * @date 03.02.2025
  */
 
+import de.neeroxz.exercise.model.Exercise;
+import de.neeroxz.exercise.model.ExerciseCategory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryExerciseRepository implements ExerciseRepository {
+public class InMemoryExerciseRepository implements ExerciseRepository
+{
     private final List<Exercise> exercises = new ArrayList<>();
     private final AtomicInteger idCounter = new AtomicInteger(1);
 
@@ -33,6 +37,8 @@ public class InMemoryExerciseRepository implements ExerciseRepository {
 
     private void addExercise(String name, ExerciseCategory category, String difficulty)
     {
+        //todo
+        /*
         exercises.add(
                 new Exercise(
                         idCounter.getAndIncrement(),
@@ -40,7 +46,7 @@ public class InMemoryExerciseRepository implements ExerciseRepository {
                         category,
                         difficulty
                 )
-        );
+        );*/
     }
 
     @Override
