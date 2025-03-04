@@ -24,7 +24,9 @@ public class InMemoryWorkoutRepository implements WorkoutRepository {
                 workout.name(),
                 workout.type(),
                 workout.exercises(),
-                workout.username()
+                workout.username(),
+                workout.frequency(),
+                workout.split()
         );
         workouts.add(storedWorkout);
         System.out.println("✅ Workout gespeichert: " + storedWorkout);
