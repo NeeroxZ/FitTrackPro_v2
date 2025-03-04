@@ -13,17 +13,16 @@ import java.util.List;
  */
 public class ExercisePanel extends AbstractConsolePanel {
     private final WorkoutService workoutService;
-    private final InputReader intputReader;
+    private final InputReader inputReader;
     private final ExerciseService exerciseService;
 
     public ExercisePanel(WorkoutService workoutService,
                          ExerciseService exerciseService,
-                         InputReader inputReader,
-                         InputReader intputReader
+                         InputReader inputReader
     ) {
         this.workoutService = workoutService;
         this.exerciseService = exerciseService;
-        this.intputReader = intputReader;
+        this.inputReader = inputReader;
 
         super.addMenuAction("Workouts anzeigen", this::showWorkoutsPanel);
         super.addMenuAction("Workout erstellen", this::createWorkoutPanel);
@@ -50,7 +49,7 @@ public class ExercisePanel extends AbstractConsolePanel {
             Workout workout = workouts.get(i);
             System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
         }
-        int choice = intputReader.readInt("\nWähle ein Workout zum Löschen (Nummer eingeben) "
+        int choice = inputReader.readInt("\nWähle ein Workout zum Löschen (Nummer eingeben) "
                 + "oder 0 für Abbruch: ");
         if (choice < 1 || choice > workouts.size()) {
             System.out.println("❌ Ungültige Eingabe oder Abbruch.");
@@ -65,7 +64,7 @@ public class ExercisePanel extends AbstractConsolePanel {
     {
         System.out.println("1: Random");
         System.out.println("2: Individuell");
-        int typ = intputReader.readInt("Wähle den Workout-Typ: ");
+        int typ = inputReader.readInt("Wähle den Workout-Typ: ");
         switch (typ)
         {
             case 1 -> randomWorkoutPanel();
@@ -75,7 +74,7 @@ public class ExercisePanel extends AbstractConsolePanel {
     }
 
     private void individuellWorkoutPanel() {
-        String name = intputReader.readLine("Gib dem Workout einen Namen: ");
+        String name = inputReader.readLine("Gib dem Workout einen Namen: ");
         WorkoutType type = readWorkoutType();
         if (type == null) {
             System.out.println("❌ Ungültige Eingabe! Abbruch.");
@@ -98,7 +97,7 @@ public class ExercisePanel extends AbstractConsolePanel {
 
     private void randomWorkoutPanel()
     {
-        String name = intputReader.readLine("Gib dem Workout einen Namen: ");
+        String name = inputReader.readLine("Gib dem Workout einen Namen: ");
         WorkoutType type = readWorkoutType();
         if (type == null)
         {
@@ -123,7 +122,7 @@ public class ExercisePanel extends AbstractConsolePanel {
             Workout workout = workouts.get(i);
             System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
         }
-        int choice = intputReader.readInt(
+        int choice = inputReader.readInt(
                 "\nWähle ein Workout (Nummer eingeben) oder 0 für Abbruch: ");
         if (choice < 1 || choice > workouts.size())
         {
@@ -158,7 +157,7 @@ public class ExercisePanel extends AbstractConsolePanel {
         System.out.println("1. Kraftsport");
         System.out.println("2. Cardio");
         System.out.println("3. Yoga");
-        int choice = intputReader.readInt("Deine Wahl: ");
+        int choice = inputReader.readInt("Deine Wahl: ");
         return switch (choice)
         {
             case 1 -> WorkoutType.KRAFTSPORT;
@@ -181,7 +180,7 @@ public class ExercisePanel extends AbstractConsolePanel {
             Exercise exercise = allExercises.get(i);
             System.out.println((i + 1) + ". " + exercise.name() + " (" + exercise.category() + ")");
         }
-        String input = intputReader.readLine("\nDeine Auswahl: ");
+        String input = inputReader.readLine("\nDeine Auswahl: ");
         String[] tokens = input.split("\\s+");
         for (String token : tokens) {
             try {
