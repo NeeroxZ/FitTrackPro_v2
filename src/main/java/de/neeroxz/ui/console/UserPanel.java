@@ -1,4 +1,4 @@
-package de.neeroxz.ui;
+package de.neeroxz.ui.console;
 
 import de.neeroxz.user.service.IUserService;
 import de.neeroxz.user.session.LoggedInUser;

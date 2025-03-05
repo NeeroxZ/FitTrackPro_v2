@@ -1,4 +1,4 @@
-package de.neeroxz.ui;
+package de.neeroxz.ui.console;
 
 import de.neeroxz.exercise.model.Exercise;
 import de.neeroxz.exercise.model.TrainingSplit;

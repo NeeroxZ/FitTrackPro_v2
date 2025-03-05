@@ -1,4 +1,4 @@
-package de.neeroxz.ui;
+package de.neeroxz.ui.console;
 
 import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.user.model.Birthday;

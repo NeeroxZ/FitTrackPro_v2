@@ -1,4 +1,4 @@
-package de.neeroxz.ui;
+package de.neeroxz.ui.console;
 
 import de.neeroxz.exercise.service.ExerciseService;
 import de.neeroxz.exercise.service.WorkoutService;
