@@ -15,9 +15,16 @@ public record Exercise(
         ExerciseCategory category,
         Difficulty difficulty,
         String description,          // Detaillierte Beschreibung der Übung
-        List<MuscleGroup> targetMuscles,  // Primär trainierte Muskelgruppen
-        Equipment equipment,         // Benötigtes Equipment
-        int estimatedDuration        // Geschätzte Dauer in Minuten
-) {}
+        List<MuscleGroup> targetMuscles  // Primär trainierte Muskelgruppen
+        //Equipment equipment         // Benötigtes Equipment
+) implements Comparable<Exercise>
+{
+
+    @Override
+    public int compareTo(Exercise other)
+    {
+        return this.name.compareTo(other.name);
+    }
+}
 
 
