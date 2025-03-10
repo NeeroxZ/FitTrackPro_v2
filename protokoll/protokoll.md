@@ -1,7 +1,7 @@
 # Programmentwurf - Protokoll
 
-**Name:** [Name, Vorname]  
-**Matrikelnummer:** [MNR]  
+**Name:** [Obreiter, Nick]  
+**Matrikelnummer:** [8107127]  
 **Abgabedatum:** [DATUM]
 
 ---
