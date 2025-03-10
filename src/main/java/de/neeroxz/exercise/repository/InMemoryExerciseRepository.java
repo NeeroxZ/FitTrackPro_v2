@@ -1,6 +1,6 @@
 package de.neeroxz.exercise.repository;
 
-/**
+/*
  * Class: InMemoryExerciseRepository
  *
  * @author NeeroxZ
@@ -24,7 +24,7 @@ public class InMemoryExerciseRepository implements ExerciseRepository
 
     public InMemoryExerciseRepository()
     {
-        // 🔥 Initiale Übungen hinzufügen (statt SQL Inserts)
+        // Initiale Übungen hinzufügen (statt SQL Inserts)
 
         // Brust (CHEST)
         addExercise("Bench Press", ExerciseCategory.BRUST, Difficulty.MEDIUM,

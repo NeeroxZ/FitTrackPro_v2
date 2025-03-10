@@ -9,7 +9,8 @@ import de.neeroxz.user.session.LoggedInUser;
 
 import java.util.Optional;
 
-public class AuthenticationService {
+public class AuthenticationService
+{
     private final UserService userService;               // Statt UserRepository
     private final PasswordHasher passwordHasher;
 
