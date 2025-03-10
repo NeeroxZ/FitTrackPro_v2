@@ -1,18 +1,15 @@
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.elnarion.util.plantuml.generator.classdiagram.PlantUMLClassDiagramGenerator;
 import de.elnarion.util.plantuml.generator.classdiagram.config.PlantUMLClassDiagramConfigBuilder;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Test;
+
 
 public class PlantUMLDiagramGenerator
 {
@@ -28,7 +25,7 @@ public class PlantUMLDiagramGenerator
             scanPackages.add("de.neeroxz.session");
             scanPackages.add("de.neeroxz.ui");
             scanPackages.add("de.neeroxz.user");
-            scanPackages.add("de.neeroxz.util");
+           // scanPackages.add("de.neeroxz.user");
 
 
 

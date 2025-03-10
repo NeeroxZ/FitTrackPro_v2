@@ -10,7 +10,7 @@ import de.neeroxz.input.InputReader;
 import de.neeroxz.security.PasswordHasher;
 import de.neeroxz.services.AuthenticationService;
 import de.neeroxz.user.service.UserService;
-import de.neeroxz.ui.AppPanel;
+import de.neeroxz.ui.console.AppPanel;
 import de.neeroxz.user.repository.InMemoryUserRepository;
 import de.neeroxz.user.service.UserRepository;
 import de.neeroxz.util.SHA256PasswordHasher;
@@ -23,18 +23,11 @@ import java.util.Scanner;
  * @author NeeroxZ
  * @date 19.10.2024
  */
-public class App {
-    public static void main(String[] args) {
-    //      H2InitDatabase db = new H2InitDatabase();
-    //        db.initDatabase();
+public class App
+{
+    public static void main(String[] args)
+    {
 
-       /*
-        Connection connection = DatabaseConnectionFactory.getConnection();
-
-        UserRepository userRepository = new H2UserDB(connection);
-         ExerciseRepository exerciseRepository = new H2ExerciseRepository(connection);
-        WorkoutRepository  workoutRepository = new H2WorkoutRepository(connection);
-        */
         PasswordHasher passwordHasher = new SHA256PasswordHasher();
 
         ExerciseRepository exerciseRepository = new InMemoryExerciseRepository();
@@ -48,6 +41,10 @@ public class App {
         WorkoutService workoutService = new WorkoutService(workoutRepository, exerciseService);
         AuthenticationService authService = new AuthenticationService(userService, passwordHasher);
 
-        new AppPanel(authService,workoutService, exerciseService, userService, inputReader).showPanel();
+        new AppPanel(authService,
+                     workoutService,
+                     exerciseService,
+                     userService,
+                     inputReader).showPanel();
     }
 }

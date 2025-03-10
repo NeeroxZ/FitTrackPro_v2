@@ -1,4 +1,4 @@
-package de.neeroxz.ui;
+package de.neeroxz.ui.console;
 
 /**
  * Class: MenuAction

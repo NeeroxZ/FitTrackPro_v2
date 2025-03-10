@@ -12,7 +12,12 @@ public enum ExerciseCategory {
     BRUST(WorkoutType.KRAFTSPORT),
     RUECKEN(WorkoutType.KRAFTSPORT),
     BEINE(WorkoutType.KRAFTSPORT),
+    BIZEPS(WorkoutType.KRAFTSPORT),
+    TRIZEPS(WorkoutType.KRAFTSPORT),
 
+    VORDERE_SCHULTER(WorkoutType.KRAFTSPORT),
+    SEITLICHE_SCHULTER(WorkoutType.KRAFTSPORT),
+    HINTERE_SCHULTER(WorkoutType.KRAFTSPORT),
     // Cardio-Kategorien
     CARDIO(WorkoutType.CARDIO),
 
