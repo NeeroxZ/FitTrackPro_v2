@@ -7,7 +7,8 @@ package de.neeroxz.exercise.model;
  * @date 21.10.2024
  */
 
-public enum WorkoutType {
+public enum WorkoutType
+{
     KRAFTSPORT,
     CARDIO,
     YOGA

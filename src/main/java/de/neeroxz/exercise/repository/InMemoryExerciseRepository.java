@@ -176,7 +176,7 @@ public class InMemoryExerciseRepository implements ExerciseRepository
                         description,
                         targetMuscles
                 )
-        );
+                     );
     }
 
     @Override

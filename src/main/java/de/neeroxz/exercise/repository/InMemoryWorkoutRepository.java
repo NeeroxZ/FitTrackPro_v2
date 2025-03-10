@@ -1,11 +1,12 @@
 package de.neeroxz.exercise.repository;
 
-/**
+/*
  * Class: InMemoryWorkoutRepository
  *
  * @author NeeroxZ
  * @date 03.02.2025
  */
+
 import de.neeroxz.exercise.model.Workout;
 
 import java.util.ArrayList;

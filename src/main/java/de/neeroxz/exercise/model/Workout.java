@@ -1,6 +1,6 @@
 package de.neeroxz.exercise.model;
 
-/**
+/*
  * Record: Workout
  *
  * @author NeeroxZ
@@ -17,4 +17,5 @@ public record Workout(
         String username,
         int frequency,          // Anzahl Trainingstage pro Woche (1-7)
         TrainingSplit split)
-{}
+{
+}

@@ -1,6 +1,7 @@
 package de.neeroxz.exercise.model;
 
-public enum MuscleGroup {
+public enum MuscleGroup
+{
     CHEST,
     BACK,
     SHOULDERS,

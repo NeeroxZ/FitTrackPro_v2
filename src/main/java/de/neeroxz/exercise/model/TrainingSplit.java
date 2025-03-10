@@ -1,10 +1,11 @@
 package de.neeroxz.exercise.model;
 
 
-public enum TrainingSplit {
+public enum TrainingSplit
+{
     OBER_UNTER,
     PUSH,
     PULL,
     LEG,
-    GANZKORPER;
+    GANZKORPER
 }

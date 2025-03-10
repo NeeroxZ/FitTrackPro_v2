@@ -7,7 +7,8 @@ package de.neeroxz.exercise.model;
  * @date 21.10.2024
  */
 
-public enum ExerciseCategory {
+public enum ExerciseCategory
+{
     // Kraftsport Unterkategorien
     BRUST(WorkoutType.KRAFTSPORT),
     RUECKEN(WorkoutType.KRAFTSPORT),
