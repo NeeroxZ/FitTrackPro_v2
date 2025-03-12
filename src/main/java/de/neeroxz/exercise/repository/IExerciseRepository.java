@@ -11,9 +11,11 @@ import java.util.Optional;
  * @author NeeroxZ
  * @date 21.10.2024
  */
-public interface ExerciseRepository
+public interface IExerciseRepository
 {
     Optional<Exercise> findById(int id);
 
     List<Exercise> findAll();
+
+    void addExercise(Exercise exercise);
 }

@@ -6,6 +6,7 @@ import de.neeroxz.exercise.model.Workout;
 import de.neeroxz.exercise.model.WorkoutType;
 import de.neeroxz.exercise.service.ExerciseService;
 import de.neeroxz.exercise.service.WorkoutService;
+import de.neeroxz.exercise.service.generator.ExerciseCreator;
 import de.neeroxz.input.InputReader;
 import de.neeroxz.user.session.LoggedInUser;
 import de.neeroxz.util.AppStrings;
@@ -13,7 +14,7 @@ import de.neeroxz.util.AppStrings;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
  * Refaktorierte Klasse: ExercisePanel.
  */
 public class ExercisePanel extends AbstractConsolePanel
@@ -39,7 +40,8 @@ public class ExercisePanel extends AbstractConsolePanel
 
     private void createOwnExercise()
     {
-        System.out.println("Zurzeit noch nicht Verfügbar");
+        //System.out.println("Zurzeit noch nicht Verfügbar");
+        new ExerciseCreator(exerciseService).createOwnExercise();
     }
 
     private void deleteWorkout()

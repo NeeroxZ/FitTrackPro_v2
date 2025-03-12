@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryExerciseRepository implements ExerciseRepository
+public class InMemoryExerciseRepository implements IExerciseRepository
 {
     private final List<Exercise> exercises = new ArrayList<>();
     private final AtomicInteger idCounter = new AtomicInteger(1);
@@ -192,5 +192,11 @@ public class InMemoryExerciseRepository implements ExerciseRepository
     public List<Exercise> findAll()
     {
         return new ArrayList<>(exercises);
+    }
+
+    @Override
+    public void addExercise(Exercise exercise)
+    {
+        exercises.add(exercise);
     }
 }
