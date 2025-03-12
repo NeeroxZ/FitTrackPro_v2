@@ -18,8 +18,6 @@ import de.neeroxz.user.session.LoggedInUser;
 import de.neeroxz.user.model.User;
 
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 public class WorkoutService
 {
@@ -35,7 +33,8 @@ public class WorkoutService
 
     }
 
-    public List<Workout> createWorkouts(String name, WorkoutType type, int frequency, TrainingSplit split) {
+    public List<Workout> createWorkouts(String name, WorkoutType type, int frequency, TrainingSplit split)
+    {
         User currentUser = LoggedInUser.getCurrentUser()
                                        .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
 
@@ -49,7 +48,8 @@ public class WorkoutService
     /**
      * Neue Methode, die zusätzlich die Trainingsfrequenz und den Trainings-Split entgegennimmt.
      */
-    public  List<Workout> createRandomWorkout(String name, WorkoutType type, int frequency, TrainingSplit split) {
+    public List<Workout> createRandomWorkout(String name, WorkoutType type, int frequency, TrainingSplit split)
+    {
         User currentUser = LoggedInUser.getCurrentUser()
                                        .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
 

@@ -9,7 +9,8 @@ package de.neeroxz.user.model;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Birthday {
+public class Birthday
+{
     private final LocalDate birthDate;
 
     public Birthday(LocalDate birthDate)
