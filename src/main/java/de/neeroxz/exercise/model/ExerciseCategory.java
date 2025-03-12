@@ -23,7 +23,9 @@ public enum ExerciseCategory
     CARDIO(WorkoutType.CARDIO),
 
     // Yoga-Kategorien
-    YOGA(WorkoutType.YOGA);
+    YOGA(WorkoutType.YOGA),
+
+    CORE(WorkoutType.KRAFTSPORT);
 
     private final WorkoutType workoutType;
 
