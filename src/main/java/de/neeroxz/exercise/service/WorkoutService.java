@@ -48,7 +48,11 @@ public class WorkoutService
     /**
      * Neue Methode, die zusätzlich die Trainingsfrequenz und den Trainings-Split entgegennimmt.
      */
-    public List<Workout> createRandomWorkout(String name, WorkoutType type, int frequency, TrainingSplit split)
+    public List<Workout> createRandomWorkout(String name,
+                                             WorkoutType type,
+                                             int frequency,
+                                             TrainingSplit split
+                                            )
     {
         User currentUser = LoggedInUser.getCurrentUser()
                                        .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
