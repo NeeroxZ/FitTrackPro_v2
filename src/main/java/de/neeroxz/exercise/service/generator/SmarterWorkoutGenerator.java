@@ -6,7 +6,6 @@ import de.neeroxz.exercise.service.ExerciseService;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class SmarterWorkoutGenerator implements WorkoutGenerator
 {
 
@@ -18,7 +17,6 @@ public class SmarterWorkoutGenerator implements WorkoutGenerator
         this.exerciseService = exerciseService;
     }
 
-
     @Override
     public List<Workout> generateWorkout(String baseName, WorkoutType type, TrainingSplit split, int frequency, String username)
     {
@@ -28,25 +26,23 @@ public class SmarterWorkoutGenerator implements WorkoutGenerator
             throw new RuntimeException("Keine passenden Übungen gefunden!");
         }
 
-        List<Workout> weeklyWorkouts = new ArrayList<>();
+        List<TrainingDay> trainingDays = new ArrayList<>();
 
         for (int i = 0; i < frequency; i++)
         {
-            String workoutName = baseName + " - Einheit " + (i + 1);
+            String dayName = baseName + " - Tag " + (i + 1);
             List<Exercise> selectedExercises = selectExercisesForDay(allExercises, split, i);
 
-            Workout workout = new Workout(
-                    0,
-                    workoutName,
-                    type,
-                    selectedExercises,
-                    username,
-                    frequency,
-                    split
-            );
-            weeklyWorkouts.add(workout);
+            trainingDays.add(new TrainingDay(dayName, selectedExercises));
         }
-        return weeklyWorkouts;
+
+        int workoutId = generateUniqueWorkoutId();
+        return List.of(new Workout(workoutId, baseName, type, trainingDays, username, frequency, split));
+    }
+
+    private int generateUniqueWorkoutId()
+    {
+        return Math.abs(UUID.randomUUID().hashCode());
     }
 
     private List<Exercise> selectExercisesForDay(List<Exercise> exercises, TrainingSplit split, int dayIndex)
@@ -56,62 +52,61 @@ public class SmarterWorkoutGenerator implements WorkoutGenerator
             case GANZKORPER -> getFullBodyWorkout(exercises);
             case OBER_UNTER -> getUpperLowerWorkout(exercises, dayIndex);
             case PUSH_PULL_LEG -> getPushPullLegWorkout(exercises, dayIndex);
-            default -> getRandomExercises(exercises, 3); // Fallback für unbekannte Splits
+            default -> getRandomExercises(exercises, 3);
         };
     }
 
-    private List<Exercise> getRandomExercises(List<Exercise> exercises, int i)
+    private List<Exercise> getRandomExercises(List<Exercise> exercises, int count)
     {
-        return null;
+        Collections.shuffle(exercises);
+        return exercises.stream().limit(count).toList();
+    }
+
+    private List<Exercise> filterAndSelectExercises(List<Exercise> exercises, int count, ExerciseCategory... categories)
+    {
+        Set<ExerciseCategory> categorySet = new HashSet<>(Arrays.asList(categories));
+        List<Exercise> filtered = exercises.stream()
+                                           .filter(e -> categorySet.contains(e.category()))
+                                           .collect(Collectors.toList()); // ✅ Änderbar!
+
+        Collections.shuffle(filtered); // ✅ Funktioniert jetzt!
+        return filtered.stream().limit(count).collect(Collectors.toList()); // ✅ Sicher!
     }
 
     private List<Exercise> getFullBodyWorkout(List<Exercise> exercises)
     {
-        return filterAndSelectExercises(exercises,
-                                        6,
-                                        "BRUST",
-                                        "RUECKEN",
-                                        "SCHULTER",
-                                        "BEINE",
-                                        "CORE");
+        List<Exercise> upperBody = getUpperLowerWorkout(exercises, 0);
+        List<Exercise> lowerBody = getUpperLowerWorkout(exercises, 1);
+        upperBody.addAll(lowerBody);
+        return upperBody;
     }
 
     private List<Exercise> getUpperLowerWorkout(List<Exercise> exercises, int dayIndex)
     {
-        if (dayIndex % 2 == 0)
-        { // Gerade Tage: Oberkörper
-            return filterAndSelectExercises(exercises,
-                                            5,
-                                            "BRUST",
-                                            "RUECKEN",
-                                            "SCHULTER",
-                                            "ARMS");
-        }
-        else
-        { // Ungerade Tage: Unterkörper
-            return filterAndSelectExercises(exercises, 5, "BEINE", "CORE");
-        }
+        return (dayIndex % 2 == 0)
+                ? filterAndSelectExercises(exercises,
+                                           7,
+                                           ExerciseCategory.BRUST,
+                                           ExerciseCategory.RUECKEN,
+                                           ExerciseCategory.TRIZEPS,
+                                           ExerciseCategory.BIZEPS,
+                                           ExerciseCategory.SEITLICHE_SCHULTER
+                                          )
+                : filterAndSelectExercises(exercises,
+                                           5,
+                                           ExerciseCategory.BEINE,
+                                           ExerciseCategory.CORE);
     }
 
     private List<Exercise> getPushPullLegWorkout(List<Exercise> exercises, int dayIndex)
     {
         return switch (dayIndex % 3)
         {
-            case 0 -> filterAndSelectExercises(exercises, 5, "BRUST", "SCHULTER", "TRIZEPS"); // Push
-            case 1 -> filterAndSelectExercises(exercises, 5, "RUECKEN", "BIZEPS"); // Pull
-            default -> filterAndSelectExercises(exercises, 5, "BEINE", "CORE"); // Leg
+            case 0 ->
+                    filterAndSelectExercises(exercises, 5, ExerciseCategory.BRUST, ExerciseCategory.BRUST, ExerciseCategory.BRUST, ExerciseCategory.SEITLICHE_SCHULTER, ExerciseCategory.TRIZEPS);
+            case 1 ->
+                    filterAndSelectExercises(exercises, 5, ExerciseCategory.RUECKEN, ExerciseCategory.RUECKEN, ExerciseCategory.RUECKEN, ExerciseCategory.BIZEPS, ExerciseCategory.BIZEPS);
+            default -> filterAndSelectExercises(exercises, 5, ExerciseCategory.BEINE, ExerciseCategory.CORE);
         };
     }
-
-    private List<Exercise> filterAndSelectExercises(List<Exercise> exercises, int count, String... categories)
-    {
-        Set<String> categorySet = new HashSet<>(Arrays.asList(categories));
-        List<Exercise> filtered = exercises.stream()
-                                           .filter(e -> categorySet.contains(e.category().toString()))
-                                           .collect(Collectors.toList());
-
-        Collections.shuffle(filtered); // Mischen für mehr Variation
-        return filtered.stream().limit(count).collect(Collectors.toList());
-    }
-
 }
