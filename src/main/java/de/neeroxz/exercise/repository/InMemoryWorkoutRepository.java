@@ -27,7 +27,7 @@ public class InMemoryWorkoutRepository implements WorkoutRepository
                 id,
                 workout.name(),
                 workout.type(),
-                workout.exercises(),
+                workout.trainingDays(),
                 workout.username(),
                 workout.frequency(),
                 workout.split()
