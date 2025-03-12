@@ -1,5 +1,5 @@
 
-import de.neeroxz.exercise.repository.ExerciseRepository;
+import de.neeroxz.exercise.repository.IExerciseRepository;
 import de.neeroxz.exercise.repository.InMemoryExerciseRepository;
 import de.neeroxz.exercise.repository.InMemoryWorkoutRepository;
 import de.neeroxz.exercise.repository.WorkoutRepository;
@@ -30,7 +30,7 @@ public class App
 
         PasswordHasher passwordHasher = new SHA256PasswordHasher();
 
-        ExerciseRepository exerciseRepository = new InMemoryExerciseRepository();
+        IExerciseRepository exerciseRepository = new InMemoryExerciseRepository();
         WorkoutRepository workoutRepository = new InMemoryWorkoutRepository();
         UserRepository userRepository = new InMemoryUserRepository();
 

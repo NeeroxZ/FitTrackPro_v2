@@ -12,13 +12,15 @@ import de.neeroxz.user.service.IUserService;
  * @author NeeroxZ
  * @date 19.10.2024
  */
-public class AppPanel extends AbstractConsolePanel {
+public class AppPanel extends AbstractConsolePanel
+{
 
     AuthenticationService authService;
     WorkoutService workoutService;
     ExerciseService exerciseService;
     IUserService userService;
     InputReader inputReader;
+
     public AppPanel(AuthenticationService authService,
                     WorkoutService workoutService,
                     ExerciseService exerciseService,
