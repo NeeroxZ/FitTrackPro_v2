@@ -1,9 +1,6 @@
 package de.neeroxz.ui.console;
 
-import de.neeroxz.exercise.model.Exercise;
-import de.neeroxz.exercise.model.TrainingSplit;
-import de.neeroxz.exercise.model.Workout;
-import de.neeroxz.exercise.model.WorkoutType;
+import de.neeroxz.exercise.model.*;
 import de.neeroxz.exercise.service.ExerciseService;
 import de.neeroxz.exercise.service.WorkoutService;
 import de.neeroxz.exercise.service.generator.ExerciseCreator;
@@ -84,6 +81,7 @@ public class ExercisePanel extends AbstractConsolePanel
 
     /**
      * Individuell erstelltes Workout: Benutzer wählt Übungen aus.
+     * TODO: Stimmt hinten und vonre nicht macht auch viel zuviel.
      */
     private void individuellWorkoutPanel()
     {
@@ -121,7 +119,8 @@ public class ExercisePanel extends AbstractConsolePanel
 
         String username = LoggedInUser.getCurrentUser().get().username();
         // Erstelle das Workout mit den zusätzlichen Daten: frequency und split
-        Workout workout = new Workout(0, name, type, selectedExercises, username, frequency, split);
+        Workout workout = new Workout(5, name, type, new ArrayList<>(), username, frequency, split);
+
         workoutService.saveWorkout(workout);
 
         System.out.println("\n✅ Workout '" + workout.name() + "' mit "
@@ -184,18 +183,42 @@ public class ExercisePanel extends AbstractConsolePanel
         displayWorkoutDetails(selectedWorkout);
     }
 
+    private void displayWorkoutOverview(Workout workout)
+    {
+        System.out.println("\n🆔 Workout-ID: " + workout.id());
+        System.out.println("📌 Name: " + workout.name());
+        System.out.println("🏋 Typ: " + workout.type());
+        System.out.println("📆 Anzahl Trainingstage: " + workout.trainingDays().size());
+        System.out.println("👤 Erstellt von: " + workout.username());
+        System.out.println("📅 Split: " + workout.split());
+        System.out.println("➡️  Gib die Workout-ID ein, um Details zu sehen.");
+        System.out.println(AppStrings.LINESEPARATOR);
+    }
+
+
     private void displayWorkoutDetails(Workout workout)
     {
         System.out.println("\n🆔 Workout-ID: " + workout.id());
         System.out.println("📌 Name: " + workout.name());
         System.out.println("🏋 Typ: " + workout.type());
-        System.out.println("📃 Übungen:");
-        for (Exercise exercise : workout.exercises())
+        System.out.println("📆 Anzahl Trainingstage: " + workout.trainingDays().size());
+        System.out.println("👤 Erstellt von: " + workout.username());
+        System.out.println("📅 Split: " + workout.split());
+        System.out.println("\n📃 Trainingstage:");
+
+        for (TrainingDay trainingDay : workout.trainingDays())
         {
-            System.out.println("   - " + exercise.name() + " (" + exercise.category() + ")");
+            System.out.println("   📅 " + trainingDay.name());
+            for (Exercise exercise : trainingDay.exercises())
+            {
+                System.out.println("      - " + exercise.name() + " (" + exercise.category() + ")");
+            }
+            System.out.println();
         }
+
         System.out.println(AppStrings.LINESEPARATOR);
     }
+
 
     /**
      * Zeigt die Workout-Typen an und liefert anhand der Benutzereingabe einen gültigen Typ.
