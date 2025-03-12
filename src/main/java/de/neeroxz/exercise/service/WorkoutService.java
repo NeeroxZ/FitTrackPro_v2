@@ -18,6 +18,7 @@ import de.neeroxz.user.session.LoggedInUser;
 import de.neeroxz.user.model.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public class WorkoutService
 {
@@ -85,5 +86,10 @@ public class WorkoutService
     public void removeWorkout(int id)
     {
         workoutRepository.deleteById(id);
+    }
+
+    public int generateUniqueWorkoutId()
+    {
+        return UUID.randomUUID().hashCode();
     }
 }

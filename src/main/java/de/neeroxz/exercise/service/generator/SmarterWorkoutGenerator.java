@@ -102,11 +102,28 @@ public class SmarterWorkoutGenerator implements WorkoutGenerator
     {
         return switch (dayIndex % 3)
         {
-            case 0 ->
-                    filterAndSelectExercises(exercises, 5, ExerciseCategory.BRUST, ExerciseCategory.BRUST, ExerciseCategory.BRUST, ExerciseCategory.SEITLICHE_SCHULTER, ExerciseCategory.TRIZEPS);
-            case 1 ->
-                    filterAndSelectExercises(exercises, 5, ExerciseCategory.RUECKEN, ExerciseCategory.RUECKEN, ExerciseCategory.RUECKEN, ExerciseCategory.BIZEPS, ExerciseCategory.BIZEPS);
-            default -> filterAndSelectExercises(exercises, 5, ExerciseCategory.BEINE, ExerciseCategory.CORE);
+            case 0 -> filterAndSelectExercises(exercises,
+                                               5,
+                                               ExerciseCategory.BRUST,
+                                               ExerciseCategory.BRUST,
+                                               ExerciseCategory.BRUST,
+                                               ExerciseCategory.SEITLICHE_SCHULTER,
+                                               ExerciseCategory.TRIZEPS
+                                              );
+            case 1 -> filterAndSelectExercises(exercises,
+                                               5,
+                                               ExerciseCategory.RUECKEN,
+                                               ExerciseCategory.RUECKEN,
+                                               ExerciseCategory.RUECKEN,
+                                               ExerciseCategory.BIZEPS,
+                                               ExerciseCategory.BIZEPS
+                                              );
+
+            default -> filterAndSelectExercises(exercises,
+                                                5,
+                                                ExerciseCategory.BEINE,
+                                                ExerciseCategory.CORE
+                                               );
         };
     }
 }

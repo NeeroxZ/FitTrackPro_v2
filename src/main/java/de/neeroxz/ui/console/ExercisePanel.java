@@ -94,7 +94,6 @@ public class ExercisePanel extends AbstractConsolePanel
             return;
         }
 
-        // Zusätzliche Eingaben für individuelle Workouts:
         int frequency = inputReader.readInt("Wie oft möchtest du pro Woche trainieren? (1-7): ");
         if (frequency < 1 || frequency > 7)
         {
@@ -109,22 +108,39 @@ public class ExercisePanel extends AbstractConsolePanel
             return;
         }
 
-        List<Exercise> allExercises = workoutService.getAllExercises();
-        List<Exercise> selectedExercises = selectExercises(allExercises);
-        if (selectedExercises.isEmpty())
+        List<TrainingDay> trainingDays = new ArrayList<>();
+
+        // Nutzer muss für jeden Trainingstag Übungen auswählen
+        for (int day = 1; day <= frequency; day++)
+        {
+            System.out.println("\n📆 Wähle Übungen für Tag " + day + " (" + split + " Split):");
+
+            List<Exercise> filteredExercises = exerciseService.filterExercisesBySplit(split);
+            List<Exercise> selectedExercises = selectExercises(filteredExercises);
+
+            if (selectedExercises.isEmpty())
+            {
+                System.out.println("⚠️ Kein Workout für Tag " + day + " erstellt, da keine Übungen ausgewählt wurden.");
+            }
+            else
+            {
+                trainingDays.add(new TrainingDay(name + " - Tag " + day, selectedExercises));
+            }
+        }
+
+        if (trainingDays.isEmpty())
         {
             System.out.println("❌ Kein Workout erstellt, da keine gültigen Übungen ausgewählt wurden.");
             return;
         }
 
         String username = LoggedInUser.getCurrentUser().get().username();
-        // Erstelle das Workout mit den zusätzlichen Daten: frequency und split
-        Workout workout = new Workout(5, name, type, new ArrayList<>(), username, frequency, split);
+        int workoutId = workoutService.generateUniqueWorkoutId();  // Falls du IDs generieren willst
 
+        Workout workout = new Workout(workoutId, name, type, trainingDays, username, frequency, split);
         workoutService.saveWorkout(workout);
 
-        System.out.println("\n✅ Workout '" + workout.name() + "' mit "
-                                   + selectedExercises.size() + " Übungen wurde gespeichert!");
+        System.out.println("\n✅ Workout '" + workout.name() + "' mit " + trainingDays.size() + " Trainingstagen wurde gespeichert!");
     }
 
 
