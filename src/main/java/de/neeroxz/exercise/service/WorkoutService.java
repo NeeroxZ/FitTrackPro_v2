@@ -12,6 +12,8 @@ import de.neeroxz.exercise.model.TrainingSplit;
 import de.neeroxz.exercise.model.Workout;
 import de.neeroxz.exercise.model.WorkoutType;
 import de.neeroxz.exercise.repository.WorkoutRepository;
+import de.neeroxz.exercise.service.generator.SmarterWorkoutGenerator;
+import de.neeroxz.exercise.service.generator.WorkoutGenerator;
 import de.neeroxz.user.session.LoggedInUser;
 import de.neeroxz.user.model.User;
 
@@ -23,66 +25,39 @@ public class WorkoutService
 {
     private final WorkoutRepository workoutRepository;
     private final ExerciseService exerciseService;
+    private final WorkoutGenerator workoutGenerator;
 
     public WorkoutService(WorkoutRepository workoutRepository, ExerciseService exerciseService)
     {
         this.workoutRepository = workoutRepository;
         this.exerciseService = exerciseService;
+        this.workoutGenerator = new SmarterWorkoutGenerator(exerciseService);
+
     }
 
-    /**
-     * Bestehende Methode für random Workouts ohne zusätzliche Parameter.
-     */
-    public Workout createRandomWorkout(String name, WorkoutType type)
-    {
-        // Fallback, falls keine zusätzlichen Parameter benötigt werden.
-        return createRandomWorkout(name, type, 3, null); // z.B. Standardwert: 3 Trainingstage/Woche, kein Split
+    public List<Workout> createWorkouts(String name, WorkoutType type, int frequency, TrainingSplit split) {
+        User currentUser = LoggedInUser.getCurrentUser()
+                                       .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
+
+        List<Workout> workouts = workoutGenerator.generateWorkout(name, type, split, frequency, currentUser.username());
+
+        workouts.forEach(workoutRepository::saveWorkout);
+
+        return workouts;
     }
 
     /**
      * Neue Methode, die zusätzlich die Trainingsfrequenz und den Trainings-Split entgegennimmt.
      */
-    public Workout createRandomWorkout(String name, WorkoutType type, int frequency, TrainingSplit split)
-    {
-        // 🔥 Check: Ist ein Benutzer eingeloggt?
-        User currentUser = LoggedInUser
-                .getCurrentUser()
-                .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
+    public  List<Workout> createRandomWorkout(String name, WorkoutType type, int frequency, TrainingSplit split) {
+        User currentUser = LoggedInUser.getCurrentUser()
+                                       .orElseThrow(() -> new RuntimeException("Kein Benutzer eingeloggt!"));
 
-        // 🔥 Hol alle passenden Übungen für den Typ
-        List<Exercise> exercises = exerciseService.getExercisesByType(type);
-        if (exercises.size() < 4)
-        {
-            throw new RuntimeException("Nicht genug Übungen in der Datenbank!");
-        }
+        List<Workout> workouts = workoutGenerator.generateWorkout(name, type, split, frequency, currentUser.username());
 
-        // 🎲 Zufällige 4 Übungen wählen
-        Random random = new Random();
-        List<Exercise> selectedExercises = random
-                .ints(0, exercises.size())
-                .distinct()
-                .limit(4)
-                .mapToObj(exercises::get)
-                .collect(Collectors.toList());
+        workouts.forEach(workoutRepository::saveWorkout);
 
-        // 📌 Neues Workout erstellen & speichern
-        Workout workout = new Workout(
-                0,
-                name,
-                type,
-                selectedExercises,
-                currentUser.username(),
-                frequency,
-                split
-        );
-        workoutRepository.saveWorkout(workout);
-
-        // todo Optional: Ausgabe der ausgewählten Übungen zur Kontrolle
-        for (Exercise e : workout.exercises())
-        {
-            System.out.println(e.name());
-        }
-        return workout;
+        return workouts;
     }
 
     public List<Workout> getUserWorkouts()

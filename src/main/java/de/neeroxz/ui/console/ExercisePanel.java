@@ -69,8 +69,8 @@ public class ExercisePanel extends AbstractConsolePanel
 
     private void createWorkoutPanel()
     {
-        System.out.println("1: Random");
-        System.out.println("2: Individuell");
+        System.out.println("1: Random erstellt");
+        System.out.println("2: Individuell erstellt");
         int typ = inputReader.readInt("Wähle den Workout-Typ: ");
         switch (typ)
         {
@@ -155,8 +155,7 @@ public class ExercisePanel extends AbstractConsolePanel
             return;
         }
         // Übergabe der zusätzlichen Parameter an den WorkoutService
-        Workout workout = workoutService.createRandomWorkout(name, type, frequency, split);
-        System.out.println("Workout '" + workout.name() + "' wurde gespeichert!");
+        List<Workout> workout = workoutService.createRandomWorkout(name, type, frequency, split);
     }
 
     private void showWorkoutsPanel()
@@ -256,27 +255,21 @@ public class ExercisePanel extends AbstractConsolePanel
      * Fragt den Trainings-Split ab und gibt das passende Enum zurück.
      * Optionen:
      * 1. Oberkörper/Unterkörper
-     * 2. Push
-     * 3. Pull
-     * 4. Leg
-     * 5. Ganzkörper
+     * 2. Push_PULL_LEG
+     * 3. Ganzkörper
      */
     private TrainingSplit readTrainingSplit()
     {
         System.out.println("Wähle den Trainings-Split:");
         System.out.println("1. Oberkörper/Unterkörper");
-        System.out.println("2. Push");
-        System.out.println("3. Pull");
-        System.out.println("4. Leg");
-        System.out.println("5. Ganzkörper");
+        System.out.println("2. Push, Pull, Leg");
+        System.out.println("3. Ganzkörper");
         int choice = inputReader.readInt("Deine Wahl: ");
         return switch (choice)
         {
             case 1 -> TrainingSplit.OBER_UNTER;
-            case 2 -> TrainingSplit.PUSH;
-            case 3 -> TrainingSplit.PULL;
-            case 4 -> TrainingSplit.LEG;
-            case 5 -> TrainingSplit.GANZKORPER;
+            case 2 -> TrainingSplit.PUSH_PULL_LEG;
+            case 3 -> TrainingSplit.GANZKORPER;
             default -> null;
         };
     }

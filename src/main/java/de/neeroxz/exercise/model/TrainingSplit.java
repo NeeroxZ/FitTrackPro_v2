@@ -7,5 +7,6 @@ public enum TrainingSplit
     PUSH,
     PULL,
     LEG,
+    PUSH_PULL_LEG,
     GANZKORPER
 }
