@@ -1,6 +1,6 @@
 package de.neeroxz.ui;
 
-import de.neeroxz.ui.console.AbstractConsolePanel;
+import de.neeroxz.adapters.cli.panels.AbstractConsolePanel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,8 @@
 package de.neeroxz.input;
 
 
+import de.neeroxz.adapters.cli.ConsoleInputReader;
+import de.neeroxz.adapters.cli.InputReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

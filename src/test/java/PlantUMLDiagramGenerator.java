@@ -17,15 +17,9 @@ public class PlantUMLDiagramGenerator
         try {
             // Definiere die zu scannenden Packages
             List<String> scanPackages = new ArrayList<>();
-            scanPackages.add("de.neeroxz");
-            scanPackages.add("de.neeroxz.db");
-            scanPackages.add("de.neeroxz.exercise");
-            scanPackages.add("de.neeroxz.input");
-            scanPackages.add("de.neeroxz.security");
-            scanPackages.add("de.neeroxz.services");
-            scanPackages.add("de.neeroxz.session");
-            scanPackages.add("de.neeroxz.ui");
-            scanPackages.add("de.neeroxz.user");
+            scanPackages.add("de.neeroxz.adapters");
+            scanPackages.add("de.neeroxz.app");
+            scanPackages.add("de.neeroxz.core");
             scanPackages.add("de.neeroxz.util");
 
 

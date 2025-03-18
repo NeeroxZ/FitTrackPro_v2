@@ -1,7 +1,8 @@
 package de.neeroxz.exercise.repository;
 
-import de.neeroxz.exercise.model.Exercise;
-import de.neeroxz.exercise.model.ExerciseCategory;
+import de.neeroxz.adapters.persistence.inmemory.InMemoryExerciseRepository;
+import de.neeroxz.core.domain.exercise.Exercise;
+import de.neeroxz.core.domain.exercise.ExerciseCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
