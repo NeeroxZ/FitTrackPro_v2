@@ -12,7 +12,6 @@ public class App {
     public static void main(String[] args) {
         ServiceFactory factory = new ServiceFactory();
 
-        AuthenticationUserUseCase authService = factory.createAuthService();
         WorkoutUseCaseFactory workoutUseCases = factory.getWorkoutUseCaseFactory();
         UserUseCaseFactory userUseCaseFactory = factory.getUserUseCaseFactory();
         ExerciseService exerciseService = factory.createExerciseService();
@@ -20,7 +19,6 @@ public class App {
         InputReader inputReader = factory.createInputReader();
         IUserSessionService userSessionService = factory.getUserSessionService();
         new AppPanel(
-                authService,
                 workoutUseCases,
                 exerciseService,
                 userUseCaseFactory,

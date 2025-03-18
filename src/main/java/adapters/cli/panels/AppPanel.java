@@ -3,8 +3,6 @@ package adapters.cli.panels;
 import core.ports.session.IUserSessionService;
 import core.usecase.exercise.ExerciseService;
 import adapters.cli.InputReader;
-import core.usecase.user.AuthenticationUserUseCase;
-import core.ports.services.IUserService;
 import core.usecase.user.UserUseCaseFactory;
 import core.usecase.workout.WorkoutUseCaseFactory;
 
@@ -17,21 +15,19 @@ import core.usecase.workout.WorkoutUseCaseFactory;
 public class AppPanel extends AbstractConsolePanel
 {
 
-    AuthenticationUserUseCase authService;
     WorkoutUseCaseFactory workoutUseCaseFactory;
     ExerciseService exerciseService;
     UserUseCaseFactory userUseCaseFactory;
     InputReader inputReader;
     IUserSessionService userSessionService;
 
-    public AppPanel(AuthenticationUserUseCase authService,
-                    WorkoutUseCaseFactory workoutUseCases,
+    public AppPanel(
+                    WorkoutUseCaseFactory workoutUseCaseFactory,
                     ExerciseService exerciseService,
                     UserUseCaseFactory userUseCaseFactory,
                     InputReader inputReader,
                     IUserSessionService userSessionService)
     {
-        this.authService = authService;
         this.workoutUseCaseFactory = workoutUseCaseFactory;
         this.userSessionService = userSessionService;
         this.exerciseService = exerciseService;
