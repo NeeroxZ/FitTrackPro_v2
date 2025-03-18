@@ -4,6 +4,7 @@ import de.neeroxz.security.PasswordHasher;
 import de.neeroxz.user.model.Birthday;
 import de.neeroxz.user.model.Password;
 import de.neeroxz.user.model.User;
+import de.neeroxz.user.service.IUserService;
 import de.neeroxz.user.service.UserService;
 import de.neeroxz.user.session.LoggedInUser;
 
@@ -53,5 +54,10 @@ public class AuthenticationService
         );
         userService.saveUser(newUser);
         return true;
+    }
+
+    public IUserService getUserRepo()
+    {
+        return this.userService;
     }
 }

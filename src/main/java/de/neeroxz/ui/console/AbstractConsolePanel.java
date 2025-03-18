@@ -1,5 +1,6 @@
 package de.neeroxz.ui.console;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -8,12 +9,14 @@ import java.util.*;
  * @author NeeroxZ
  * @date 12.10.2024
  */
-public abstract class AbstractConsolePanel {
+public abstract class AbstractConsolePanel
+{
 
     private final List<MenuAction> menuActions = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
 
-    public AbstractConsolePanel() {
+    public AbstractConsolePanel()
+    {
         // Exit-Option immer hinzufügen
         addMenuAction("Zurück zum Hauptmenü", this::exitPanel);
     }
@@ -55,7 +58,9 @@ public abstract class AbstractConsolePanel {
             if (choice > 0 && choice <= menuActions.size())
             {
                 menuActions.get(choice - 1).execute();
-                if (isExitOption(choice)) {  // Wenn "Beenden" gewählt wird
+
+                if (isExitOption(choice))
+                {  // Wenn "Beenden" gewählt wird
                     validInput = true;
                 }
             }
@@ -75,6 +80,17 @@ public abstract class AbstractConsolePanel {
     protected boolean isExitOption(int choice)
     {
         return choice == 1;  // Standardmäßig ist "1" die Exit-Option
+    }
+
+    protected void clearConsole()
+    {
+        System.out.println("\nWeiterfahren? Beliebige Taste drücken...");
+        scanner.nextLine(); // Warten auf Benutzereingabe
+
+        for (int i = 0; i < 500; i++)
+        {
+            System.out.println("\n");
+        }
     }
 
     // Abstrakte Methode, die in den abgeleiteten Klassen implementiert wird

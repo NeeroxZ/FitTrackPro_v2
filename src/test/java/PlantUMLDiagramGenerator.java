@@ -25,7 +25,7 @@ public class PlantUMLDiagramGenerator
             scanPackages.add("de.neeroxz.session");
             scanPackages.add("de.neeroxz.ui");
             scanPackages.add("de.neeroxz.user");
-           // scanPackages.add("de.neeroxz.user");
+            scanPackages.add("de.neeroxz.util");
 
 
 

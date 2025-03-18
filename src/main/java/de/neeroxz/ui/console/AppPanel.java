@@ -49,7 +49,6 @@ public class AppPanel extends AbstractConsolePanel
 
     private void userSettings()
     {
-
         new UserPanel(userService).showPanel();
     }
 
