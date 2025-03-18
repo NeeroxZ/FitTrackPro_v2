@@ -17,6 +17,7 @@ public class PlantUMLDiagramGenerator
         try {
             // Definiere die zu scannenden Packages
             List<String> scanPackages = new ArrayList<>();
+            scanPackages.add("de.neeroxz");
             scanPackages.add("de.neeroxz.db");
             scanPackages.add("de.neeroxz.exercise");
             scanPackages.add("de.neeroxz.input");
@@ -32,7 +33,6 @@ public class PlantUMLDiagramGenerator
 
             // Definiere Klassen, die im Diagramm ausgeblendet werden sollen
             List<String> hideClasses = new ArrayList<>();
-            hideClasses.add("de.neeroxz.input");
 
             // Erstelle den Config-Builder mit den Scan-Paketen und verstecke bestimmte Klassen
             PlantUMLClassDiagramConfigBuilder configBuilder = new PlantUMLClassDiagramConfigBuilder(scanPackages)

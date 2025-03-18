@@ -92,4 +92,9 @@ public class WorkoutService
     {
         return UUID.randomUUID().hashCode();
     }
+
+    public ExerciseService getExerciseService()
+    {
+        return exerciseService;
+    }
 }
