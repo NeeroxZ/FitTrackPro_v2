@@ -2,9 +2,9 @@ name: Count Lines of Code
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, cleanArchitecture ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, cleanArchitecture ]
 
 jobs:
   cloc:

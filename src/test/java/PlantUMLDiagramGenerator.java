@@ -17,10 +17,10 @@ public class PlantUMLDiagramGenerator
         try {
             // Definiere die zu scannenden Packages
             List<String> scanPackages = new ArrayList<>();
-            scanPackages.add("de.neeroxz.adapters");
-            scanPackages.add("de.neeroxz.app");
-            scanPackages.add("de.neeroxz.core");
-            scanPackages.add("de.neeroxz.util");
+            scanPackages.add("adapters");
+            scanPackages.add("app");
+            scanPackages.add("core");
+            scanPackages.add("util");
 
 
 
