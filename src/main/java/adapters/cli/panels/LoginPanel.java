@@ -6,6 +6,7 @@ import core.domain.user.Birthday;
 import core.domain.user.User;
 import core.usecase.user.AuthenticationUserUseCase;
 import core.usecase.user.RegisterUserUseCase;
+import core.usecase.user.UpdateUserUseCase;
 import core.usecase.user.UserUseCaseFactory;
 
 import java.util.Optional;
@@ -23,10 +24,12 @@ public class LoginPanel extends AbstractConsolePanel {
     private final RegisterUserUseCase registerUserUseCase;
     private final InputReader inputReader;
     private final UserInputValidator validator;
+    private final UpdateUserUseCase updateUserUseCase;
 
     public LoginPanel(UserUseCaseFactory userUseCaseFactory, InputReader inputReader) {
         this.authenticationUserUseCase = userUseCaseFactory.authenticationUserUseCase();
         this.registerUserUseCase = userUseCaseFactory.registerUserUseCase();
+        this.updateUserUseCase = userUseCaseFactory.updateUserUseCase();
         this.inputReader = inputReader;
         this.validator = new UserInputValidator(inputReader);
 
@@ -62,6 +65,7 @@ public class LoginPanel extends AbstractConsolePanel {
             String password = inputReader.readLine("Passwort: ");
 
             Optional<User> user = authenticationUserUseCase.authenticate(username, password);
+
             if (user.isPresent()) {
                 System.out.println("Login erfolgreich!");
                 break;
