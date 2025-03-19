@@ -21,4 +21,7 @@ public interface IExerciseRepository
     void addExercise(Exercise exercise);
 
     Optional<List<Exercise>> findByType(WorkoutType type);
+
+    boolean removeExercise(int id); // Übung entfernen
+
 }
