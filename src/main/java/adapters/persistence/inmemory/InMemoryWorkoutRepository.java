@@ -62,9 +62,8 @@ public class InMemoryWorkoutRepository implements IWorkoutRepository
     }
 
     @Override
-    public void deleteById(int id)
+    public boolean  deleteById(int id)
     {
-        this.workouts.removeIf(w -> w.id() == id);
-        System.out.println("✅ Workout gelöscht (ID: " + id + ")");
+        return  this.workouts.removeIf(w -> w.id() == id);
     }
 }

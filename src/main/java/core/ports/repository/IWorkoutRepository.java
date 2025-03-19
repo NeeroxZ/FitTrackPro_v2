@@ -21,5 +21,5 @@ public interface IWorkoutRepository
 
     List<Workout> findByUser(String username);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 }

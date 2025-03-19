@@ -207,4 +207,11 @@ public class InMemoryExerciseRepository implements IExerciseRepository
 
         return filteredExercises.isEmpty() ? Optional.empty() : Optional.of(filteredExercises);
     }
+
+    //todo
+    @Override
+    public boolean removeExercise(int id)
+    {
+        return false;
+    }
 }
