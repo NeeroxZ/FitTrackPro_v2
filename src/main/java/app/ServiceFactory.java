@@ -4,7 +4,7 @@ import core.ports.repository.IExerciseRepository;
 import adapters.persistence.inmemory.InMemoryExerciseRepository;
 import adapters.persistence.inmemory.InMemoryWorkoutRepository;
 import core.ports.repository.IWorkoutRepository;
-import core.usecase.exercise.ExerciseService;
+import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.ConsoleInputReader;
 import adapters.cli.InputReader;
 import core.ports.services.IPasswordHasher;
@@ -60,8 +60,8 @@ public class ServiceFactory {
         return new AuthenticationUserUseCase(userRepository, passwordHasher, userSessionService );
     }
 
-    public ExerciseService createExerciseService() {
-        return new ExerciseService(exerciseRepository);
+    public GetExercisesUseCase createExerciseService() {
+        return new GetExercisesUseCase(exerciseRepository);
     }
 
     public InputReader createInputReader() {

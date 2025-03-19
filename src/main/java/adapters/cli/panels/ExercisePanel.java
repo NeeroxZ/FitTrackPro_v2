@@ -3,7 +3,7 @@ package adapters.cli.panels;
 import core.domain.exercise.*;
 import core.domain.workout.Workout;
 import core.domain.workout.WorkoutType;
-import core.usecase.exercise.ExerciseService;
+import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.InputReader;
 import core.usecase.workout.WorkoutUseCaseFactory;
 import util.AppStrings;
@@ -19,10 +19,10 @@ public class ExercisePanel extends AbstractConsolePanel
 {
     private final WorkoutUseCaseFactory workoutUseCaseFactory;
     private final InputReader inputReader;
-    private final ExerciseService exerciseService;
+    private final GetExercisesUseCase exerciseService;
 
     public ExercisePanel(WorkoutUseCaseFactory workoutUseCaseFactory,
-                         ExerciseService exerciseService,
+                         GetExercisesUseCase exerciseService,
                          InputReader inputReader
                         )
     {

@@ -4,7 +4,7 @@ import core.domain.exercise.Difficulty;
 import core.domain.exercise.Exercise;
 import core.domain.exercise.ExerciseCategory;
 import core.domain.exercise.MuscleGroup;
-import core.usecase.exercise.ExerciseService;
+import core.usecase.exercise.GetExercisesUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ public class ExerciseCreatorCLI
 {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final ExerciseService exerciseService;
-    public ExerciseCreatorCLI(ExerciseService exerciseService)
+    private final GetExercisesUseCase exerciseService;
+    public ExerciseCreatorCLI(GetExercisesUseCase exerciseService)
     {
         this.exerciseService = exerciseService;
     }

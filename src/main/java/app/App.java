@@ -2,8 +2,7 @@ package app;
 
 import adapters.cli.InputReader;
 import core.ports.session.IUserSessionService;
-import core.usecase.exercise.ExerciseService;
-import core.usecase.user.AuthenticationUserUseCase;
+import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.panels.AppPanel;
 import core.usecase.user.UserUseCaseFactory;
 import core.usecase.workout.WorkoutUseCaseFactory;
@@ -14,7 +13,7 @@ public class App {
 
         WorkoutUseCaseFactory workoutUseCases = factory.getWorkoutUseCaseFactory();
         UserUseCaseFactory userUseCaseFactory = factory.getUserUseCaseFactory();
-        ExerciseService exerciseService = factory.createExerciseService();
+        GetExercisesUseCase exerciseService = factory.createExerciseService();
 
         InputReader inputReader = factory.createInputReader();
         IUserSessionService userSessionService = factory.getUserSessionService();

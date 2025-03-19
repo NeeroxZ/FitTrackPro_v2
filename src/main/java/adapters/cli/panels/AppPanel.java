@@ -1,7 +1,7 @@
 package adapters.cli.panels;
 
 import core.ports.session.IUserSessionService;
-import core.usecase.exercise.ExerciseService;
+import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.InputReader;
 import core.usecase.user.UserUseCaseFactory;
 import core.usecase.workout.WorkoutUseCaseFactory;
@@ -16,14 +16,14 @@ public class AppPanel extends AbstractConsolePanel
 {
 
     WorkoutUseCaseFactory workoutUseCaseFactory;
-    ExerciseService exerciseService;
+    GetExercisesUseCase exerciseService;
     UserUseCaseFactory userUseCaseFactory;
     InputReader inputReader;
     IUserSessionService userSessionService;
 
     public AppPanel(
                     WorkoutUseCaseFactory workoutUseCaseFactory,
-                    ExerciseService exerciseService,
+                    GetExercisesUseCase exerciseService,
                     UserUseCaseFactory userUseCaseFactory,
                     InputReader inputReader,
                     IUserSessionService userSessionService)
