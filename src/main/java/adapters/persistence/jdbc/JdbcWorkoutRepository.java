@@ -17,6 +17,7 @@ public class JdbcWorkoutRepository implements IWorkoutRepository {
         this.connection = connection;
     }
 
+    //todo keine Ausgabe
     @Override
     public void saveWorkout(Workout workout) {
         String query = "INSERT INTO workouts (name, type, username, frequency, split) VALUES (?, ?, ?, ?, ?)";
@@ -85,19 +86,20 @@ public class JdbcWorkoutRepository implements IWorkoutRepository {
     }
 
     @Override
-    public void deleteById(int id) {
+    public boolean deleteById(int id) {
         String query = "DELETE FROM workouts WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("✅ Workout gelöscht mit ID: " + id);
+                return true;
             } else {
-                System.out.println("❌ Kein Workout mit ID " + id + " gefunden.");
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     private Workout mapToWorkout(ResultSet rs) throws SQLException {
