@@ -77,6 +77,13 @@ public class JdbcExerciseRepository implements IExerciseRepository {
         return exercises.isEmpty() ? Optional.empty() : Optional.of(exercises);
     }
 
+    //todo
+    @Override
+    public boolean removeExercise(int id)
+    {
+        return false;
+    }
+
     private Exercise mapToExercise(ResultSet rs) throws SQLException {
         return new Exercise(
                 rs.getInt("id"),
