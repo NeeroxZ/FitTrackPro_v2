@@ -1,6 +1,8 @@
 package adapters.workout;
 
 import core.domain.exercise.*;
+import core.domain.workout.Workout;
+import core.domain.workout.WorkoutType;
 import core.ports.repository.IExerciseRepository;
 import core.ports.workout.IWorkoutGenerator;
 import util.IdGenerator;

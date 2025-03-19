@@ -1,8 +1,8 @@
 package core.ports.workout;
 
 import core.domain.exercise.TrainingSplit;
-import core.domain.exercise.Workout;
-import core.domain.exercise.WorkoutType;
+import core.domain.workout.Workout;
+import core.domain.workout.WorkoutType;
 
 import java.util.List;
 

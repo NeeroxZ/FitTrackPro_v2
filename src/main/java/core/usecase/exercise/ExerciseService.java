@@ -3,7 +3,7 @@ package core.usecase.exercise;
 import core.domain.exercise.Exercise;
 import core.domain.exercise.ExerciseCategory;
 import core.domain.exercise.TrainingSplit;
-import core.domain.exercise.WorkoutType;
+import core.domain.workout.WorkoutType;
 import core.ports.repository.IExerciseRepository;
 
 import java.util.List;

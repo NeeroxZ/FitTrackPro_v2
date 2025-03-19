@@ -7,7 +7,7 @@ package adapters.persistence.inmemory;
  * @date 03.02.2025
  */
 
-import core.domain.exercise.Workout;
+import core.domain.workout.Workout;
 import core.ports.repository.IWorkoutRepository;
 
 import java.util.ArrayList;

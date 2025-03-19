@@ -1,15 +1,16 @@
 package core.usecase.workout;
 
 import core.domain.exercise.TrainingSplit;
-import core.domain.exercise.Workout;
-import core.domain.exercise.WorkoutType;
+import core.domain.workout.Workout;
+import core.domain.workout.WorkoutType;
 import core.ports.repository.IWorkoutRepository;
 import core.ports.session.IUserSessionService;
 import core.ports.workout.IWorkoutGenerator;
 
 import java.util.List;
 
-public class CreateWorkoutUseCase {
+public class CreateWorkoutUseCase
+{
 
     private final IWorkoutRepository workoutRepository;
     private final IUserSessionService userSessionService;
@@ -24,11 +25,13 @@ public class CreateWorkoutUseCase {
         this.workoutGenerator = workoutGenerator;
     }
 
-    public List<Workout> createWorkout(String name, WorkoutType type, int frequency, TrainingSplit split) {
+    public List<Workout> createWorkout(String name, WorkoutType type, int frequency, TrainingSplit split)
+    {
         String username = userSessionService.getLoggedInUsername()
                                             .orElse(null);
 
-        if (username == null) {
+        if (username == null)
+        {
             throw new IllegalStateException("Kein Benutzer eingeloggt!");
         }
 

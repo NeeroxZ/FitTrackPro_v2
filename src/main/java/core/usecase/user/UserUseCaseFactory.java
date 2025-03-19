@@ -16,7 +16,7 @@ public class UserUseCaseFactory {
     }
 
     public AuthenticationUserUseCase authenticationUserUseCase() {
-        return new AuthenticationUserUseCase(userRepository, passwordHasher);
+        return new AuthenticationUserUseCase(userRepository, passwordHasher, userSessionService);
     }
 
     public RegisterUserUseCase registerUserUseCase() {

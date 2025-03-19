@@ -1,6 +1,6 @@
 package core.ports.repository;
 
-import core.domain.exercise.Workout;
+import core.domain.workout.Workout;
 
 import java.util.List;
 import java.util.Optional;

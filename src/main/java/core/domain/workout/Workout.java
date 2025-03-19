@@ -1,4 +1,4 @@
-package core.domain.exercise;
+package core.domain.workout;
 
 /*
  * Record: Workout
@@ -6,6 +6,9 @@ package core.domain.exercise;
  * @author NeeroxZ
  * @date 03.02.2025
  */
+
+import core.domain.exercise.TrainingDay;
+import core.domain.exercise.TrainingSplit;
 
 import java.util.List;
 

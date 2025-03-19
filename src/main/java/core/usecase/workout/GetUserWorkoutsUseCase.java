@@ -1,6 +1,6 @@
 package core.usecase.workout;
 
-import core.domain.exercise.Workout;
+import core.domain.workout.Workout;
 import core.ports.repository.IWorkoutRepository;
 import core.ports.session.IUserSessionService;
 

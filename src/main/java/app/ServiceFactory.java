@@ -57,7 +57,7 @@ public class ServiceFactory {
     }
 
     public AuthenticationUserUseCase createAuthService() {
-        return new AuthenticationUserUseCase(userRepository, passwordHasher);
+        return new AuthenticationUserUseCase(userRepository, passwordHasher, userSessionService );
     }
 
     public ExerciseService createExerciseService() {

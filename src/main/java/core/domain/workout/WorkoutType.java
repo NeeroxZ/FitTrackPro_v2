@@ -1,4 +1,4 @@
-package core.domain.exercise;
+package core.domain.workout;
 
 /**
  * Enum: WorkoutType

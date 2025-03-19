@@ -8,6 +8,7 @@ package adapters.persistence.inmemory;
  */
 
 import core.domain.exercise.*;
+import core.domain.workout.WorkoutType;
 import core.ports.repository.IExerciseRepository;
 
 import java.util.ArrayList;

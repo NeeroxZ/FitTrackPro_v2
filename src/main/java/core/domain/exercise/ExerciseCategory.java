@@ -1,5 +1,7 @@
 package core.domain.exercise;
 
+import core.domain.workout.WorkoutType;
+
 /**
  * Enum: ExerciseCategory
  *
@@ -41,10 +43,7 @@ public enum ExerciseCategory
 
     public boolean matchesWorkoutType(WorkoutType type)
     {
-        if (type == this.workoutType){
-            return true;
-        }
-        return false;
+        return type == this.workoutType;
     }
 }
 

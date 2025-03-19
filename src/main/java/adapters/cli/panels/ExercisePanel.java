@@ -1,6 +1,8 @@
 package adapters.cli.panels;
 
 import core.domain.exercise.*;
+import core.domain.workout.Workout;
+import core.domain.workout.WorkoutType;
 import core.usecase.exercise.ExerciseService;
 import adapters.cli.InputReader;
 import core.usecase.workout.WorkoutUseCaseFactory;
