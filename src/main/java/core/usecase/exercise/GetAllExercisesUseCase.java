@@ -1,5 +1,18 @@
 package core.usecase.exercise;
 
-public class GetAllExercisesUseCase
-{
+import core.domain.exercise.Exercise;
+import core.ports.repository.IExerciseRepository;
+
+import java.util.List;
+
+public class GetAllExercisesUseCase {
+    private final IExerciseRepository exerciseRepository;
+
+    public GetAllExercisesUseCase(IExerciseRepository exerciseRepository) {
+        this.exerciseRepository = exerciseRepository;
+    }
+
+    public List<Exercise> execute() {
+        return exerciseRepository.findAll();
+    }
 }
