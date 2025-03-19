@@ -12,8 +12,8 @@ public class RemoveWorkoutUseCase
         this.workoutRepository = workoutRepository;
     }
 
-    public void removeWorkout(int id)
+    public boolean removeWorkout(int id)
     {
-        workoutRepository.deleteById(id);
+        return workoutRepository.deleteById(id);
     }
 }
