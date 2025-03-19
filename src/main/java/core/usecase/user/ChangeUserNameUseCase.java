@@ -14,7 +14,7 @@ public class ChangeUserNameUseCase {
     }
 
     public void execute(String newUsername) {
-        String currentUsername = userSessionService.getLoggedInUsername().orElseThrow(() ->
+        String currentUsername = userSessionService.getLoggedInUser().map(User::username).orElseThrow(() ->
                                                                                               new IllegalStateException("Kein Benutzer eingeloggt!"));
 
         User existingUser = userRepository.findUserByUsername(currentUsername)

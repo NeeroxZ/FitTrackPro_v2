@@ -13,13 +13,15 @@ import java.util.Optional;
  * @author NeeroxZ
  * @date 06.02.2025
  */
-public class UserPanel extends AbstractConsolePanel {
+public class UserPanel extends AbstractConsolePanel
+{
 
     private final UserUseCaseFactory userUseCaseFactory;
     private final IUserSessionService userSessionService;
     private final InputReader inputReader; // CLI-Abstraktion für Nutzereingaben
 
-    public UserPanel(UserUseCaseFactory userUseCaseFactory, IUserSessionService userSessionService, InputReader inputReader) {
+    public UserPanel(UserUseCaseFactory userUseCaseFactory, IUserSessionService userSessionService, InputReader inputReader)
+    {
         this.userUseCaseFactory = userUseCaseFactory;
         this.userSessionService = userSessionService;
         this.inputReader = inputReader;
@@ -29,23 +31,28 @@ public class UserPanel extends AbstractConsolePanel {
         super.addMenuAction("Account löschen", this::deleteAccount);
     }
 
-    private void deleteAccount() {
+    private void deleteAccount()
+    {
         System.out.println("Möchten Sie Ihren Account wirklich löschen?");
         System.out.println("1. Ja");
         System.out.println("2. Nein");
 
         int choice = inputReader.readInt("Deine Wahl: ");
 
-        switch (choice) {
-            case 1 -> {
-                Optional<String> usernameOpt = userSessionService.getLoggedInUsername();
-                if (usernameOpt.isEmpty()) {
+        switch (choice)
+        {
+            case 1 ->
+            {
+                Optional<String> usernameOpt = userSessionService.getLoggedInUser().map(User::username);
+                if (usernameOpt.isEmpty())
+                {
                     System.out.println("Kein Benutzer eingeloggt!");
                     return;
                 }
 
                 userUseCaseFactory.findUserByUsernameUseCase().execute(usernameOpt.get()).ifPresentOrElse(
-                        user -> {
+                        user ->
+                        {
                             userUseCaseFactory.deleteAccountUseCase().execute(user);
                             userSessionService.logout(); // Nutzer nach Löschung abmelden
                             System.out.println("Ihr Account wurde gelöscht. Sie wurden abgemeldet.");
@@ -58,40 +65,53 @@ public class UserPanel extends AbstractConsolePanel {
         }
     }
 
-    private void changeUserName() {
-        Optional<String> usernameOpt = userSessionService.getLoggedInUsername();
-        if (usernameOpt.isEmpty()) {
+    private void changeUserName()
+    {
+        Optional<String> usernameOpt = userSessionService.getLoggedInUser().map(User::username);
+        if (usernameOpt.isEmpty())
+        {
             System.out.println("Kein Benutzer eingeloggt!");
             return;
         }
 
         String newUsername = inputReader.readLine("Neuer Benutzername: ");
-        userUseCaseFactory.findUserByUsernameUseCase().execute(usernameOpt.get()).ifPresent(user -> {
-            User updatedUser = new User(newUsername, user.password(), user.gewicht(), user.grosse(), user.geburtstag());
-            userUseCaseFactory.updateUserUseCase().execute(updatedUser);
-            userSessionService.setLoggedInUser(updatedUser); // Eingeloggten User aktualisieren
-            System.out.println("Benutzername wurde erfolgreich geändert.");
-        });
+        userUseCaseFactory.findUserByUsernameUseCase().execute(usernameOpt.get()).ifPresent(user ->
+                                                                                            {
+                                                                                                User updatedUser = new User(newUsername, user.password(), user.gewicht(), user.grosse(), user.geburtstag());
+                                                                                                userUseCaseFactory.updateUserUseCase().execute(updatedUser);
+                                                                                                userSessionService.setLoggedInUser(updatedUser); // Eingeloggten User aktualisieren
+                                                                                                System.out.println("Benutzername wurde erfolgreich geändert.");
+                                                                                            });
     }
 
-    private void changeWeight() {
-        Optional<String> usernameOpt = userSessionService.getLoggedInUsername();
-        if (usernameOpt.isEmpty()) {
+    private void changeWeight()
+    {
+        Optional<User> usernameOpt = userSessionService.getLoggedInUser();
+        if (usernameOpt.isEmpty())
+        {
             System.out.println("Kein Benutzer eingeloggt!");
             return;
         }
 
         double newWeight = inputReader.readValidDouble("Neues Gewicht (kg): ", 30.0, 200.0);
-        userUseCaseFactory.findUserByUsernameUseCase().execute(usernameOpt.get()).ifPresent(user -> {
-            User updatedUser = new User(user.username(), user.password(), newWeight, user.grosse(), user.geburtstag());
-            userUseCaseFactory.updateUserUseCase().execute(updatedUser);
-            userSessionService.setLoggedInUser(updatedUser); // Eingeloggten User aktualisieren
-            System.out.println("Gewicht wurde erfolgreich geändert.");
-        });
+
+        //todo macht zuviel
+        userUseCaseFactory.findUserByUsernameUseCase()
+                          .execute(usernameOpt
+                                           .map(User::username)
+                                           .orElseThrow(() -> new IllegalArgumentException("Username not found")))
+                          .ifPresent(user -> {
+                              User updatedUser = new User(user.username(), user.password(), newWeight, user.grosse(), user.geburtstag());
+                              userUseCaseFactory.updateUserUseCase().execute(updatedUser);
+                              userSessionService.setLoggedInUser(updatedUser); // Eingeloggten User aktualisieren
+                              System.out.println("Gewicht wurde erfolgreich geändert.");
+                          });
+        userUseCaseFactory.findUserByUsernameUseCase().execute(usernameOpt.map(User::username).orElseThrow());
     }
 
     @Override
-    public void showPanel() {
+    public void showPanel()
+    {
         super.handleInput();
     }
 }

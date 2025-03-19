@@ -11,7 +11,7 @@ public interface IUserSessionService
      * Gibt den aktuellen eingeloggten Benutzer als Optional zurück.
      * Falls kein Benutzer eingeloggt ist, gibt es ein leeres Optional zurück.
      */
-    Optional<String> getLoggedInUsername();
+    Optional<User> getLoggedInUser();
 
     /**
      * Setzt den eingeloggten Benutzer.
@@ -24,4 +24,7 @@ public interface IUserSessionService
     void logout();
 
     void setLoggedInUser(User updatedUser);
+
+    String getCurrentUsername();
+
 }

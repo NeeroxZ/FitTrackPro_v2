@@ -10,8 +10,8 @@ public class LoggedInUser implements IUserSessionService {
     private User currentUser;
 
     @Override
-    public Optional<String> getLoggedInUsername() {
-        return Optional.ofNullable(currentUser).map(User::username);
+    public Optional<User> getLoggedInUser() {
+        return Optional.ofNullable(currentUser);
     }
 
     @Override
@@ -28,6 +28,15 @@ public class LoggedInUser implements IUserSessionService {
     public void setLoggedInUser(User updatedUser)
     {
         this.currentUser = updatedUser;
+    }
+
+    //todo exception
+    @Override
+    public String getCurrentUsername()
+    {
+        return getLoggedInUser()
+                .map(User::username)
+                .orElseThrow(() -> new UserNotLoggedInException("Kein Benutzer eingeloggt!"));
     }
 
     public void login(User user) {

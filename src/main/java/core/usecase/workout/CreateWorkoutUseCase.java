@@ -1,6 +1,7 @@
 package core.usecase.workout;
 
 import core.domain.exercise.TrainingSplit;
+import core.domain.user.User;
 import core.domain.workout.Workout;
 import core.domain.workout.WorkoutType;
 import core.ports.repository.IWorkoutRepository;
@@ -27,13 +28,8 @@ public class CreateWorkoutUseCase
 
     public List<Workout> createWorkout(String name, WorkoutType type, int frequency, TrainingSplit split)
     {
-        String username = userSessionService.getLoggedInUsername()
-                                            .orElse(null);
-
-        if (username == null)
-        {
-            throw new IllegalStateException("Kein Benutzer eingeloggt!");
-        }
+        String username = userSessionService.getLoggedInUser().map(User::username)
+                                            .orElseThrow(RuntimeException::new);
 
         List<Workout> workouts = workoutGenerator.generateWorkout(name, type, split, frequency, username);
         workouts.forEach(workoutRepository::saveWorkout);

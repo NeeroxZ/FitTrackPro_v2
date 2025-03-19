@@ -19,7 +19,7 @@ public class DeleteUserUseCase {
 
         // Falls der Benutzer eingeloggt war, ausloggen
         if (userSessionService.isLoggedIn() &&
-                userSessionService.getLoggedInUsername().orElse("").equals(user.username())) {
+                userSessionService.getLoggedInUser().map(User::username).orElse("").equals(user.username())) {
             userSessionService.logout();
         }
     }

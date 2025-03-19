@@ -18,9 +18,9 @@ public class UpdateUserUseCase {
         if (userRepository.findUserByUsername(user.username()).isPresent()) {
             userRepository.saveUser(user); // Überschreiben mit neuer Instanz
 
-            // Falls der Benutzer aktuell eingeloggt ist, aktualisieren wir ihn in der Session
+            //todo eigene Exception bauen
             if (userSessionService.isLoggedIn() &&
-                    userSessionService.getLoggedInUsername().orElse("").equals(user.username())) {
+                    userSessionService.getLoggedInUser().map(User::username).orElseThrow(RuntimeException::new).equals(user.username())) {
                 userSessionService.setLoggedInUser(user);
             }
 

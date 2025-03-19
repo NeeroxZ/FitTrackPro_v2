@@ -1,5 +1,6 @@
 package core.usecase.workout;
 
+import core.domain.user.User;
 import core.domain.workout.Workout;
 import core.ports.repository.IWorkoutRepository;
 import core.ports.session.IUserSessionService;
@@ -18,7 +19,7 @@ public class GetUserWorkoutsUseCase {
     }
 
     public List<Workout> getUserWorkouts() {
-        String username = userSessionService.getLoggedInUsername()
+        String username = userSessionService.getLoggedInUser().map(User::username)
                                             .orElseThrow(() -> new IllegalStateException("Kein Benutzer eingeloggt!"));
 
         return workoutRepository.findByUser(username);
