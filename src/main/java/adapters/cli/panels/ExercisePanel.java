@@ -4,7 +4,7 @@ import core.domain.exercise.*;
 import core.domain.workout.Workout;
 import core.domain.workout.WorkoutType;
 import core.usecase.exercise.GetExercisesUseCase;
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 import core.usecase.workout.WorkoutUseCaseFactory;
 import util.AppStrings;
 import util.IdGenerator;
@@ -18,12 +18,12 @@ import java.util.List;
 public class ExercisePanel extends AbstractConsolePanel
 {
     private final WorkoutUseCaseFactory workoutUseCaseFactory;
-    private final InputReader inputReader;
+    private final IInputReader inputReader;
     private final GetExercisesUseCase exerciseService;
 
     public ExercisePanel(WorkoutUseCaseFactory workoutUseCaseFactory,
                          GetExercisesUseCase exerciseService,
-                         InputReader inputReader
+                         IInputReader inputReader
                         )
     {
         this.workoutUseCaseFactory = workoutUseCaseFactory;

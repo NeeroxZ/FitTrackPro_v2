@@ -1,6 +1,6 @@
 package adapters.cli;
 
-public interface InputReader
+public interface IInputReader
 {
     String readLine(String prompt);
 

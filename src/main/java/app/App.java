@@ -1,6 +1,6 @@
 package app;
 
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 import core.ports.session.IUserSessionService;
 import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.panels.AppPanel;
@@ -15,7 +15,7 @@ public class App {
         UserUseCaseFactory userUseCaseFactory = factory.getUserUseCaseFactory();
         GetExercisesUseCase exerciseService = factory.createExerciseService();
 
-        InputReader inputReader = factory.createInputReader();
+        IInputReader inputReader = factory.createInputReader();
         IUserSessionService userSessionService = factory.getUserSessionService();
         new AppPanel(
                 workoutUseCases,

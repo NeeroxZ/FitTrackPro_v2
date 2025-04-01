@@ -3,7 +3,7 @@ package adapters.cli.panels;
 import core.domain.user.User;
 import core.ports.session.IUserSessionService;
 import core.usecase.user.UserUseCaseFactory;
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 
 import java.util.Optional;
 
@@ -18,9 +18,9 @@ public class UserPanel extends AbstractConsolePanel
 
     private final UserUseCaseFactory userUseCaseFactory;
     private final IUserSessionService userSessionService;
-    private final InputReader inputReader; // CLI-Abstraktion für Nutzereingaben
+    private final IInputReader inputReader; // CLI-Abstraktion für Nutzereingaben
 
-    public UserPanel(UserUseCaseFactory userUseCaseFactory, IUserSessionService userSessionService, InputReader inputReader)
+    public UserPanel(UserUseCaseFactory userUseCaseFactory, IUserSessionService userSessionService, IInputReader inputReader)
     {
         this.userUseCaseFactory = userUseCaseFactory;
         this.userSessionService = userSessionService;

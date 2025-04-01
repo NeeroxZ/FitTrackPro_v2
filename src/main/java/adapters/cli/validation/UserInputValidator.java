@@ -7,7 +7,7 @@ package adapters.cli.validation;
  * @date 03.02.2025
  */
 
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 import core.domain.user.Birthday;
 
 import java.time.LocalDate;
@@ -17,9 +17,9 @@ import java.time.format.DateTimeParseException;
  * Validator-Klasse für Benutzereingaben in der CLI.
  */
 public class UserInputValidator {
-    private final InputReader inputReader;
+    private final IInputReader inputReader;
 
-    public UserInputValidator(InputReader inputReader) {
+    public UserInputValidator(IInputReader inputReader) {
         this.inputReader = inputReader;
     }
 

@@ -1,5 +1,6 @@
 package adapters.cli.panels;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -65,7 +66,16 @@ public abstract class AbstractConsolePanel
             }
             else
             {
+
+                try
+                {
+                    System.out.write("\u001b[2J".getBytes());
+                } catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
                 System.out.println("Ungültige Auswahl! Bitte erneut versuchen.");
+
             }
         }
     }

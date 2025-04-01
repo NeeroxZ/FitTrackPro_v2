@@ -17,10 +17,15 @@ public class PlantUMLDiagramGenerator
         try {
             // Definiere die zu scannenden Packages
             List<String> scanPackages = new ArrayList<>();
-            scanPackages.add("adapters");
-            scanPackages.add("app");
-            scanPackages.add("core");
-            scanPackages.add("util");
+           // scanPackages.add("adapters.persistence.inmemory");
+           // scanPackages.add("core.domain.exercise");
+           // scanPackages.add("core.ports.repository");
+           // scanPackages.add("core.usecase.exercise");
+            //scanPackages.add("adapters.security");
+            scanPackages.add("core.usecase.workout");
+            //scanPackages.add("app");
+            //scanPackages.add("adapters");
+
 
 
 

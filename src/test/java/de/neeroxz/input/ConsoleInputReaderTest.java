@@ -2,7 +2,7 @@ package de.neeroxz.input;
 
 
 import adapters.cli.ConsoleInputReader;
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -18,7 +18,7 @@ public class ConsoleInputReaderTest {
         String simulatedInput = "Test input line\n";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
         Scanner scanner = new Scanner(inputStream);
-        InputReader inputReader = new ConsoleInputReader(scanner);
+        IInputReader inputReader = new ConsoleInputReader(scanner);
 
         // Die Methode soll "Test input line" zurückgeben
         String result = inputReader.readLine("Enter a line: ");
@@ -32,7 +32,7 @@ public class ConsoleInputReaderTest {
         String simulatedInput = "123\n";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
         Scanner scanner = new Scanner(inputStream);
-        InputReader inputReader = new ConsoleInputReader(scanner);
+        IInputReader inputReader = new ConsoleInputReader(scanner);
 
         int result = inputReader.readInt("Enter a number: ");
         System.out.println(simulatedInput);
@@ -45,7 +45,7 @@ public class ConsoleInputReaderTest {
         String simulatedInput = "abc\n456\n";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
         Scanner scanner = new Scanner(inputStream);
-        InputReader inputReader = new ConsoleInputReader(scanner);
+        IInputReader inputReader = new ConsoleInputReader(scanner);
 
         // Die Methode ignoriert den ungültigen Token und gibt schließlich 456 zurück
         int result = inputReader.readInt("Enter a number: ");

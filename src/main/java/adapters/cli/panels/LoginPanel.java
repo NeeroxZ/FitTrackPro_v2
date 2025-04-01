@@ -1,6 +1,6 @@
 package adapters.cli.panels;
 
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 import adapters.cli.validation.UserInputValidator;
 import core.domain.user.Birthday;
 import core.domain.user.User;
@@ -22,11 +22,11 @@ public class LoginPanel extends AbstractConsolePanel {
 
     private final AuthenticationUserUseCase authenticationUserUseCase;
     private final RegisterUserUseCase registerUserUseCase;
-    private final InputReader inputReader;
+    private final IInputReader inputReader;
     private final UserInputValidator validator;
     private final UpdateUserUseCase updateUserUseCase;
 
-    public LoginPanel(UserUseCaseFactory userUseCaseFactory, InputReader inputReader) {
+    public LoginPanel(UserUseCaseFactory userUseCaseFactory, IInputReader inputReader) {
         this.authenticationUserUseCase = userUseCaseFactory.authenticationUserUseCase();
         this.registerUserUseCase = userUseCaseFactory.registerUserUseCase();
         this.updateUserUseCase = userUseCaseFactory.updateUserUseCase();

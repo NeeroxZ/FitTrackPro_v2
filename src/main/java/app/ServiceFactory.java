@@ -6,7 +6,7 @@ import adapters.persistence.inmemory.InMemoryWorkoutRepository;
 import core.ports.repository.IWorkoutRepository;
 import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.ConsoleInputReader;
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 import core.ports.services.IPasswordHasher;
 import adapters.persistence.inmemory.InMemoryUserRepository;
 import core.ports.repository.IUserRepository;
@@ -21,7 +21,8 @@ import core.usecase.workout.WorkoutUseCaseFactory;
 
 import java.util.Scanner;
 
-public class ServiceFactory {
+public class ServiceFactory
+{
     private final IPasswordHasher passwordHasher;
     private final IUserRepository userRepository;
     private final IExerciseRepository exerciseRepository;
@@ -31,7 +32,8 @@ public class ServiceFactory {
     private final WorkoutUseCaseFactory workoutUseCaseFactory;
     private final UserUseCaseFactory userUseCaseFactory;
 
-    public ServiceFactory() {
+    public ServiceFactory()
+    {
         this.passwordHasher = new SHA256PasswordHasher();
         this.userRepository = new InMemoryUserRepository();
         this.exerciseRepository = new InMemoryExerciseRepository();
@@ -39,10 +41,11 @@ public class ServiceFactory {
         this.userSessionService = new LoggedInUser();
         this.workoutGenerator = new SmarterWorkoutGenerator(exerciseRepository);
         this.workoutUseCaseFactory = new WorkoutUseCaseFactory(workoutRepository, userSessionService, workoutGenerator);
-        this.userUseCaseFactory = new UserUseCaseFactory(userRepository,passwordHasher,userSessionService);
+        this.userUseCaseFactory = new UserUseCaseFactory(userRepository, passwordHasher, userSessionService);
     }
 
-    public WorkoutUseCaseFactory getWorkoutUseCaseFactory() {
+    public WorkoutUseCaseFactory getWorkoutUseCaseFactory()
+    {
         return workoutUseCaseFactory;
     }
 
@@ -56,15 +59,18 @@ public class ServiceFactory {
         return userSessionService;
     }
 
-    public AuthenticationUserUseCase createAuthService() {
-        return new AuthenticationUserUseCase(userRepository, passwordHasher, userSessionService );
+    public AuthenticationUserUseCase createAuthService()
+    {
+        return new AuthenticationUserUseCase(userRepository, passwordHasher, userSessionService);
     }
 
-    public GetExercisesUseCase createExerciseService() {
+    public GetExercisesUseCase createExerciseService()
+    {
         return new GetExercisesUseCase(exerciseRepository);
     }
 
-    public InputReader createInputReader() {
+    public IInputReader createInputReader()
+    {
         return new ConsoleInputReader(new Scanner(System.in));
     }
 

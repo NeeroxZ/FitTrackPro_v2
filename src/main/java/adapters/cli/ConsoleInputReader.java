@@ -2,7 +2,7 @@ package adapters.cli;
 
 import java.util.Scanner;
 
-public class ConsoleInputReader implements InputReader
+public class ConsoleInputReader implements IInputReader
 {
     private final Scanner scanner;
 

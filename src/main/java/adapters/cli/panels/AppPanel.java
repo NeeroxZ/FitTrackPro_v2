@@ -2,7 +2,7 @@ package adapters.cli.panels;
 
 import core.ports.session.IUserSessionService;
 import core.usecase.exercise.GetExercisesUseCase;
-import adapters.cli.InputReader;
+import adapters.cli.IInputReader;
 import core.usecase.user.UserUseCaseFactory;
 import core.usecase.workout.WorkoutUseCaseFactory;
 
@@ -18,14 +18,14 @@ public class AppPanel extends AbstractConsolePanel
     WorkoutUseCaseFactory workoutUseCaseFactory;
     GetExercisesUseCase exerciseService;
     UserUseCaseFactory userUseCaseFactory;
-    InputReader inputReader;
+    IInputReader inputReader;
     IUserSessionService userSessionService;
 
     public AppPanel(
                     WorkoutUseCaseFactory workoutUseCaseFactory,
                     GetExercisesUseCase exerciseService,
                     UserUseCaseFactory userUseCaseFactory,
-                    InputReader inputReader,
+                    IInputReader inputReader,
                     IUserSessionService userSessionService)
     {
         this.workoutUseCaseFactory = workoutUseCaseFactory;
