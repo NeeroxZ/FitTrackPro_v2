@@ -1,0 +1,17 @@
+@startuml
+
+class WorkoutUseCaseFactory {
+	{field} -userSessionService : .IUserSessionService
+	{field} -workoutGenerator : IWorkoutGenerator
+	{field} -workoutRepository : IWorkoutRepository
+	{method} +createWorkoutUseCase () : CreateWorkoutUseCase
+	{method} +getUserWorkoutsUseCase () : GetUserWorkoutsUseCase
+	{method} +removeWorkoutUseCase () : RemoveWorkoutUseCase
+}
+
+
+
+
+
+
+@enduml
