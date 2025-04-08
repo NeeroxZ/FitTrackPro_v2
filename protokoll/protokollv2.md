@@ -75,7 +75,7 @@ Die wichtigsten Technologien sind:
  sowie Einordnung dieser Klassen in die gewählte Architektur]
 ```
 
-## **Gewählte Architektur: Clean Architecture mit DDD**
+## **Gewählte Architektur: Clean Architecture**
 
 ### Clean Architecture
 
@@ -87,17 +87,6 @@ Die wichtigsten Technologien sind:
 - **Dependency Rule:**  
   Alle Abhängigkeiten verlaufen von außen nach innen, sodass die inneren Schichten (Domain und Use Cases) keine Kenntnis
   von technischen Implementierungen haben.
-
-### Domain-Driven Design (DDD)
-
-- **Fokus:**  
-  Die Modellierung der fachlichen Zusammenhänge und Regeln steht im Mittelpunkt.
--
-- **Elemente:**
-    - **Entities & Value Objects:** Modelle wie `Exercise` oder `Birthday` definieren den Kern der Geschäftsdomäne.
-    - **Repositories:** Abstraktion der persistierenden Datenspeicherung.
-    - **Services "UseCases":** Geschäftslogik, die nicht direkt an eine einzelne Entität gebunden ist.
-
 ---
 
 ## Domain Code (1P)
@@ -172,8 +161,11 @@ Aufgabe bzw. der Aufgaben und möglicher Lösungsweg des Negativ-Beispiels (inkl
 
 ### Positiv-Beispiel
 
+![Analyse_SRP_Positiv.png](images/kapitel3/Analyse_SRP_Positiv.png)
+
 ### Negativ-Beispiel
 
+![Analyse_SRP_Negativ.png](images/kapitel3/Analyse_SRP_Negativ.png)
 ---
 
 ## Analyse OCP (3P)
@@ -189,7 +181,8 @@ Problem gab es? Falls nicht erfüllt: wie könnte man es lösen (inkl. UML)?]
 Die Klasse `SHA256PasswordHasher` implementiert das Interface `IPasswordHasher`.  
 Wird ein neuer Hashing-Algorithmus benötigt, kann eine neue Klasse implementiert werden, ohne dass bestehender Code
 verändert werden muss.
-![SHA256.png](images/SHA256.png)
+
+![Analyse_OCP_Positiv.png](images/kapitel3/Analyse_OCP_Positiv.png)
 
 ### Negativ-Beispiel
 
@@ -201,7 +194,8 @@ verschiedener Workout-Typen beinhalten.
 Möchte man einen neuen Workout-Typ hinzufügen, muss die Klasse direkt geändert werden (z. B. durch Hinzufügen neuer
 Methoden oder Anpassen der switch/case-Logik). Dadurch ist die Klasse nicht geschlossen für Änderungen, sondern muss
 modifiziert werden, was gegen das OCP verstößt.
-![SmarterWorkoutGenerator.png](images/SmarterWorkoutGenerator.png)
+
+![Analyse_OCP_Negativ.png](images/kapitel3/Analyse_OCP_Negativ.png)
 
 ---
 
@@ -217,8 +211,12 @@ und ein negatives Beispiel für ISP genommen werden]
 
 ### Positiv-Beispiel
 
+![Analyse_DIP_Positiv.png](images/kapitel3/Analyse_DIP_Positiv.png)
+
 ### Negativ-Beispiel
 
+--todo
+TODO
 ---
 
 # Kapitel 4: Weitere Prinzipien (8P)
@@ -231,6 +229,25 @@ zusammenspielenden Klassen, Aufgabenbeschreibung der Klasse und Begründung, war
 geringe Kopplung vorliegt; es müssen auch die Aufrufer/Nutzer der Klasse berücksichtigt werden]
 ```
 
+![geringev2.png](images/kapitel4/geringev2.png)
+
+Beschreibung:
+Der GetExercisesUseCase übernimmt in diesem Beispiel die Rolle einer Factory bzw. Fassade, indem er in seinem
+Konstruktor alle spezifischen Exercise-UseCases (wie GetExerciseByIdUseCase, GetAllExercisesUseCase, etc.)
+initialisiert. Dadurch wird dem aufrufenden Element – hier einem beispielhaften ExercisePanel – eine einheitliche
+Schnittstelle bereitgestellt, um unterschiedliche Operationen (Abrufen, Erstellen, Filtern) durchzuführen.
+
+Begründung:
+
+Geringe Kopplung: Das ExercisePanel muss sich nicht um die Details der einzelnen Exercise-UseCases kümmern, sondern
+nutzt lediglich die über den GetExercisesUseCase bereitgestellten Methoden.
+
+Creator/Facade-Prinzip: GetExercisesUseCase ist verantwortlich für die Erstellung und Aggregation der spezifischen Use
+Cases, was den Creator-Grundsatz aus GRASP widerspiegelt.
+
+Wartbarkeit und Erweiterbarkeit: Änderungen in einem der spezifischen Use Cases wirken sich nicht direkt auf die
+Aufrufer aus, da der GetExercisesUseCase als zentrale Schnittstelle fungiert.
+
 ---
 
 ## Analyse GRASP: [Polymorphismus/Pure Fabrication] (3P)
@@ -239,6 +256,12 @@ geringe Kopplung vorliegt; es müssen auch die Aufrufer/Nutzer der Klasse berüc
 [eine Klasse als positives Beispiel entweder von Polymorphismus oder von Pure Fabrication; UML
 Diagramm und Begründung, warum es hier zum Einsatz kommt]
 ```
+
+![polymorphismus.png](images/kapitel4/polymorphismus.png)
+
+Die abstrakte Klasse AbstractConsolePanel legt grundlegende Funktionen (z. B. handleInput, addMenuAction,
+removeMainMenu, exitPanel) für alle Konsolen-Panels fest. Konkrete Panels wie LoginPanel und MainMenuPanel erben von
+AbstractConsolePanel und implementieren die abstrakte Methode showPanel().
 
 ---
 
@@ -290,7 +313,12 @@ Beziehungen zwischen Mock, zu mockender Klasse und Aufrufer des Mocks]
 warum es zur Ubiquitous Language gehört]
 ```
 
-Bezeichnung| Bedeutung| Begründung
+| Bezeichnung       | Bedeutung                                                                      | Begründung                                                                                                                                   |
+|-------------------|--------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| **User**          | Repräsentiert einen Endnutzer der Applikation                                  | Der Begriff „User“ wird durchgängig verwendet, um Personen zu bezeichnen, die Workouts planen und ausführen.                                 |
+| **Workout**       | Eine Trainingseinheit oder -einheiten, die dem Nutzer zugeordnet sind          | „Workout“ beschreibt präzise die Kerndaten und Aktionen im System, etwa zur Trainingsplanung.                                                |
+| **Exercise**      | Eine einzelne Übung, die Teil eines Workouts sein kann                         | Der Begriff hebt die feinere Granularität innerhalb eines Workouts hervor und fördert ein gemeinsames Verständnis der Trainingsbestandteile. |
+| **TrainingSplit** | Eine Aufteilung oder Strukturierung der Übungen innerhalb eines Trainingsplans | „TrainingSplit“ beschreibt, wie Übungen auf verschiedene Trainingstage verteilt werden – ein zentraler Aspekt in der Fitness-Domain.         |
 
 ---
 
@@ -302,6 +330,21 @@ vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinn
 warum es nicht implementiert wurde]
 ```
 
+![repository.png](images/kapitel6/repository.png)
+
+Beschreibung:
+Das Repository kapselt den Datenzugriff auf Workouts.
+Das Interface IWorkoutRepository definiert die Operationen zum Speichern,
+Abrufen und Löschen von Workouts.
+InMemoryWorkoutRepository ist eine konkrete, in-Memory-Implementierung.
+
+Begründung:
+
+Entkopplung: Die Geschäftslogik muss sich nicht um die Persistenz kümmern.
+
+Testbarkeit: Leicht austauschbar (z. B. durch Mocks).
+Wartbarkeit: Änderungen im Datenzugriff erfordern nur Anpassungen im Repository.
+
 ---
 
 ## Aggregates (1,5P)
@@ -311,6 +354,22 @@ warum es nicht implementiert wurde]
 vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist– NICHT,
 warum es nicht implementiert wurde]
 ```
+
+Beschreibung:
+Das Aggregate besteht im Beispiel aus dem Workout-Record, das alle zugehörigen TrainingDays und damit auch deren
+Exercises umfasst. Es fasst mehrere zusammengehörige Elemente zu einer konsistenten Einheit zusammen.
+
+Begründung:
+
+Konsistenz: Änderungen innerhalb eines Aggregates (z. B. das Hinzufügen oder Entfernen von TrainingDays) werden als
+zusammenhängende Einheit behandelt.
+
+Transaktionsgrenzen: Das Aggregate definiert klare Grenzen, innerhalb derer Datenintegrität gewährleistet werden kann.
+
+Domain Driven Design: Aggregates unterstützen die Modellierung der Domain, indem sie komplexe Zusammenhänge vereinfachen
+und einen zentralen Zugriffspunkt bieten.
+
+![aggregate.png](images/kapitel6/aggregate.png)
 
 ---
 
@@ -322,6 +381,19 @@ ausführliche Begründung, warum es keine geben kann/hier nicht sinnvoll ist– 
 implementiert wurde]
 ```
 
+![user.png](images/kapitel6/user.png)
+
+Beschreibung:
+Die Entity User repräsentiert einen Endnutzer in der Domain. Sie besitzt eine eindeutige ID und weitere Attribute wie
+Username, Password und Email.
+
+Begründung:
+
+Identität: Als Entity wird der User durch seine ID eindeutig identifiziert.
+
+Veränderbarkeit: Eigenschaften wie das Passwort oder die Email können im Laufe der Zeit angepasst werden, ohne dass sich
+die Identität des Users ändert.
+
 ---
 
 ## Value Objects (1,5P)
@@ -332,6 +404,17 @@ vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinn
 warum es nicht implementiert wurde]
 ```
 
+![birthday.png](images/kapitel6/birthday.png)
+Das Value Object Birthday repräsentiert ein Geburtsdatum. Es enthält ein Datum und bietet eine Methode, um das
+Datum formatiert zurückzugeben.
+
+Begründung:
+
+Unveränderlichkeit: Ein Value Object wie Birthday ändert sich nicht, sondern wird bei Bedarf komplett ersetzt.
+
+Keine eigene Identität: Im Gegensatz zu Entitäten wird Birthday allein durch seinen Wert bestimmt.
+
+Konsistente Verwendung: Es sorgt für eine einheitliche Darstellung des Geburtsdatums in der gesamten Domain.
 ---
 
 # Kapitel 7: Refactoring (8P)
@@ -353,4 +436,10 @@ beschreiben (inkl. (Pseudo-)Code)]
 UML vorher/nachher liefern; jeweils auf die Commits verweisen – die Refactorings dürfen sich nicht
 mit den Beispielen der Code überschneiden]
 ```
+
+
+---
+
+# Kapitel 8: Entwurfsmuster (8P)
+
 

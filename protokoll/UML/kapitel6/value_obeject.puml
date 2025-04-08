@@ -1,0 +1,16 @@
+@startuml ValueObject_Birthday
+title Value Object – Birthday
+
+package "core.domain.user" {
+  class Birthday <<value object>> {
+    - date : LocalDate
+    + getFormatted() : String
+  }
+}
+
+note right of Birthday
+  Birthday ist ein Value Object, da es keine eigene Identität besitzt,
+  unveränderlich ist und ausschließlich durch seinen Wert definiert wird.
+end note
+
+@enduml

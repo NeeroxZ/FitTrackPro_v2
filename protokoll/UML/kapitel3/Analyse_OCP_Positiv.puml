@@ -1,4 +1,4 @@
-@startuml
+@startuml Analyse_OCP_Positiv
 
 class adapters.security.SHA256PasswordHasher {
 	{method} +hash ( paramString1 : String ) : Password

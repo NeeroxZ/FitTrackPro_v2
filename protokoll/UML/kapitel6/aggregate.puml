@@ -1,0 +1,32 @@
+@startuml aggregate
+title Aggregate – UML-Darstellung
+
+package "core.domain.workout" {
+  class Workout <<record>> {
+    - id : int
+    - name : String
+    - type : WorkoutType
+    - trainingDays : List<TrainingDay>
+    - username : String
+    - frequency : int
+    - split : TrainingSplit
+  }
+}
+
+package "core.domain.exercise" {
+  class TrainingDay {
+    - dayNumber : int
+    - exercises : List<Exercise>
+  }
+
+  class Exercise {
+    - id : int
+    - name : String
+    - duration : int
+  }
+}
+
+Workout "1" *-- "many" TrainingDay : besteht aus
+TrainingDay "1" *-- "many" Exercise : enthält
+
+@enduml

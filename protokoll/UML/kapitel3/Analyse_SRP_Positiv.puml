@@ -1,0 +1,34 @@
+@startuml Analyse_SRP_Positiv
+title CreateWorkoutUseCase - Positives Beispiel für SRP
+
+interface core.ports.repository.IWorkoutRepository {
+  +saveWorkout(Workout workout)
+}
+
+interface core.ports.session.IUserSessionService {
+  +getLoggedInUser() : Optional<User>
+}
+
+interface core.ports.workout.IWorkoutGenerator {
+  +generateWorkout(String name, WorkoutType type, TrainingSplit split, int frequency, String username) : List<Workout>
+}
+
+class core.usecase.workout.CreateWorkoutUseCase {
+  - workoutRepository: IWorkoutRepository
+  - userSessionService: IUserSessionService
+  - workoutGenerator: IWorkoutGenerator
+  + createWorkout(String name, WorkoutType type, int frequency, TrainingSplit split) : List<Workout>
+}
+
+CreateWorkoutUseCase --> IWorkoutRepository : verwendet
+CreateWorkoutUseCase --> IUserSessionService : verwendet
+CreateWorkoutUseCase --> IWorkoutGenerator : verwendet
+
+note right of CreateWorkoutUseCase
+  Die CreateWorkoutUseCase-Klasse koordiniert ausschließlich den Prozess
+  der Workout-Erstellung. Sie delegiert die einzelnen Aufgaben an
+  spezialisierte Services (Repository, Session und Generator).
+  Damit entspricht sie dem Single Responsibility Principle (SRP).
+end note
+
+@enduml

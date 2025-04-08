@@ -1,0 +1,32 @@
+@startuml GRASP_Polymorphism_AbstractConsolePanel_Example
+title GRASP – Polymorphismus: AbstractConsolePanel
+
+package "adapters.cli.panels" {
+  abstract class AbstractConsolePanel {
+    - menuActions : List<MenuAction>
+    - scanner : Scanner
+    + handleInput() : void
+    + addMenuAction(name : String, action : Runnable) : void
+    + removeMainMenu() : void
+    + exitPanel() : void
+    + showPanel() : void <<abstract>>
+  }
+
+  class LoginPanel {
+    + showPanel() : void
+  }
+
+  class MainMenuPanel {
+    + showPanel() : void
+  }
+
+  AbstractConsolePanel <|-- LoginPanel
+  AbstractConsolePanel <|-- MainMenuPanel
+}
+
+note right of AbstractConsolePanel
+  AbstractConsolePanel definiert eine gemeinsame Schnittstelle für alle Konsolen-Panels.
+  Durch die Vererbung können verschiedene Panels polymorph über die Methode showPanel() angesprochen werden.
+end note
+
+@enduml

@@ -13,29 +13,17 @@ import org.apache.commons.io.FileUtils;
 
 public class PlantUMLDiagramGenerator
 {
+    static List<String> scanPackages = new ArrayList<>();
     public static void main(String[] args) {
         try {
-            // Definiere die zu scannenden Packages
-            List<String> scanPackages = new ArrayList<>();
-           // scanPackages.add("adapters.persistence.inmemory");
-           // scanPackages.add("core.domain.exercise");
-           // scanPackages.add("core.ports.repository");
-           // scanPackages.add("core.usecase.exercise");
-            //scanPackages.add("adapters.security");
-            scanPackages.add("core.usecase.workout");
-            //scanPackages.add("app");
-            //scanPackages.add("adapters");
-
-
-
-
-
+                cleanArch();
             // Definiere Klassen, die im Diagramm ausgeblendet werden sollen
             List<String> hideClasses = new ArrayList<>();
 
             // Erstelle den Config-Builder mit den Scan-Paketen und verstecke bestimmte Klassen
             PlantUMLClassDiagramConfigBuilder configBuilder = new PlantUMLClassDiagramConfigBuilder(scanPackages)
-                    .withHideClasses(hideClasses);
+                    .withHideClasses(hideClasses)
+                    .withUseShortClassNamesInFieldsAndMethods(false);
 
             // Erzeuge den Diagramm-Generator anhand der erstellten Konfiguration
             PlantUMLClassDiagramGenerator generator = new PlantUMLClassDiagramGenerator(configBuilder.build());
@@ -60,6 +48,25 @@ public class PlantUMLDiagramGenerator
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static void all(){
+        scanPackages.add("core");
+        scanPackages.add("app");
+        scanPackages.add("adapters");
+    }
+    public static void cleanArch(){
+        scanPackages.add("core.domain.exercise");
+        scanPackages.add("core.domain.workout");
+
+        scanPackages.add("core.ports.repository");
+        scanPackages.add("core.ports.workout");
+
+        scanPackages.add("core.usecase.workout");
+        scanPackages.add("core.usecase.exercise");
+
+        scanPackages.add("adapters.workout");
+        scanPackages.add("adapters.persistence");
+        scanPackages.add("adapters.cli");
     }
 }
 

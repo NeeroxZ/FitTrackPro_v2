@@ -1,0 +1,19 @@
+@startuml User_Entity
+title Domain Entity – User
+
+package "core.domain.user" {
+  class User {
+    - id : int
+    - username : String
+    - password : String
+    - email : String
+    + getUsername() : String
+  }
+}
+
+note right of User
+  User ist eine Entity, da sie durch eine eindeutige ID
+  identifiziert wird und sich im Laufe der Zeit ändern kann.
+end note
+
+@enduml
