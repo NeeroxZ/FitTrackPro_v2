@@ -26,22 +26,22 @@ public class GetExercisesUseCase
     }
 
     public Optional<Exercise> getExerciseById(int id) {
-        return getExerciseByIdUseCase.execute(id);
+        return getExerciseByIdUseCase.getById(id);
     }
 
     public List<Exercise> getAllExercises() {
-        return getAllExercisesUseCase.execute();
+        return getAllExercisesUseCase.getAll();
     }
 
     public void createExercise(Exercise exercise) {
-        createExerciseUseCase.execute(exercise);
+        createExerciseUseCase.create(exercise);
     }
 
     public List<Exercise> getExercisesByType(WorkoutType type) {
-        return getExercisesByTypeUseCase.execute(type);
+        return getExercisesByTypeUseCase.getByType(type);
     }
 
     public List<Exercise> filterExercisesBySplit(TrainingSplit split) {
-        return filterExercisesBySplitUseCase.execute(split);
+        return filterExercisesBySplitUseCase.filterBySplit(split);
     }
 }

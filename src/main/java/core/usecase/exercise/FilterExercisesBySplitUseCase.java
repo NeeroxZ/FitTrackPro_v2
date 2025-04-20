@@ -15,7 +15,7 @@ public class FilterExercisesBySplitUseCase {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public List<Exercise> execute(TrainingSplit split) {
+    public List<Exercise> filterBySplit(TrainingSplit split) {
         List<Exercise> exercises = exerciseRepository.findAll();
 
         return switch (split) {

@@ -12,7 +12,7 @@ public class GetExerciseByIdUseCase {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public Optional<Exercise> execute(int id) {
+    public Optional<Exercise> getById(int id) {
         return exerciseRepository.findById(id);
     }
 }

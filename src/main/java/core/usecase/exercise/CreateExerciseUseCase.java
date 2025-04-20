@@ -10,7 +10,7 @@ public class CreateExerciseUseCase {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public void execute(Exercise exercise) {
+    public void create(Exercise exercise) {
         exerciseRepository.addExercise(exercise);
     }
 }

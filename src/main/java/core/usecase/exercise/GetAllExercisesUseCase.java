@@ -12,7 +12,7 @@ public class GetAllExercisesUseCase {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public List<Exercise> execute() {
+    public List<Exercise> getAll() {
         return exerciseRepository.findAll();
     }
 }

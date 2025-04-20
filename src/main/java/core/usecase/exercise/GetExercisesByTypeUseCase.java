@@ -14,7 +14,7 @@ public class GetExercisesByTypeUseCase {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public List<Exercise> execute(WorkoutType type) {
+    public List<Exercise> getByType(WorkoutType type) {
         return exerciseRepository.findAll()
                                  .stream()
                                  .filter(e -> e.category().getWorkoutType() == type)
