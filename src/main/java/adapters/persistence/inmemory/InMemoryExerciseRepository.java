@@ -203,15 +203,15 @@ public class InMemoryExerciseRepository implements IExerciseRepository
     public Optional<List<Exercise>> findByType(WorkoutType type) {  // ✅ Optional statt null
         List<Exercise> filteredExercises = exercises.stream()
                                                     .filter(exercise -> exercise.category().matchesWorkoutType(type))
-                                                    .collect(Collectors.toList());
+                                                    .toList();
 
         return filteredExercises.isEmpty() ? Optional.empty() : Optional.of(filteredExercises);
     }
 
-    //todo
     @Override
     public boolean removeExercise(int id)
     {
-        return false;
+        return exercises.removeIf(e -> e.id() == id);
     }
+
 }

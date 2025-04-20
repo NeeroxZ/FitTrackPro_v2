@@ -63,13 +63,18 @@ public class InMemoryUserRepository implements IUserRepository
 
     @Override
     public void saveUser(User user) {
-        if (findUserByUsername(user.username()).isPresent())
-        {
-            throw new RuntimeException("Benutzername bereits vergeben!");
+        Optional<User> existing = findUserByUsername(user.username());
+
+        // Wenn ein anderer Benutzer mit gleichem Namen existiert -> Fehler
+        if (existing.isPresent() && !existing.get().equals(user)) {
+            users.removeIf(u -> u.username().equals(user.username())); // remove den alten
+            users.add(user); // und ersetze ihn
+        } else if (existing.isEmpty()) {
+            users.add(user); // neu hinzufügen
         }
-        users.add(user);
         System.out.println("✅ Benutzer gespeichert: " + user.username());
     }
+
 
     @Override
     public void deleteUser(User user)
