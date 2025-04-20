@@ -1,5 +1,9 @@
 package app;
 
+import core.domain.workout.plans.GanzkoerperPlan;
+import core.domain.workout.plans.IWorkoutPlan;
+import core.domain.workout.plans.OberUnterPlan;
+import core.domain.workout.plans.PushPullLegPlan;
 import core.ports.repository.IExerciseRepository;
 import adapters.persistence.inmemory.InMemoryExerciseRepository;
 import adapters.persistence.inmemory.InMemoryWorkoutRepository;
@@ -11,14 +15,13 @@ import core.ports.services.IPasswordHasher;
 import adapters.persistence.inmemory.InMemoryUserRepository;
 import core.ports.repository.IUserRepository;
 import core.ports.session.IUserSessionService;
-import core.ports.workout.IWorkoutGenerator;
 import adapters.security.SHA256PasswordHasher;
 import adapters.session.LoggedInUser;
-import adapters.workout.SmarterWorkoutGenerator;
 import core.usecase.user.AuthenticationUserUseCase;
 import core.usecase.user.UserUseCaseFactory;
 import core.usecase.workout.WorkoutUseCaseFactory;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ServiceFactory
@@ -28,19 +31,23 @@ public class ServiceFactory
     private final IExerciseRepository exerciseRepository;
     private final IWorkoutRepository workoutRepository;
     private final IUserSessionService userSessionService;
-    private final IWorkoutGenerator workoutGenerator;
     private final WorkoutUseCaseFactory workoutUseCaseFactory;
     private final UserUseCaseFactory userUseCaseFactory;
 
     public ServiceFactory()
     {
+        List<IWorkoutPlan> plans = List.of(
+                new PushPullLegPlan(),
+                new OberUnterPlan(),
+                new GanzkoerperPlan()
+                                          );
+
         this.passwordHasher = new SHA256PasswordHasher();
         this.userRepository = new InMemoryUserRepository();
         this.exerciseRepository = new InMemoryExerciseRepository();
         this.workoutRepository = new InMemoryWorkoutRepository();
         this.userSessionService = new LoggedInUser();
-        this.workoutGenerator = new SmarterWorkoutGenerator(exerciseRepository);
-        this.workoutUseCaseFactory = new WorkoutUseCaseFactory(workoutRepository, userSessionService, workoutGenerator);
+        this.workoutUseCaseFactory = new WorkoutUseCaseFactory(workoutRepository, exerciseRepository, userSessionService, plans);
         this.userUseCaseFactory = new UserUseCaseFactory(userRepository, passwordHasher, userSessionService);
     }
 
