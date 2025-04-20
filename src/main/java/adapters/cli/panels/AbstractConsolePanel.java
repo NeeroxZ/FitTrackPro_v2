@@ -15,7 +15,7 @@ public abstract class AbstractConsolePanel
     private final List<MenuAction> menuActions = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
 
-    public AbstractConsolePanel()
+    protected AbstractConsolePanel()
     {
         // Exit-Option immer hinzufügen
         addMenuAction("Zurück zum Hauptmenü", this::exitPanel);

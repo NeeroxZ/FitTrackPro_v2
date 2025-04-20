@@ -36,13 +36,12 @@ public class ExercisePanel extends AbstractConsolePanel
         super.addMenuAction("individuell übung erstellen", this::createOwnExercise);
     }
 
-    private void createOwnExercise()
+    protected void createOwnExercise()
     {
-        //System.out.println("Zurzeit noch nicht Verfügbar");
         new ExerciseCreatorCLI(exerciseService).createOwnExercise();
     }
 
-    private void deleteWorkout()
+    protected void deleteWorkout()
     {
         List<Workout> workouts = workoutUseCaseFactory.getUserWorkoutsUseCase().getUserWorkouts();
         if (workouts.isEmpty())
@@ -173,10 +172,13 @@ public class ExercisePanel extends AbstractConsolePanel
             return;
         }
         // Übergabe der zusätzlichen Parameter an den WorkoutService
-        List<Workout> wor = workoutUseCaseFactory.createWorkoutUseCase().createWorkout(name, type, frequency, split);
+        //List<Workout> wor = workoutUseCaseFactory.createWorkoutUseCase().createWorkout(name, type, frequency, split);
+        List<Workout> workouts = workoutUseCaseFactory
+                .generateRandomWorkoutUseCase()
+                .generate(name, type, split,frequency);
     }
 
-    private void showWorkoutsPanel()
+    protected void showWorkoutsPanel()
     {
         List<Workout> workouts = workoutUseCaseFactory.getUserWorkoutsUseCase().getUserWorkouts();
         if (workouts.isEmpty())
