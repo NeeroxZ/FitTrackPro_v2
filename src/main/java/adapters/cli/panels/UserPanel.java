@@ -95,7 +95,6 @@ public class UserPanel extends AbstractConsolePanel
 
         double newWeight = inputReader.readValidDouble("Neues Gewicht (kg): ", 30.0, 200.0);
 
-        //todo macht zuviel
         userUseCaseFactory.findUserByUsernameUseCase()
                           .execute(usernameOpt
                                            .map(User::username)

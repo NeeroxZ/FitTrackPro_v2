@@ -29,7 +29,6 @@ public class ServiceFactory
     private final IPasswordHasher passwordHasher;
     private final IUserRepository userRepository;
     private final IExerciseRepository exerciseRepository;
-    private final IWorkoutRepository workoutRepository;
     private final IUserSessionService userSessionService;
     private final WorkoutUseCaseFactory workoutUseCaseFactory;
     private final UserUseCaseFactory userUseCaseFactory;
@@ -45,7 +44,7 @@ public class ServiceFactory
         this.passwordHasher = new SHA256PasswordHasher();
         this.userRepository = new InMemoryUserRepository();
         this.exerciseRepository = new InMemoryExerciseRepository();
-        this.workoutRepository = new InMemoryWorkoutRepository();
+        IWorkoutRepository workoutRepository = new InMemoryWorkoutRepository();
         this.userSessionService = new LoggedInUser();
         this.workoutUseCaseFactory = new WorkoutUseCaseFactory(workoutRepository, exerciseRepository, userSessionService, plans);
         this.userUseCaseFactory = new UserUseCaseFactory(userRepository, passwordHasher, userSessionService);
