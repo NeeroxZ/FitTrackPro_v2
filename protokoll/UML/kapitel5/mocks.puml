@@ -1,0 +1,48 @@
+@startuml
+
+' Packages zur Strukturierung
+package "core.ports.repository" {
+  interface IExerciseRepository {
+    +findById(int): Optional<Exercise>
+    +findAll(): List<Exercise>
+    +addExercise(Exercise)
+    +findByType(WorkoutType): Optional<List<Exercise>>
+    +removeExercise(int): boolean
+  }
+
+  class InMemoryExerciseRepository {
+    +findById(int): Optional<Exercise>
+    +findAll(): List<Exercise>
+    +addExercise(Exercise)
+    +findByType(WorkoutType): Optional<List<Exercise>>
+    +removeExercise(int): boolean
+  }
+
+  class InMemoryExerciseRepositoryMock {
+    +findById(int): Optional<Exercise>
+    +findAll(): List<Exercise>
+    +addExercise(Exercise)
+    +findByType(WorkoutType): Optional<List<Exercise>>
+    +removeExercise(int): boolean
+    +clear(): void
+    +count(): int
+  }
+
+  ' Vererbungsbeziehungen
+  IExerciseRepository <|.. InMemoryExerciseRepository
+  IExerciseRepository <|.. InMemoryExerciseRepositoryMock
+}
+
+package "util" {
+  class TestObjectBuilder {
+    -exerciseRepo: InMemoryExerciseRepositoryMock
+    +withDefaultExercises(): TestObjectBuilder
+    +withExercise(Exercise): TestObjectBuilder
+    +clearAll(): void
+  }
+
+  ' Verwendung des Mocks im TestObjectBuilder
+  TestObjectBuilder --> InMemoryExerciseRepositoryMock : verwendet
+}
+
+@enduml
