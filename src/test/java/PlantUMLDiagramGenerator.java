@@ -13,30 +13,17 @@ import org.apache.commons.io.FileUtils;
 
 public class PlantUMLDiagramGenerator
 {
+    static List<String> scanPackages = new ArrayList<>();
     public static void main(String[] args) {
         try {
-            // Definiere die zu scannenden Packages
-            List<String> scanPackages = new ArrayList<>();
-            scanPackages.add("de.neeroxz");
-            scanPackages.add("de.neeroxz.db");
-            scanPackages.add("de.neeroxz.exercise");
-            scanPackages.add("de.neeroxz.input");
-            scanPackages.add("de.neeroxz.security");
-            scanPackages.add("de.neeroxz.services");
-            scanPackages.add("de.neeroxz.session");
-            scanPackages.add("de.neeroxz.ui");
-            scanPackages.add("de.neeroxz.user");
-            scanPackages.add("de.neeroxz.util");
-
-
-
-
+                cleanArch();
             // Definiere Klassen, die im Diagramm ausgeblendet werden sollen
             List<String> hideClasses = new ArrayList<>();
 
             // Erstelle den Config-Builder mit den Scan-Paketen und verstecke bestimmte Klassen
             PlantUMLClassDiagramConfigBuilder configBuilder = new PlantUMLClassDiagramConfigBuilder(scanPackages)
-                    .withHideClasses(hideClasses);
+                    .withHideClasses(hideClasses)
+                    .withUseShortClassNamesInFieldsAndMethods(false);
 
             // Erzeuge den Diagramm-Generator anhand der erstellten Konfiguration
             PlantUMLClassDiagramGenerator generator = new PlantUMLClassDiagramGenerator(configBuilder.build());
@@ -61,6 +48,25 @@ public class PlantUMLDiagramGenerator
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static void all(){
+        scanPackages.add("core");
+        scanPackages.add("app");
+        scanPackages.add("adapters");
+    }
+    public static void cleanArch(){
+        scanPackages.add("core.domain.exercise");
+        scanPackages.add("core.domain.workout");
+
+        scanPackages.add("core.ports.repository");
+        scanPackages.add("core.ports.workout");
+
+        scanPackages.add("core.usecase.workout");
+        scanPackages.add("core.usecase.exercise");
+
+        scanPackages.add("adapters.workout");
+        scanPackages.add("adapters.persistence");
+        scanPackages.add("adapters.cli");
     }
 }
 

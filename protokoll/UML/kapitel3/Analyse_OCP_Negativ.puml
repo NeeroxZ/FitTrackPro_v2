@@ -1,0 +1,28 @@
+@startuml Analyse_OCP_Negativ_InterfaceCall
+title Analyse OCP - Negativ-Beispiel: Aufruf des Interfaces durch CreateWorkoutUseCase
+
+interface core.ports.workout.IWorkoutGenerator {
+  + generateWorkout()
+}
+
+class adapters.workout.SmarterWorkoutGenerator {
+  - getFullBodyWorkout()
+  - getUpperLowerWorkout()
+  - getPushPullLegWorkout()
+  + generateWorkout()
+}
+
+IWorkoutGenerator <|.. SmarterWorkoutGenerator
+
+class core.usecase.workout.CreateWorkoutUseCase {
+  + executeWorkoutGeneration()
+}
+
+CreateWorkoutUseCase --> IWorkoutGenerator : nutzt generateWorkout()
+
+note right of SmarterWorkoutGenerator
+  Erweiterungen erfordern Änderungen in dieser Klasse,
+  was einen Verstoß gegen das Open-Closed-Prinzip (OCP) darstellt.
+end note
+
+@enduml

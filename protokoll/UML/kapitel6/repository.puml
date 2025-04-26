@@ -1,0 +1,40 @@
+@startuml repository
+title Domain Driven Design – Workout Record & InMemoryWorkoutRepository
+
+package "core.ports.repository" {
+  interface IWorkoutRepository {
+    + saveWorkout(Workout workout)
+    + findAll() : List<Workout>
+    + findById(int id) : Optional<Workout>
+    + findByUser(String username) : List<Workout>
+    + deleteById(int id) : boolean
+  }
+}
+
+package "core.domain.workout" {
+  class Workout <<record>> {
+    - id : int
+    - name : String
+    - type : WorkoutType
+    - trainingDays : List<TrainingDay>
+    - username : String
+    - frequency : int
+    - split : TrainingSplit
+  }
+}
+
+package "adapters.persistence.inmemory" {
+  class InMemoryWorkoutRepository {
+    - workouts : List<Workout>
+    - idCounter : AtomicInteger
+    + saveWorkout(Workout workout)
+    + findAll() : List<Workout>
+    + findById(int id) : Optional<Workout>
+    + findByUser(String username) : List<Workout>
+    + deleteById(int id) : boolean
+  }
+}
+
+IWorkoutRepository <|.. InMemoryWorkoutRepository
+
+@enduml

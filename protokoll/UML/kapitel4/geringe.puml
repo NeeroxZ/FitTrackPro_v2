@@ -1,0 +1,82 @@
+@startuml GetExercisesUseCase_GRASP
+title GRASP – GetExercisesUseCase als Creator/Facade und Verwendung
+
+' Package: Repository-Interface für Übungen
+package "core.ports.repository" {
+  interface IExerciseRepository {
+    + findById(int id) : Optional<Exercise>
+    + findAll() : List<Exercise>
+    + saveExercise(Exercise exercise)
+    + findByType(WorkoutType type) : List<Exercise>
+    + filterBySplit(TrainingSplit split) : List<Exercise>
+  }
+}
+
+' Package: Use Cases im Exercise-Bereich
+package "core.usecase.exercise" {
+  class GetExerciseByIdUseCase {
+    + execute(int id) : Optional<Exercise>
+  }
+
+  class GetAllExercisesUseCase {
+    + execute() : List<Exercise>
+  }
+
+  class CreateExerciseUseCase {
+    + execute(Exercise exercise)
+  }
+
+  class GetExercisesByTypeUseCase {
+    + execute(WorkoutType type) : List<Exercise>
+  }
+
+  class FilterExercisesBySplitUseCase {
+    + execute(TrainingSplit split) : List<Exercise>
+  }
+
+  ' Der GetExercisesUseCase kapselt alle spezifischen Use Cases
+  class GetExercisesUseCase {
+    - getExerciseByIdUseCase : GetExerciseByIdUseCase
+    - getAllExercisesUseCase : GetAllExercisesUseCase
+    - createExerciseUseCase : CreateExerciseUseCase
+    - getExercisesByTypeUseCase : GetExercisesByTypeUseCase
+    - filterExercisesBySplitUseCase : FilterExercisesBySplitUseCase
+    + getExerciseById(int id) : Optional<Exercise>
+    + getAllExercises() : List<Exercise>
+    + createExercise(Exercise exercise)
+    + getExercisesByType(WorkoutType type) : List<Exercise>
+    + filterExercisesBySplit(TrainingSplit split) : List<Exercise>
+  }
+}
+
+' Package: Beispielhafter Aufrufer in der Anwendung
+package "adapters.cli" {
+  class ExercisePanel {
+    + displayExercises()
+  }
+}
+
+' Beziehungen zwischen dem Repository und den spezifischen Use Cases
+IExerciseRepository --> GetExerciseByIdUseCase : "wird verwendet von"
+IExerciseRepository --> GetAllExercisesUseCase : "wird verwendet von"
+IExerciseRepository --> CreateExerciseUseCase : "wird verwendet von"
+IExerciseRepository --> GetExercisesByTypeUseCase : "wird verwendet von"
+IExerciseRepository --> FilterExercisesBySplitUseCase : "wird verwendet von"
+
+' Aggregation der spezifischen Use Cases im GetExercisesUseCase
+GetExercisesUseCase --> GetExerciseByIdUseCase : "aggregiert"
+GetExercisesUseCase --> GetAllExercisesUseCase : "aggregiert"
+GetExercisesUseCase --> CreateExerciseUseCase : "aggregiert"
+GetExercisesUseCase --> GetExercisesByTypeUseCase : "aggregiert"
+GetExercisesUseCase --> FilterExercisesBySplitUseCase : "aggregiert"
+
+' Das ExercisePanel nutzt den GetExercisesUseCase
+ExercisePanel --> GetExercisesUseCase : "nutzt"
+
+note right of GetExercisesUseCase
+  GetExercisesUseCase fungiert als Factory/Facade,
+  die mehrere spezifische Exercise-UseCases kapselt
+  und dem Aufrufer (hier ExercisePanel) eine einheitliche Schnittstelle bietet.
+end note
+
+@enduml

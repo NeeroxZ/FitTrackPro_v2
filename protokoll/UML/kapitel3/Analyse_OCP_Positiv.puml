@@ -1,0 +1,17 @@
+@startuml Analyse_OCP_Positiv
+
+class adapters.security.SHA256PasswordHasher {
+	{method} +hash ( paramString1 : String ) : Password
+}
+
+
+interface core.ports.services.IPasswordHasher {
+	{method}  {abstract} +hash ( paramString1 : String ) : Password
+}
+
+
+
+adapters.security.SHA256PasswordHasher ..|>  core.ports.services.IPasswordHasher
+
+
+@enduml

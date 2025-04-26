@@ -1,0 +1,33 @@
+@startuml Analyse_DIP_Positiv
+title GetUserWorkoutsUseCase - Positives Beispiel für DIP mit Packages
+
+package "core.ports.repository" {
+  interface IWorkoutRepository {
+    + findByUser(String username) : List<Workout>
+  }
+}
+
+package "core.ports.session" {
+  interface IUserSessionService {
+    + getLoggedInUser() : Optional<User>
+  }
+}
+
+package "core.usecase.workout" {
+  class GetUserWorkoutsUseCase {
+    - workoutRepository : IWorkoutRepository
+    - userSessionService : IUserSessionService
+    + getUserWorkouts() : List<Workout>
+  }
+}
+
+GetUserWorkoutsUseCase --> IWorkoutRepository : verwendet
+GetUserWorkoutsUseCase --> IUserSessionService : verwendet
+
+note right of GetUserWorkoutsUseCase
+  GetUserWorkoutsUseCase hängt ausschließlich von Abstraktionen ab (IWorkoutRepository und IUserSessionService),
+  was den Prinzipien des Dependency Inversion Principle (DIP) entspricht. Dadurch sind konkrete Implementierungen
+  lose gekoppelt und austauschbar.
+end note
+
+@enduml

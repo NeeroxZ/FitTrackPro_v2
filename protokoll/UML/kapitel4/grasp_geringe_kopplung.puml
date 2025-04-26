@@ -1,0 +1,32 @@
+@startuml GRASP_GeringeKopplung
+title GRASP – Geringe Kopplung
+
+package "de.neeroxz.ui" {
+  class LoginPanel {
+    - userUseCaseFactory : UserUseCaseFactory
+    + showPanel()
+  }
+}
+
+package "core.usecase.user" {
+  class UserUseCaseFactory {
+    + authenticationUserUseCase() : AuthenticationUserUseCase
+    + registerUserUseCase() : RegisterUserUseCase
+    + updateUserUseCase() : UpdateUserUseCase
+    ' Weitere Use Cases...
+  }
+
+  class AuthenticationUserUseCase
+  class RegisterUserUseCase
+  class UpdateUserUseCase
+}
+
+LoginPanel --> UserUseCaseFactory : nutzt
+
+note right of LoginPanel
+  Durch die Übergabe einer UserUseCaseFactory wird
+  die direkte Abhängigkeit des LoginPanels zu den
+  konkreten Use Cases vermieden, was zu geringer Kopplung führt.
+end note
+
+@enduml

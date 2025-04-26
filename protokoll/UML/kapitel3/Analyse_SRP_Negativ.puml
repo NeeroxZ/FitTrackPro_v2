@@ -1,0 +1,46 @@
+@startuml LoginPanel_SRP_Negativ
+title LoginPanel - Schlechtes Beispiel für SRP (Commit 0f8fc37)
+
+package "de.neeroxz.ui" {
+  class LoginPanel {
+    - passwordHasher : PasswordHasher
+    + showPanel()
+    - login()
+    - register()
+    - exitApp()
+  }
+}
+
+package "de.neeroxz.user" {
+  class PasswordHasher
+  class Password
+  class User
+  class UserRepository
+  class H2UserDB
+}
+
+package "java.sql" {
+  class Connection
+}
+
+package "java.util" {
+  class Scanner
+}
+
+LoginPanel ..> PasswordHasher : nutzt
+LoginPanel ..> Scanner : liest Eingaben
+LoginPanel ..> Connection : erstellt (via DriverManager)
+LoginPanel ..> UserRepository : erstellt (H2UserDB)
+LoginPanel ..> Password : erzeugt und prüft
+LoginPanel ..> User : authentifiziert
+
+note right of LoginPanel
+  Das LoginPanel übernimmt zu viele Verantwortlichkeiten:
+  - Benutzerinteraktion (UI)
+  - Passwort-Hashing
+  - Aufbau der Datenbankverbindung
+  - Erstellen und Nutzen des UserRepository für Authentifizierung
+  Dadurch wird das Single Responsibility Principle (SRP) verletzt.
+end note
+
+@enduml

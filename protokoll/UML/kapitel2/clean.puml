@@ -1,0 +1,117 @@
+@startuml CleanArchitectureWithPackages
+skinparam packageStyle rectangle
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam arrowDirection topToBottom
+
+' ==== Adapters ====
+package adapters {
+  package cli {
+    class ConsoleInputReader
+    class ExercisePanel
+    class LoginPanel
+    class UserPanel
+    class AppPanel
+  }
+
+  package persistence {
+    package inmemory {
+      class InMemoryUserRepository
+      class InMemoryWorkoutRepository
+    }
+    package jdbc {
+      class JdbcUserRepository
+      class JdbcWorkoutRepository
+    }
+  }
+
+  package security {
+    class SHA256PasswordHasher
+  }
+
+  package session {
+    class LoggedInUser
+  }
+}
+
+' ==== Ports ====
+package core.ports {
+  package repository {
+    interface IUserRepository
+    interface IWorkoutRepository
+  }
+  package services {
+    interface IPasswordHasher
+  }
+  package session {
+    interface ISessionHolder
+    interface IUserSessionService
+  }
+}
+
+' ==== Use Cases ====
+package core.usecase {
+  package user {
+    class AuthenticationUserUseCase
+    class UserUseCaseFactory
+  }
+  package workout {
+    class CreateWorkoutUseCase
+    class GenerateRandomWorkoutUseCase
+    class WorkoutUseCaseFactory
+  }
+}
+
+' ==== Domain ====
+package core.domain {
+  package user {
+    class User
+    class Birthday
+    class Password
+  }
+  package workout {
+    class Workout
+    class Exercise
+    package generator {
+      class RandomWorkoutGenerator
+      class SmarterWorkoutGenerator
+    }
+  }
+}
+
+' ==== Relationships: Implementations ====
+adapters.persistence.inmemory.InMemoryUserRepository ..|> core.ports.repository.IUserRepository
+adapters.persistence.jdbc.JdbcUserRepository ..|> core.ports.repository.IUserRepository
+
+adapters.persistence.inmemory.InMemoryWorkoutRepository ..|> core.ports.repository.IWorkoutRepository
+adapters.persistence.jdbc.JdbcWorkoutRepository ..|> core.ports.repository.IWorkoutRepository
+
+adapters.security.SHA256PasswordHasher ..|> core.ports.services.IPasswordHasher
+
+' ==== UseCases → Ports ====
+core.usecase.user.AuthenticationUserUseCase --> core.ports.repository.IUserRepository
+core.usecase.user.AuthenticationUserUseCase --> core.ports.services.IPasswordHasher
+core.usecase.user.AuthenticationUserUseCase --> core.ports.session.IUserSessionService
+
+core.usecase.workout.CreateWorkoutUseCase --> core.ports.repository.IWorkoutRepository
+core.usecase.workout.GenerateRandomWorkoutUseCase --> core.ports.repository.IWorkoutRepository
+
+' ==== UseCases → Entities ====
+core.usecase.user.AuthenticationUserUseCase --> core.domain.user.User
+core.usecase.workout.CreateWorkoutUseCase --> core.domain.workout.Workout
+core.usecase.workout.GenerateRandomWorkoutUseCase --> core.domain.workout.Workout
+
+core.usecase.user.UserUseCaseFactory --> core.usecase.user.AuthenticationUserUseCase
+core.usecase.workout.WorkoutUseCaseFactory --> core.usecase.workout.CreateWorkoutUseCase
+core.usecase.workout.WorkoutUseCaseFactory --> core.usecase.workout.GenerateRandomWorkoutUseCase
+
+' ==== Domain Composition ====
+core.domain.user.User --> core.domain.user.Birthday
+core.domain.user.User --> core.domain.user.Password
+
+core.domain.workout.Workout --> core.domain.workout.Exercise
+
+core.usecase.workout.GenerateRandomWorkoutUseCase --> core.domain.workout.generator.RandomWorkoutGenerator
+core.usecase.workout.GenerateRandomWorkoutUseCase --> core.domain.workout.generator.SmarterWorkoutGenerator
+
+@enduml
