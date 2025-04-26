@@ -1,0 +1,33 @@
+@startuml
+hide circle
+
+class PanelFactory {
+    +createLoginPanel(): AbstractConsolePanel
+    +createUserPanel(): AbstractConsolePanel
+    +createExercisePanel(): AbstractConsolePanel
+}
+class AppPanel {
+    +showPanel(): void
+    -userSettings(): void
+    -selectTraining(): void
+    -exitApp(): void
+}
+
+
+abstract class AbstractConsolePanel {
+    +showPanel(): void
+}
+
+class LoginPanel
+class UserPanel
+class ExercisePanel
+
+AppPanel --> PanelFactory : verwendet
+PanelFactory --> LoginPanel : erzeugt
+PanelFactory --> UserPanel : erzeugt
+PanelFactory --> ExercisePanel : erzeugt
+
+LoginPanel --|> AbstractConsolePanel
+UserPanel --|> AbstractConsolePanel
+ExercisePanel --|> AbstractConsolePanel
+@enduml

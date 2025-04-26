@@ -1,7 +1,7 @@
 # Programmentwurf - Protokoll
 
-**Name:** [Obreiter, Nick]  
-**Matrikelnummer:** [8107127]  
+**Name:** [Obreiter, Nick]
+**Matrikelnummer:** [8107127]
 **Abgabedatum:** [DATUM]
 
 # Kapitel 1: Einführung (4P)
@@ -36,7 +36,7 @@ ausgeführt werden:
 
 Voraussetzungen:
 
-- Installierte Java-Laufzeitumgebung (JRE) oder
+- Installierte Java-Laufzeitumgebung version 21 (JRE) oder
   Java Development Kit (JDK)
 - Das `FitTrackerPro.jar`-File muss sich im aktuellen Verzeichnis
   befinden.
@@ -57,10 +57,11 @@ Die wichtigsten Technologien sind:
 
 - **Java 21**: Verwendet für die Kernentwicklung aufgrund der verbesserten Performance und Features.
 - **Maven**: Verwaltung von Abhängigkeiten und Build-Prozess.
-- **H2-Datenbank**: Eingesetzt für lokale Datenpersistenz.
+- **H2-Datenbank**: Vorbereitung für einsatz von Datenpersistenz sofern man keine InMemoryVerwendet.
 - **JUnit**: Testframework für Unit-Tests.
 - **PlantUML-Generator**: Automatische Erstellung von UML-Diagrammen zur Code-Dokumentation.
-- **Commons-IO**: Bibliothek für erweiterte Dateioperationen.
+- **Commons-IO**: Bibliothek für erweiterte Dateioperationen (benötigt für PlantUML.
+- Ververwendung von SonarCube
 
 ---
 
@@ -80,13 +81,14 @@ Die wichtigsten Technologien sind:
 ### Clean Architecture
 
 - **Schichten:**
-    1. **Domain (Entities):** Enthält zentrale Domänenobjekte wie `Exercise`, `User` und `Workout`.
-    2. **Use Cases:** Realisieren Geschäftsprozesse, z. B. `CreateWorkoutUseCase` oder `AuthenticationUserUseCase`.
-    3. **Interface Adapters:** Übersetzen Daten zwischen interner Logik und externen Schnittstellen.
 
-- **Dependency Rule:**  
+  1. **Domain (Entities):** Enthält zentrale Domänenobjekte wie `Exercise`, `User` und `Workout`.
+  2. **Use Cases:** Realisieren Geschäftsprozesse, z. B. `CreateWorkoutUseCase` oder `AuthenticationUserUseCase`.
+  3. **Interface Adapters:** Übersetzen Daten zwischen interner Logik und externen Schnittstellen.
+- **Dependency Rule:**
   Alle Abhängigkeiten verlaufen von außen nach innen, sodass die inneren Schichten (Domain und Use Cases) keine Kenntnis
   von technischen Implementierungen haben.
+
 ---
 
 ## Domain Code (1P)
@@ -138,12 +140,12 @@ wer hängt von der Klasse ab) in Bezug auf die Dependency Rule]
 
 ### Positiv-Beispiel: Dependency Rule
 
-- **Abhängigkeiten von:**  
+- **Abhängigkeiten von:**
   `ServiceFactory` hängt von abstrakten Schnittstellen (Interfaces) ab, nicht von konkreten Klassen.
-- **Abhängigkeiten zu:**  
+- **Abhängigkeiten zu:**
   Hohe Schichten (z. B. Use Cases) greifen über die Factory auf diese Schnittstellen zu – ohne direkten Bezug zu den
   konkreten Implementierungen.
-- **Fazit:**  
+- **Fazit:**
   Die Klasse folgt der Dependency Rule, da alle Abhängigkeiten von außen (über die Interfaces) nach innen fließen.
 
 ### Negativ-Beispiel: Dependency Rule
@@ -166,7 +168,7 @@ Aufgabe bzw. der Aufgaben und möglicher Lösungsweg des Negativ-Beispiels (inkl
 ### Negativ-Beispiel
 
 ![Analyse_SRP_Negativ.png](images/kapitel3/Analyse_SRP_Negativ.png)
----
+-------------------------------------------------------------------
 
 ## Analyse OCP (3P)
 
@@ -178,7 +180,7 @@ Problem gab es? Falls nicht erfüllt: wie könnte man es lösen (inkl. UML)?]
 
 ### Positiv-Beispiel
 
-Die Klasse `SHA256PasswordHasher` implementiert das Interface `IPasswordHasher`.  
+Die Klasse `SHA256PasswordHasher` implementiert das Interface `IPasswordHasher`.
 Wird ein neuer Hashing-Algorithmus benötigt, kann eine neue Klasse implementiert werden, ohne dass bestehender Code
 verändert werden muss.
 
@@ -190,7 +192,7 @@ Die ursprüngliche Implementierung der Klasse `SmarterWorkoutGenerator` enthält
 `getFullBodyWorkout`, `getUpperLowerWorkout`, `getPushPullLegWorkout`), die fest kodierte Logiken zur Generierung
 verschiedener Workout-Typen beinhalten.
 
-**Analyse:**  
+**Analyse:**
 Möchte man einen neuen Workout-Typ hinzufügen, muss die Klasse direkt geändert werden (z. B. durch Hinzufügen neuer
 Methoden oder Anpassen der switch/case-Logik). Dadurch ist die Klasse nicht geschlossen für Änderungen, sondern muss
 modifiziert werden, was gegen das OCP verstößt.
@@ -217,7 +219,7 @@ und ein negatives Beispiel für ISP genommen werden]
 
 --todo
 TODO
----
+----
 
 # Kapitel 4: Weitere Prinzipien (8P)
 
@@ -313,12 +315,13 @@ Beziehungen zwischen Mock, zu mockender Klasse und Aufrufer des Mocks]
 warum es zur Ubiquitous Language gehört]
 ```
 
-| Bezeichnung       | Bedeutung                                                                      | Begründung                                                                                                                                   |
-|-------------------|--------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| **User**          | Repräsentiert einen Endnutzer der Applikation                                  | Der Begriff „User“ wird durchgängig verwendet, um Personen zu bezeichnen, die Workouts planen und ausführen.                                 |
-| **Workout**       | Eine Trainingseinheit oder -einheiten, die dem Nutzer zugeordnet sind          | „Workout“ beschreibt präzise die Kerndaten und Aktionen im System, etwa zur Trainingsplanung.                                                |
+
+| Bezeichnung       | Bedeutung                                                                       | Begründung                                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User**          | Repräsentiert einen Endnutzer der Applikation                                  | Der Begriff „User“ wird durchgängig verwendet, um Personen zu bezeichnen, die Workouts planen und ausführen.                                |
+| **Workout**       | Eine Trainingseinheit oder -einheiten, die dem Nutzer zugeordnet sind           | „Workout“ beschreibt präzise die Kerndaten und Aktionen im System, etwa zur Trainingsplanung.                                                |
 | **Exercise**      | Eine einzelne Übung, die Teil eines Workouts sein kann                         | Der Begriff hebt die feinere Granularität innerhalb eines Workouts hervor und fördert ein gemeinsames Verständnis der Trainingsbestandteile. |
-| **TrainingSplit** | Eine Aufteilung oder Strukturierung der Übungen innerhalb eines Trainingsplans | „TrainingSplit“ beschreibt, wie Übungen auf verschiedene Trainingstage verteilt werden – ein zentraler Aspekt in der Fitness-Domain.         |
+| **TrainingSplit** | Eine Aufteilung oder Strukturierung der Übungen innerhalb eines Trainingsplans | „TrainingSplit“ beschreibt, wie Übungen auf verschiedene Trainingstage verteilt werden – ein zentraler Aspekt in der Fitness-Domain.        |
 
 ---
 
@@ -415,7 +418,7 @@ Unveränderlichkeit: Ein Value Object wie Birthday ändert sich nicht, sondern w
 Keine eigene Identität: Im Gegensatz zu Entitäten wird Birthday allein durch seinen Wert bestimmt.
 
 Konsistente Verwendung: Es sorgt für eine einheitliche Darstellung des Geburtsdatums in der gesamten Domain.
----
+-------------------------------------------------------------------------------------------------------------
 
 # Kapitel 7: Refactoring (8P)
 
@@ -437,9 +440,6 @@ UML vorher/nachher liefern; jeweils auf die Commits verweisen – die Refactorin
 mit den Beispielen der Code überschneiden]
 ```
 
-
 ---
 
 # Kapitel 8: Entwurfsmuster (8P)
-
-

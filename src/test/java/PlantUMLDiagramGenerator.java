@@ -16,7 +16,7 @@ public class PlantUMLDiagramGenerator
     static List<String> scanPackages = new ArrayList<>();
     public static void main(String[] args) {
         try {
-                cleanArch();
+                all();
             // Definiere Klassen, die im Diagramm ausgeblendet werden sollen
             List<String> hideClasses = new ArrayList<>();
 

@@ -1,0 +1,36 @@
+@startuml
+class AppPanel {
+    +showPanel(): void
+    -userSettings(): void
+    -selectTraining(): void
+    -exitApp(): void
+}
+
+class LoginPanel {
+    +showPanel(): void
+}
+
+class UserPanel {
+    +showPanel(): void
+}
+
+class ExercisePanel {
+    +showPanel(): void
+}
+
+interface IUserSessionService <<interface>>
+interface IInputReader <<interface>>
+class WorkoutUseCaseFactory
+class UserUseCaseFactory
+class ExercisesUseCaseFactory
+
+AppPanel --> LoginPanel : instanziert direkt
+AppPanel --> UserPanel : instanziert direkt
+AppPanel --> ExercisePanel : instanziert direkt
+
+AppPanel --> IUserSessionService : verwendet
+AppPanel --> IInputReader : verwendet
+AppPanel --> WorkoutUseCaseFactory : verwendet
+AppPanel --> UserUseCaseFactory : verwendet
+AppPanel --> ExercisesUseCaseFactory : verwendet
+@enduml

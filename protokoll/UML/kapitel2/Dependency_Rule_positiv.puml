@@ -1,0 +1,58 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+
+' Packages
+package adapters.cli.panels {
+  class UserPanel {
+    - userUseCaseFactory: UserUseCaseFactory
+    - userSessionService: IUserSessionService
+    - inputReader: IInputReader
+    + showPanel(): void
+    + changeWeight(): void
+    + changeUserName(): void
+    + deleteAccount(): void
+  }
+}
+
+package core.usecase.user {
+  class UserUseCaseFactory {
+    + findUserByUsernameUseCase(): FindUserByUsernameUseCase
+    + deleteAccountUseCase(): DeleteAccountUseCase
+    + updateUserUseCase(): UpdateUserUseCase
+  }
+}
+
+package core.ports.session {
+  interface IUserSessionService {
+    + getLoggedInUser(): Optional<User>
+    + setLoggedInUser(user: User): void
+    + logout(): void
+  }
+}
+
+package adapters.cli {
+  interface IInputReader {
+    + readLine(prompt: String): String
+    + readInt(prompt: String): int
+    + readValidDouble(prompt: String, min: double, max: double): double
+  }
+}
+
+package core.domain.user {
+  class User {
+    + username(): String
+    + password(): String
+    + gewicht(): double
+    + grosse(): double
+    + geburtstag(): LocalDate
+  }
+}
+
+' Relationships
+UserPanel --> UserUseCaseFactory
+UserPanel --> IUserSessionService
+UserPanel --> IInputReader
+UserPanel --> User
+
+@enduml

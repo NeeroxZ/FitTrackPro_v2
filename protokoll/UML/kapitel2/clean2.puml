@@ -1,0 +1,73 @@
+@startuml
+top to bottom direction
+skinparam linetype ortho
+
+
+class adapters.cli.ExercisePanel {}
+class adapters.cli.ConsoleInputReader {}
+interface adapters.cli.IInputReader {}
+
+class adapters.persistence.inmemory.InMemoryExerciseRepository {}
+class adapters.persistence.inmemory.InMemoryUserRepository {}
+
+class core.usecase.exercise.GetExercisesUseCase {}
+class core.usecase.workout.WorkoutUseCaseFactory {}
+
+interface core.ports.repository.IExerciseRepository {}
+interface core.ports.repository.IUserRepository {}
+interface core.ports.repository.IWorkoutRepository {}
+
+class core.domain.exercise.Exercise {}
+enum core.domain.exercise.ExerciseCategory {}
+enum core.domain.exercise.Difficulty {}
+enum core.domain.exercise.MuscleGroup {}
+
+class core.domain.user.User {}
+class core.domain.user.Password {}
+class core.domain.user.Birthday {}
+
+class core.domain.workout.Workout {}
+class core.domain.workout.TrainingDay {}
+enum core.domain.workout.WorkoutType {}
+enum core.domain.workout.TrainingSplit {}
+
+class core.domain.workout.generator.RandomWorkoutGenerator {}
+interface core.domain.workout.generator.IWorkoutPlan {}
+
+class adapters.security.SHA256PasswordHasher {}
+class util.IdGenerator {}
+
+' Beziehungen CLI
+adapters.cli.ExercisePanel --> core.usecase.workout.WorkoutUseCaseFactory
+adapters.cli.ExercisePanel --> core.usecase.exercise.GetExercisesUseCase
+adapters.cli.ExercisePanel --> adapters.cli.IInputReader
+adapters.cli.ConsoleInputReader ..|> adapters.cli.IInputReader
+
+' Repositories
+adapters.persistence.inmemory.InMemoryExerciseRepository ..|> core.ports.repository.IExerciseRepository
+adapters.persistence.inmemory.InMemoryUserRepository ..|> core.ports.repository.IUserRepository
+adapters.persistence.inmemory.InMemoryUserRepository --> adapters.security.SHA256PasswordHasher
+adapters.persistence.inmemory.InMemoryUserRepository --> core.domain.user.User
+
+' UseCases -> Ports
+core.usecase.workout.WorkoutUseCaseFactory --> core.ports.repository.IWorkoutRepository
+core.usecase.workout.WorkoutUseCaseFactory --> core.ports.repository.IExerciseRepository
+core.usecase.workout.WorkoutUseCaseFactory --> core.domain.workout.generator.RandomWorkoutGenerator
+core.usecase.exercise.GetExercisesUseCase --> core.ports.repository.IExerciseRepository
+
+' RandomWorkoutGenerator
+core.domain.workout.generator.RandomWorkoutGenerator --> core.ports.repository.IExerciseRepository
+core.domain.workout.generator.RandomWorkoutGenerator --> core.domain.workout.generator.IWorkoutPlan
+core.domain.workout.generator.RandomWorkoutGenerator --> core.domain.workout.TrainingDay
+core.domain.workout.generator.RandomWorkoutGenerator --> util.IdGenerator
+core.domain.workout.generator.RandomWorkoutGenerator --> core.domain.workout.Workout
+
+' Domain-Struktur
+core.domain.workout.TrainingDay --> core.domain.exercise.Exercise
+core.domain.workout.Workout --> core.domain.workout.TrainingDay
+core.domain.exercise.Exercise --> core.domain.exercise.MuscleGroup
+core.domain.exercise.Exercise --> core.domain.exercise.ExerciseCategory
+core.domain.exercise.Exercise --> core.domain.exercise.Difficulty
+core.domain.user.User --> core.domain.user.Password
+core.domain.user.User --> core.domain.user.Birthday
+@enduml
