@@ -16,7 +16,7 @@ public class ExercisePanel extends AbstractConsolePanel
     private final WorkoutManagerCLI workoutManager;
     private final IInputReader inputReader;
     private final GetExercisesUseCase exerciseService;
-
+    private final WorkoutUseCaseFactory workoutUseCaseFactory;
     public ExercisePanel(WorkoutUseCaseFactory workoutUseCaseFactory,
                          GetExercisesUseCase exerciseService,
                          IInputReader inputReader)
@@ -24,7 +24,7 @@ public class ExercisePanel extends AbstractConsolePanel
         this.workoutManager = new WorkoutManagerCLI(workoutUseCaseFactory, inputReader);
         this.exerciseService = exerciseService;
         this.inputReader = inputReader;
-
+        this.workoutUseCaseFactory = workoutUseCaseFactory;
         super.addMenuAction("Workouts anzeigen", workoutManager::showWorkouts);
         super.addMenuAction("Workout erstellen", this::createWorkoutPanel);
         super.addMenuAction("Workout löschen", workoutManager::deleteWorkout);
@@ -68,11 +68,7 @@ public class ExercisePanel extends AbstractConsolePanel
             System.out.println("❌ Kein Workout erstellt, da keine gültigen Übungen ausgewählt wurden.");
             return;
         }
-
-        String username = "test"; // TODO: Replace with logged in user
-        int workoutId = IdGenerator.generateUniqueId();
-
-        // Hier sollte dein Save-Usecase aufgerufen werden.
+        workoutUseCaseFactory.createCustomWorkoutUseCase().create(name,type, trainingDays);
         System.out.println("\n✅ Workout '" + name + "' mit " + trainingDays.size() + " Trainingstagen wurde gespeichert!");
     }
 

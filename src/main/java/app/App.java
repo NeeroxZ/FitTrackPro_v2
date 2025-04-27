@@ -17,12 +17,14 @@ public class App {
 
         IInputReader inputReader = factory.createInputReader();
         IUserSessionService userSessionService = factory.getUserSessionService();
-        new AppPanel(
+        AppPanel appPanel = new AppPanel(
                 workoutUseCases,
                 exerciseService,
                 userUseCaseFactory,
                 inputReader,
                 userSessionService
-        ).showPanel();
+        );
+        userSessionService.registerObserver(appPanel);
+        appPanel.showPanel();
     }
 }
