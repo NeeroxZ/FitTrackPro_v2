@@ -36,4 +36,16 @@ public class InMemoryUserSessionServiceMock implements IUserSessionService {
     {
         return loggedInUser.username();
     }
+
+    @Override
+    public void registerObserver(IUserSessionObserver observer)
+    {
+
+    }
+
+    @Override
+    public void unregisterObserver(IUserSessionObserver observer)
+    {
+
+    }
 }

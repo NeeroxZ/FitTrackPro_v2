@@ -81,7 +81,6 @@ public class InMemoryUserRepository implements IUserRepository
     {
         findUserByUsername(user.username())
                 .ifPresent(u -> users.remove(u));
-       // LoggedInUser.logout(); //todo gehört das hier her ?
     }
 }
 
