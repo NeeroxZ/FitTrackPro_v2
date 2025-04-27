@@ -1,0 +1,41 @@
+@startuml
+' Interfaces
+core.ports.session.IUserSessionObserver <|-- adapters.cli.panels.AppPanel
+core.ports.session.IUserSessionService <|-- adapters.session.LoggedInUser
+
+' UserPanel ruft logout() auf
+adapters.cli.panels.UserPanel --> adapters.session.LoggedInUser : logout()
+
+' LoggedInUser informiert alle Observer
+adapters.session.LoggedInUser --> core.ports.session.IUserSessionObserver : onUserLogout()
+
+' AppPanel reagiert auf Logout
+adapters.cli.panels.AppPanel --> adapters.cli.panels.AppPanel : showPanel()
+
+' Methoden (optional für bessere Sichtbarkeit)
+interface core.ports.session.IUserSessionObserver {
+    +onUserLogout()
+}
+
+interface core.ports.session.IUserSessionService {
+    +logout()
+    +registerObserver()
+    +unregisterObserver()
+}
+
+class adapters.session.LoggedInUser {
+    +login()
+    +logout()
+    +registerObserver()
+    +unregisterObserver()
+}
+
+class adapters.cli.panels.AppPanel {
+    +showPanel()
+    +onUserLogout()
+}
+
+class adapters.cli.panels.UserPanel {
+    +loggout()
+}
+@enduml

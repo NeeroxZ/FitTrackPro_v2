@@ -29,8 +29,12 @@ public class UserPanel extends AbstractConsolePanel
         super.addMenuAction("Gewicht ändern", this::changeWeight);
         super.addMenuAction("Benutzernamen ändern", this::changeUserName);
         super.addMenuAction("Account löschen", this::deleteAccount);
+        super.addMenuAction("Loggout", this::loggout);
     }
 
+    private void loggout(){
+        userSessionService.logout();
+    }
     private void deleteAccount()
     {
         System.out.println("Möchten Sie Ihren Account wirklich löschen?");

@@ -4,11 +4,13 @@ import adapters.cli.IInputReader;
 import adapters.cli.validation.UserInputValidator;
 import core.domain.user.Birthday;
 import core.domain.user.User;
+import core.ports.session.IUserSessionService;
 import core.usecase.user.AuthenticationUserUseCase;
 import core.usecase.user.RegisterUserUseCase;
 import core.usecase.user.UpdateUserUseCase;
 import core.usecase.user.UserUseCaseFactory;
 
+import javax.swing.plaf.IconUIResource;
 import java.util.Optional;
 
 /**
@@ -25,6 +27,7 @@ public class LoginPanel extends AbstractConsolePanel {
     private final IInputReader inputReader;
     private final UserInputValidator validator;
     private final UpdateUserUseCase updateUserUseCase;
+    private final IUserSessionService userSessionService;
 
     public LoginPanel(UserUseCaseFactory userUseCaseFactory, IInputReader inputReader) {
         this.authenticationUserUseCase = userUseCaseFactory.authenticationUserUseCase();
@@ -32,7 +35,7 @@ public class LoginPanel extends AbstractConsolePanel {
         this.updateUserUseCase = userUseCaseFactory.updateUserUseCase();
         this.inputReader = inputReader;
         this.validator = new UserInputValidator(inputReader);
-
+        this.userSessionService = userUseCaseFactory.userSessionService();
         removeMainMenu();
         addMenuAction("Login", this::login);
         addMenuAction("Registrieren", this::register);

@@ -1,5 +1,6 @@
 package adapters.cli.panels;
 
+import core.ports.session.IUserSessionObserver;
 import core.ports.session.IUserSessionService;
 import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.IInputReader;
@@ -12,7 +13,7 @@ import core.usecase.workout.WorkoutUseCaseFactory;
  * @author NeeroxZ
  * @date 19.10.2024
  */
-public class AppPanel extends AbstractConsolePanel
+public class AppPanel extends AbstractConsolePanel implements IUserSessionObserver
 {
 
     WorkoutUseCaseFactory workoutUseCaseFactory;
@@ -70,6 +71,12 @@ public class AppPanel extends AbstractConsolePanel
     {
         System.out.println("Programm wird beendet...");
         System.exit(0);
+    }
+
+    @Override
+    public void onUserLogout()
+    {
+        this.showPanel();
     }
 }
 

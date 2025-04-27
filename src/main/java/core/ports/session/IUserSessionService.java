@@ -27,4 +27,7 @@ public interface IUserSessionService
 
     String getCurrentUsername();
 
+    void registerObserver(IUserSessionObserver observer);
+    void unregisterObserver(IUserSessionObserver observer);
+
 }
