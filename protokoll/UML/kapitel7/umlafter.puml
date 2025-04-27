@@ -1,0 +1,26 @@
+@startuml
+class ExercisePanel {
+  - workoutManager : WorkoutManagerCLI
+  - exerciseService : GetExercisesUseCase
+  - inputReader : IInputReader
+  --
+  + createOwnExercise()
+  + createWorkoutPanel()
+  + individuellWorkoutPanel()
+  + randomWorkoutPanel()
+  + showPanel()
+}
+
+class WorkoutManagerCLI {
+  - workoutUseCaseFactory : WorkoutUseCaseFactory
+  - inputReader : IInputReader
+  --
+  + showWorkouts()
+  + deleteWorkout()
+  + generateRandomWorkout()
+  + displayWorkoutOverview(workout)
+  + displayWorkoutDetails(workout)
+}
+
+ExercisePanel --> WorkoutManagerCLI : uses
+@enduml
