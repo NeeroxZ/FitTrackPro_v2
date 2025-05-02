@@ -37,7 +37,8 @@ public class AppPanel extends AbstractConsolePanel implements IUserSessionObserv
         // Menüaktionen dynamisch hinzufügen
         removeMainMenu();
         addMenuAction("User Einstellungen", this::userSettings);
-        addMenuAction("Training auswählen", this::selectTraining);
+        addMenuAction("Training generieren", this::selectTraining);
+        addMenuAction("Training Starten", this::startWorkout);
         addMenuAction("Beenden", this::exitApp);
     }
 
@@ -47,6 +48,10 @@ public class AppPanel extends AbstractConsolePanel implements IUserSessionObserv
         new LoginPanel(this.userUseCaseFactory, this.inputReader).showPanel();
         new LoadingAnimation().progressBar(10);
         handleInput();
+    }
+
+    private void startWorkout(){
+        new TrainingSessionPanel(inputReader, workoutUseCaseFactory).showPanel();
     }
 
     private void userSettings()

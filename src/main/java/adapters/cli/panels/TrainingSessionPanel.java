@@ -128,8 +128,12 @@ public class TrainingSessionPanel extends AbstractConsolePanel
     }
 
     @Override
-    public void showPanel() throws InterruptedException
+    public void showPanel()
     {
-
+        if(workoutUseCaseFactory.getUserWorkoutsUseCase().getUserWorkouts().isEmpty()){
+            System.out.println("Keine Workouts vorhanden \n Zurück zum Hauptmenue" );
+            return;
+        }
+        super.handleInput();
     }
 }
