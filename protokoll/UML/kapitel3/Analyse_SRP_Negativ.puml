@@ -1,5 +1,5 @@
 @startuml LoginPanel_SRP_Negativ
-title LoginPanel - Schlechtes Beispiel für SRP (Commit 0f8fc37)
+title LoginPanel - Schlechtes Beispiel für SRP
 
 package "de.neeroxz.ui" {
   class LoginPanel {

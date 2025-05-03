@@ -1,0 +1,64 @@
+@startuml
+title Struktur nach Umbau (Einhaltung der Dependency Rule)
+
+' Definition der Schichten als Packages
+package "Adapters (Außen)" {
+    package cli {
+        package panels {
+            class AppPanel
+        }
+        interface IInputReader <<Interface>>
+    }
+}
+
+package "Core (Innen)" {
+    package usecase {
+        class WorkoutUseCaseFactory
+        class ExercisesUseCaseFacoty
+        class UserUseCaseFactory
+    }
+    package ports.session {
+         interface IUserSessionService <<Interface>>
+    }
+}
+
+' Abhängigkeiten von AppPanel (äußere Schicht)
+' auf Klassen/Interfaces im Core (innere Schicht)
+AppPanel --> core.usecase.WorkoutUseCaseFactory : "hängt ab von"
+AppPanel --> core.usecase.ExercisesUseCaseFactory : "hängt ab von"
+AppPanel --> core.usecase.UserUseCaseFactory : "hängt ab von"
+AppPanel --> core.ports.session.IUserSessionService : "hängt ab von"
+
+' Abhängigkeit von AppPanel auf Interface in der gleichen/benachbarten Adapters-Schicht
+AppPanel --> adapters.cli.IInputReader : "hängt ab von"
+
+
+' Erläuternde Notizen
+note right of AppPanel
+  AppPanel liegt in der äußeren
+  Adapters-Schicht.
+  Seine Abhängigkeiten zeigen
+  auf Elemente in den inneren
+  Core-Schichten oder auf
+  Interfaces in seiner eigenen
+  Schicht.
+  Das entspricht der Dependency Rule.
+end note
+
+note top of core.ports.session.IUserSessionService
+  Dies ist ein Port (Interface)
+  definiert in der inneren Core-Schicht.
+  Die Abhängigkeit von Außen
+  auf dieses innere Interface
+  ist der Idealfall der Einhaltung.
+end note
+
+note top of adapters.cli.IInputReader
+    Dies ist ein Interface
+    definiert in der Adapters-Schicht.
+    Die Abhängigkeit innerhalb
+    der Adapters-Schicht
+    ist erlaubt.
+end note
+
+@enduml

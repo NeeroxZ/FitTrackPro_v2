@@ -1,0 +1,28 @@
+@startuml
+
+package "core.usecase.workout" {
+  class WorkoutUseCaseFactory {
+    +generateRandomWorkoutUseCase()
+    +createCustomWorkoutUseCase()
+    +getUserWorkoutsUseCase()
+    +removeWorkoutUseCase()
+  }
+}
+
+interface IWorkoutRepository
+interface IUserSessionService
+interface ICustomWorkoutGenerator
+interface IRandomWorkoutGenerator
+
+class RandomWorkoutGenerator
+class CustomWorkoutGenerator
+
+WorkoutUseCaseFactory --> IWorkoutRepository
+WorkoutUseCaseFactory --> IUserSessionService
+WorkoutUseCaseFactory --> ICustomWorkoutGenerator
+WorkoutUseCaseFactory --> IRandomWorkoutGenerator
+
+RandomWorkoutGenerator ..|> IRandomWorkoutGenerator
+CustomWorkoutGenerator ..|> ICustomWorkoutGenerator
+
+@enduml

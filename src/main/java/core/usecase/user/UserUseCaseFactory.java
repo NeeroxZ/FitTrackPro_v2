@@ -42,4 +42,7 @@ public class UserUseCaseFactory {
     public FindUserByUsernameUseCase findUserByUsernameUseCase() {
         return new FindUserByUsernameUseCase(userRepository);
     }
+    public IUserSessionService userSessionService(){
+        return userSessionService;
+    }
 }

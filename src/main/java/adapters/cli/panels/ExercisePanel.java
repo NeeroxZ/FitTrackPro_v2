@@ -1,69 +1,39 @@
 package adapters.cli.panels;
 
+import adapters.cli.IInputReader;
 import core.domain.exercise.*;
 import core.domain.workout.Workout;
 import core.domain.workout.WorkoutType;
 import core.usecase.exercise.GetExercisesUseCase;
-import adapters.cli.IInputReader;
 import core.usecase.workout.WorkoutUseCaseFactory;
-import util.AppStrings;
 import util.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Refaktorierte Klasse: ExercisePanel.
- */
 public class ExercisePanel extends AbstractConsolePanel
 {
-    private final WorkoutUseCaseFactory workoutUseCaseFactory;
+    private final WorkoutManagerCLI workoutManager;
     private final IInputReader inputReader;
     private final GetExercisesUseCase exerciseService;
-
+    private final WorkoutUseCaseFactory workoutUseCaseFactory;
     public ExercisePanel(WorkoutUseCaseFactory workoutUseCaseFactory,
                          GetExercisesUseCase exerciseService,
-                         IInputReader inputReader
-                        )
+                         IInputReader inputReader)
     {
-        this.workoutUseCaseFactory = workoutUseCaseFactory;
+        this.workoutManager = new WorkoutManagerCLI(workoutUseCaseFactory, inputReader);
         this.exerciseService = exerciseService;
         this.inputReader = inputReader;
-
-        super.addMenuAction("Workouts anzeigen", this::showWorkoutsPanel);
+        this.workoutUseCaseFactory = workoutUseCaseFactory;
+        super.addMenuAction("Workouts anzeigen", workoutManager::showWorkouts);
         super.addMenuAction("Workout erstellen", this::createWorkoutPanel);
-        super.addMenuAction("Workout löschen", this::deleteWorkout);
-        super.addMenuAction("individuell übung erstellen", this::createOwnExercise);
+        super.addMenuAction("Workout löschen", workoutManager::deleteWorkout);
+        super.addMenuAction("individuell Übung erstellen", this::createOwnExercise);
     }
 
     protected void createOwnExercise()
     {
         new ExerciseCreatorCLI(exerciseService).createOwnExercise();
-    }
-
-    protected void deleteWorkout()
-    {
-        List<Workout> workouts = workoutUseCaseFactory.getUserWorkoutsUseCase().getUserWorkouts();
-        if (workouts.isEmpty())
-        {
-            System.out.println("🔹 Du hast noch keine gespeicherten Workouts.");
-            return;
-        }
-        System.out.println("\n📋 Deine gespeicherten Workouts:");
-        for (int i = 0; i < workouts.size(); i++)
-        {
-            Workout workout = workouts.get(i);
-            System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
-        }
-        int choice = inputReader.readInt("\nWähle ein Workout zum Löschen (Nummer eingeben) oder 0 für Abbruch: ");
-        if (choice < 1 || choice > workouts.size())
-        {
-            System.out.println("❌ Ungültige Eingabe oder Abbruch.");
-            return;
-        }
-        Workout workoutToDelete = workouts.get(choice - 1);
-        workoutUseCaseFactory.removeWorkoutUseCase().removeWorkout(workoutToDelete.id());
-        System.out.println("🗑️ Workout '" + workoutToDelete.name() + "' wurde gelöscht.");
     }
 
     private void createWorkoutPanel()
@@ -79,170 +49,60 @@ public class ExercisePanel extends AbstractConsolePanel
         }
     }
 
-    /**
-     * Individuell erstelltes Workout: Benutzer wählt Übungen aus.
-     * TODO: Stimmt hinten und vonre nicht macht auch viel zuviel.
-     */
     private void individuellWorkoutPanel()
     {
-        String name = inputReader.readLine("Gib dem Workout einen Namen: ");
-
+        String name = readWorkoutName();
         WorkoutType type = readWorkoutType();
-        if (type == null)
-        {
-            System.out.println("❌ Ungültige Eingabe! Abbruch.");
-            return;
-        }
+        if (type == null) return;
 
-        int frequency = inputReader.readInt("Wie oft möchtest du pro Woche trainieren? (1-7): ");
-        if (frequency < 1 || frequency > 7)
-        {
-            System.out.println("❌ Ungültige Frequenz! Abbruch.");
-            return;
-        }
+        int frequency = readFrequency();
+        if (frequency == -1) return;
 
         TrainingSplit split = readTrainingSplit();
-        if (split == null)
-        {
-            System.out.println("❌ Ungültiger Split! Abbruch.");
-            return;
-        }
+        if (split == null) return;
 
-        List<TrainingDay> trainingDays = new ArrayList<>();
-
-        // Nutzer muss für jeden Trainingstag Übungen auswählen
-        for (int day = 1; day <= frequency; day++)
-        {
-            System.out.println("\n📆 Wähle Übungen für Tag " + day + " (" + split + " Split):");
-
-            List<Exercise> filteredExercises = exerciseService.filterExercisesBySplit(split);
-            List<Exercise> selectedExercises = selectExercises(filteredExercises);
-
-            if (selectedExercises.isEmpty())
-            {
-                System.out.println("⚠️ Kein Workout für Tag " + day + " erstellt, da keine Übungen ausgewählt wurden.");
-            }
-            else
-            {
-                trainingDays.add(new TrainingDay(name + " - Tag " + day, selectedExercises));
-            }
-        }
+        List<TrainingDay> trainingDays = collectTrainingDays(frequency, split, name);
 
         if (trainingDays.isEmpty())
         {
             System.out.println("❌ Kein Workout erstellt, da keine gültigen Übungen ausgewählt wurden.");
             return;
         }
-
-       //todo String username = LoggedInUser.getCurrentUser().get().username();
-        String username = "test";
-        int workoutId = IdGenerator.generateUniqueId();
-
-       // Workout workout = new Workout(workoutId, name, type, trainingDays, username, frequency, split);
-        //workoutUseCases.createWorkoutUseCase.createWorkout(workoutId, name, type, trainingDays, username, frequency, split);
-        //System.out.println("\n✅ Workout '" + workout.name() + "' mit " + trainingDays.size() + " Trainingstagen wurde gespeichert!");
+        workoutUseCaseFactory.createCustomWorkoutUseCase().create(name,type, trainingDays);
+        System.out.println("\n✅ Workout '" + name + "' mit " + trainingDays.size() + " Trainingstagen wurde gespeichert!");
     }
 
-
-    /**
-     * Random Workout: Zusätzlich werden Frequenz (Trainingstage pro Woche)
-     * und Trainings-Split abgefragt.
-     */
     private void randomWorkoutPanel()
     {
-        String name = inputReader.readLine("Gib dem Workout einen Namen: ");
+        String name = readWorkoutName();
         WorkoutType type = readWorkoutType();
-        if (type == null)
-        {
-            System.out.println("❌ Ungültige Eingabe! Abbruch.");
-            return;
-        }
-        // Neue Frage: Wie oft pro Woche trainieren?
+        if (type == null) return;
+
+        int frequency = readFrequency();
+        if (frequency == -1) return;
+
+        TrainingSplit split = readTrainingSplit();
+        if (split == null) return;
+
+        List<Workout> workouts = workoutManager.generateRandomWorkout(name, type, split, frequency);
+    }
+
+    private String readWorkoutName()
+    {
+        return inputReader.readLine("Gib dem Workout einen Namen: ");
+    }
+
+    private int readFrequency()
+    {
         int frequency = inputReader.readInt("Wie oft möchtest du pro Woche trainieren? (1-7): ");
         if (frequency < 1 || frequency > 7)
         {
             System.out.println("❌ Ungültige Frequenz! Abbruch.");
-            return;
+            return -1;
         }
-        // Neue Frage: Welchen Trainings-Split möchtest du trainieren?
-        TrainingSplit split = readTrainingSplit();
-        if (split == null)
-        {
-            System.out.println("❌ Ungültiger Split! Abbruch.");
-            return;
-        }
-        // Übergabe der zusätzlichen Parameter an den WorkoutService
-        //List<Workout> wor = workoutUseCaseFactory.createWorkoutUseCase().createWorkout(name, type, frequency, split);
-        List<Workout> workouts = workoutUseCaseFactory
-                .generateRandomWorkoutUseCase()
-                .generate(name, type, split,frequency);
+        return frequency;
     }
 
-    protected void showWorkoutsPanel()
-    {
-        List<Workout> workouts = workoutUseCaseFactory.getUserWorkoutsUseCase().getUserWorkouts();
-        if (workouts.isEmpty())
-        {
-            System.out.println("🔹 Du hast noch keine gespeicherten Workouts.");
-            return;
-        }
-        System.out.println("\n📋 Deine gespeicherten Workouts:");
-        for (int i = 0; i < workouts.size(); i++)
-        {
-            Workout workout = workouts.get(i);
-            System.out.println((i + 1) + ". " + workout.name() + " (" + workout.type() + ")");
-        }
-        int choice = inputReader.readInt("\nWähle ein Workout (Nummer eingeben) oder 0 für Abbruch: ");
-        if (choice < 1 || choice > workouts.size())
-        {
-            System.out.println("❌ Ungültige Eingabe oder Abbruch.");
-            return;
-        }
-        Workout selectedWorkout = workouts.get(choice - 1);
-        displayWorkoutDetails(selectedWorkout);
-    }
-
-    private void displayWorkoutOverview(Workout workout)
-    {
-        System.out.println("\n🆔 Workout-ID: " + workout.id());
-        System.out.println("📌 Name: " + workout.name());
-        System.out.println("🏋 Typ: " + workout.type());
-        System.out.println("📆 Anzahl Trainingstage: " + workout.trainingDays().size());
-        System.out.println("👤 Erstellt von: " + workout.username());
-        System.out.println("📅 Split: " + workout.split());
-        System.out.println("➡️  Gib die Workout-ID ein, um Details zu sehen.");
-        System.out.println(AppStrings.LINESEPARATOR);
-    }
-
-
-    private void displayWorkoutDetails(Workout workout)
-    {
-        System.out.println("\n🆔 Workout-ID: " + workout.id());
-        System.out.println("📌 Name: " + workout.name());
-        System.out.println("🏋 Typ: " + workout.type());
-        System.out.println("📆 Anzahl Trainingstage: " + workout.trainingDays().size());
-        System.out.println("👤 Erstellt von: " + workout.username());
-        System.out.println("📅 Split: " + workout.split());
-        System.out.println("\n📃 Trainingstage:");
-
-        for (TrainingDay trainingDay : workout.trainingDays())
-        {
-            System.out.println("   📅 " + trainingDay.name());
-            for (Exercise exercise : trainingDay.exercises())
-            {
-                System.out.println("      - " + exercise.name() + " (" + exercise.category() + ")");
-            }
-            System.out.println();
-        }
-
-        System.out.println(AppStrings.LINESEPARATOR);
-    }
-
-
-    /**
-     * Zeigt die Workout-Typen an und liefert anhand der Benutzereingabe einen gültigen Typ.
-     * Liefert null bei ungültiger Auswahl.
-     */
     private WorkoutType readWorkoutType()
     {
         System.out.println("Wähle Workout-Typ:");
@@ -255,53 +115,13 @@ public class ExercisePanel extends AbstractConsolePanel
             case 1 -> WorkoutType.KRAFTSPORT;
             case 2 -> WorkoutType.CARDIO;
             case 3 -> WorkoutType.YOGA;
-            default -> null;
+            default -> {
+                System.out.println("❌ Ungültige Eingabe! Abbruch.");
+                yield null;
+            }
         };
     }
 
-    /**
-     * Zeigt alle verfügbaren Übungen an und erlaubt die Mehrfachauswahl per Eingabe.
-     * Die Auswahl erfolgt als Zahlen (durch Leerzeichen getrennt).
-     */
-    private List<Exercise> selectExercises(List<Exercise> allExercises)
-    {
-        List<Exercise> selectedExercises = new ArrayList<>();
-        System.out.println("📋 Wähle deine Übungen (Nummern eingeben, getrennt durch Leerzeichen, z. B. '1 3 5'):");
-        for (int i = 0; i < allExercises.size(); i++)
-        {
-            Exercise exercise = allExercises.get(i);
-            System.out.println((i + 1) + ". " + exercise.name() + " (" + exercise.category() + ")");
-        }
-        String input = inputReader.readLine("\nDeine Auswahl: ");
-        String[] tokens = input.split("\\s+");
-        for (String token : tokens)
-        {
-            try
-            {
-                int index = Integer.parseInt(token) - 1;
-                if (index >= 0 && index < allExercises.size())
-                {
-                    selectedExercises.add(allExercises.get(index));
-                }
-                else
-                {
-                    System.out.println("⚠ Nummer " + token + " ist ungültig.");
-                }
-            } catch (NumberFormatException e)
-            {
-                System.out.println("⚠ '" + token + "' ist keine gültige Nummer.");
-            }
-        }
-        return selectedExercises;
-    }
-
-    /**
-     * Fragt den Trainings-Split ab und gibt das passende Enum zurück.
-     * Optionen:
-     * 1. Oberkörper/Unterkörper
-     * 2. Push_PULL_LEG
-     * 3. Ganzkörper
-     */
     private TrainingSplit readTrainingSplit()
     {
         System.out.println("Wähle den Trainings-Split:");
@@ -316,6 +136,64 @@ public class ExercisePanel extends AbstractConsolePanel
             case 3 -> TrainingSplit.GANZKORPER;
             default -> null;
         };
+    }
+
+    private List<TrainingDay> collectTrainingDays(int frequency, TrainingSplit split, String workoutName)
+    {
+        List<TrainingDay> trainingDays = new ArrayList<>();
+
+        for (int day = 1; day <= frequency; day++)
+        {
+            System.out.println("\n📆 Wähle Übungen für Tag " + day + " (" + split + " Split):");
+
+            List<Exercise> filteredExercises = exerciseService.filterExercisesBySplit(split);
+            List<Exercise> selectedExercises = selectExercises(filteredExercises);
+
+            if (!selectedExercises.isEmpty())
+            {
+                trainingDays.add(new TrainingDay(workoutName + " - Tag " + day, selectedExercises));
+            }
+            else
+            {
+                System.out.println("⚠️ Kein Workout für Tag " + day + " erstellt.");
+            }
+        }
+        return trainingDays;
+    }
+
+    private List<Exercise> selectExercises(List<Exercise> allExercises)
+    {
+        List<Exercise> selectedExercises = new ArrayList<>();
+        System.out.println("📋 Wähle deine Übungen (Nummern eingeben, getrennt durch Leerzeichen):");
+
+        for (int i = 0; i < allExercises.size(); i++)
+        {
+            System.out.println((i + 1) + ". " + allExercises.get(i).name() + " (" + allExercises.get(i).category() + ")");
+        }
+
+        String input = inputReader.readLine("Deine Auswahl: ");
+        String[] tokens = input.split("\\s+");
+
+        for (String token : tokens)
+        {
+            try
+            {
+                int index = Integer.parseInt(token) - 1;
+                if (index >= 0 && index < allExercises.size())
+                {
+                    selectedExercises.add(allExercises.get(index));
+                }
+                else
+                {
+                    System.out.println("⚠ Nummer " + token + " ist ungültig.");
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.println("⚠ '" + token + "' ist keine gültige Nummer.");
+            }
+        }
+        return selectedExercises;
     }
 
     @Override

@@ -1,0 +1,26 @@
+@startuml
+title Verletzung der Dependency Rule (AppPanel)
+
+package "UI-Schicht (Außen)" {
+    class AppPanel
+}
+
+package "Service-Schicht (Innen)" {
+    class AuthenticationService
+    class WorkoutService
+    class ExerciseService
+}
+
+' Abhängigkeiten von der UI zu den konkreten Services
+AppPanel --> AuthenticationService : "hängt ab von"
+AppPanel --> WorkoutService : "hängt ab von"
+AppPanel --> ExerciseService : "hängt ab von"
+
+note right of AppPanel
+  AppPanel (außen) hängt
+  direkt von konkreten
+  Services (innen) ab.
+  Verletzt die Regel.
+end note
+
+@enduml

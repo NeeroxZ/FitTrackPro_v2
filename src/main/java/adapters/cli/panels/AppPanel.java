@@ -1,5 +1,6 @@
 package adapters.cli.panels;
 
+import core.ports.session.IUserSessionObserver;
 import core.ports.session.IUserSessionService;
 import core.usecase.exercise.GetExercisesUseCase;
 import adapters.cli.IInputReader;
@@ -12,7 +13,7 @@ import core.usecase.workout.WorkoutUseCaseFactory;
  * @author NeeroxZ
  * @date 19.10.2024
  */
-public class AppPanel extends AbstractConsolePanel
+public class AppPanel extends AbstractConsolePanel implements IUserSessionObserver
 {
 
     WorkoutUseCaseFactory workoutUseCaseFactory;
@@ -36,7 +37,8 @@ public class AppPanel extends AbstractConsolePanel
         // Menüaktionen dynamisch hinzufügen
         removeMainMenu();
         addMenuAction("User Einstellungen", this::userSettings);
-        addMenuAction("Training auswählen", this::selectTraining);
+        addMenuAction("Training generieren", this::selectTraining);
+        addMenuAction("Training Starten", this::startWorkout);
         addMenuAction("Beenden", this::exitApp);
     }
 
@@ -46,6 +48,10 @@ public class AppPanel extends AbstractConsolePanel
         new LoginPanel(this.userUseCaseFactory, this.inputReader).showPanel();
         new LoadingAnimation().progressBar(10);
         handleInput();
+    }
+
+    private void startWorkout(){
+        new TrainingSessionPanel(inputReader, workoutUseCaseFactory).showPanel();
     }
 
     private void userSettings()
@@ -70,6 +76,12 @@ public class AppPanel extends AbstractConsolePanel
     {
         System.out.println("Programm wird beendet...");
         System.exit(0);
+    }
+
+    @Override
+    public void onUserLogout()
+    {
+        this.showPanel();
     }
 }
 

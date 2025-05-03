@@ -1,0 +1,16 @@
+@startuml
+class ExercisePanel {
+  - workoutUseCaseFactory : WorkoutUseCaseFactory
+  - exerciseService : GetExercisesUseCase
+  - inputReader : IInputReader
+  --
+  + showWorkoutsPanel()
+  + deleteWorkout()
+  + displayWorkoutOverview()
+  + displayWorkoutDetails()
+  + individuellWorkoutPanel()
+  + randomWorkoutPanel()
+  + createOwnExercise()
+  + showPanel()
+}
+@enduml
