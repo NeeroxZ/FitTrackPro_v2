@@ -2,7 +2,7 @@ package adapters.cli.panels;
 
 import java.util.*;
 
-public class FoodThingPanel extends AbstractConsolePanel {
+public class MealGeneratorPanel  extends AbstractConsolePanel {
 
     private final List<String> carbOptions    = List.of("Spaghetti", "Reis", "Kartoffeln", "Quinoa", "Couscous");
     private final List<String> proteinOptions = List.of("Hähnchen", "Lachs", "Tofu", "Rind", "Kichererbsen");
