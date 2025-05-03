@@ -1,0 +1,20 @@
+@startuml
+title Verletzung der Dependency Rule (ExportWorkoutHistoryServiceBad)
+
+' ======= Schichtendarstellung =======
+    class core.usecase.workout.export.ExportWorkoutHistoryService{
+}
+
+    class adapters.persistence.inmemory.InMemoryWorkoutRepository{
+}
+
+/' === Regelwidrige Abhängigkeit === '/
+ExportWorkoutHistoryService--> InMemoryWorkoutRepository
+
+note right of ExportWorkoutHistoryService
+  Use-Case (innen) kennt den
+  konkreten InMemory-Adapter (außen).
+  Abhängigkeit zeigt nach außen –
+  Dependency Rule verletzt.
+end note
+@enduml
