@@ -1,0 +1,29 @@
+@startuml
+title Lösung mit Port-Interface (ExportWorkoutHistoryService)
+
+' ======= Schichtendarstellung =======
+    class core.usecase.workout.export.ExportWorkoutHistoryService{
+}
+
+
+    interface core.ports.repository.IWorkoutRepository{
+}
+
+
+    class adapters.persistence.inmemory.InMemoryWorkoutRepository{
+}
+
+' ======= Regelkonforme Abhängigkeiten =======
+ExportWorkoutHistoryService --> IWorkoutRepository
+
+
+InMemoryWorkoutRepository ..|> IWorkoutRepository
+
+note right of ExportWorkoutHistoryService
+  High-Level-Use-Case kennt nur die
+  Abstraktion (Port).
+  Der konkrete Adapter implementiert
+  das Interface – Abhängigkeit zeigt
+  nach innen. Dependency Rule erfüllt.
+end note
+@enduml
