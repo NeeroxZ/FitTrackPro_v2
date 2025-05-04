@@ -1,0 +1,27 @@
+@startuml
+class adapters.cli.panels.ExerciseCreatorCLI {
+    - scanner : Scanner
+    - exerciseService : GetExercisesUseCaseFactory
+    + ExerciseCreatorCLI(exerciseService: GetExercisesUseCase)
+    + createOwnExercise() : void
+    - getCategoryInput() : ExerciseCategory
+    - getDifficultyInput() : Difficulty
+    - getTargetMuscles() : List<MuscleGroup>
+    - generateId() : int
+}
+  class core.usecase.user.GetExercisesUseCaseFactory {
+    - getExerciseByIdUseCase : GetExerciseByIdUseCase
+    - getAllExercisesUseCase : GetAllExercisesUseCase
+    - createExerciseUseCase : CreateExerciseUseCase
+    - getExercisesByTypeUseCase : GetExercisesByTypeUseCase
+    - filterExercisesBySplitUseCase : FilterExercisesBySplitUseCase
+    + getExerciseById(int id) : Optional<Exercise>
+    + getAllExercises() : List<Exercise>
+    + createExercise(Exercise exercise)
+    + getExercisesByType(WorkoutType type) : List<Exercise>
+    + filterExercisesBySplit(TrainingSplit split) : List<Exercise>
+  }
+
+ExerciseCreatorCLI --> GetExercisesUseCaseFactory
+ExerciseCreatorCLI --> Scanner
+@enduml

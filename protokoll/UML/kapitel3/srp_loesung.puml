@@ -1,0 +1,30 @@
+@startuml
+
+class adapters.cli.panels.ExerciseCreatorCLI {
+    - builder : ExerciseBuilder
+    + ExerciseCreatorCLI(GetExerciseUseCaseFactory)
+    - createUseCase : CreateExerciseUseCase
+    + createExerciseFromInput() : void
+}
+
+class adapters.builder.ExerciseBuilder {
+    - scanner : Scanner
+    + readName() : String
+    + readCategory() : ExerciseCategory
+    + readDifficulty() : Difficulty
+    + readDescription() : String
+    + readTargetMuscles() : List<MuscleGroup>
+    + buildExercise() : Exercise
+}
+
+class core.usecase.exercise.CreateExerciseUseCase {
+    - exerciseRepository : IExerciseRepository
+    + create(exercise: Exercise) : void
+}
+
+ExerciseCreatorCLI --> ExerciseBuilder
+ExerciseCreatorCLI --> CreateExerciseUseCase
+ExerciseBuilder --> Scanner
+CreateExerciseUseCase --> core.ports.repository.IExerciseRepository
+
+@enduml

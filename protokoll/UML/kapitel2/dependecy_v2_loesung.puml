@@ -3,15 +3,35 @@ title Lösung mit Port-Interface (ExportWorkoutHistoryService)
 
 ' ======= Schichtendarstellung =======
     class core.usecase.workout.export.ExportWorkoutHistoryService{
+    - repo : InMemoryWorkoutRepository
+    + ExportWorkoutHistory(InMemoryWorkoutRepository)
+    + export(String, Path)
+
 }
 
 
-    interface core.ports.repository.IWorkoutRepository{
-}
+package "core.ports.repository" {
+    interface IWorkoutRepository {
+        + saveWorkout(workout)
+        + findAll()
+        + findById(id)
+        + findByUser(username)
+        + deleteById(id)
+    }
+  }
 
 
-    class adapters.persistence.inmemory.InMemoryWorkoutRepository{
-}
+ package "adapters.persistence.inmemory" {
+     class InMemoryWorkoutRepository {
+         - workouts: List
+         - idCounter: AtomicInteger
+         + saveWorkout(workout)
+         + findAll()
+         + findById(id)
+         + findByUser(username)
+         + deleteById(id)
+     }
+ }
 
 ' ======= Regelkonforme Abhängigkeiten =======
 ExportWorkoutHistoryService --> IWorkoutRepository

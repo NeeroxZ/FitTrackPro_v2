@@ -3,10 +3,23 @@ title Verletzung der Dependency Rule (ExportWorkoutHistoryServiceBad)
 
 ' ======= Schichtendarstellung =======
     class core.usecase.workout.export.ExportWorkoutHistoryService{
+    - repo : InMemoryWorkoutRepository
+    + ExportWorkoutHistory(InMemoryWorkoutRepository)
+    + export(String, Path)
+
 }
 
-    class adapters.persistence.inmemory.InMemoryWorkoutRepository{
-}
+ package "adapters.persistence.inmemory" {
+     class InMemoryWorkoutRepository {
+         - workouts: List
+         - idCounter: AtomicInteger
+         + saveWorkout(workout)
+         + findAll()
+         + findById(id)
+         + findByUser(username)
+         + deleteById(id)
+     }
+ }
 
 /' === Regelwidrige Abhängigkeit === '/
 ExportWorkoutHistoryService--> InMemoryWorkoutRepository

@@ -1,13 +1,22 @@
 @startuml Analyse_SRP_Positiv
 title CreateWorkoutUseCase - Positives Beispiel für SRP
 
-interface core.ports.repository.IWorkoutRepository {
-  +saveWorkout(Workout workout)
-}
+package "core.ports.repository" {
+    interface IWorkoutRepository {
+        + saveWorkout(workout)
+        + findAll()
+        + findById(id)
+        + findByUser(username)
+        + deleteById(id)
+    }
+ }
 
-interface core.ports.session.IUserSessionService {
-  +getLoggedInUser() : Optional<User>
-}
+package "core.ports.session" {
+    interface IUserSessionService {
+        + setLoggedInUser(user)
+        + getLoggedInUser(): User
+    }
+ }
 
 interface core.ports.workout.IWorkoutGenerator {
   +generateWorkout(String name, WorkoutType type, TrainingSplit split, int frequency, String username) : List<Workout>
