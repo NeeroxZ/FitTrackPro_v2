@@ -2,14 +2,24 @@
 title GetUserWorkoutsUseCase - Positives Beispiel für DIP mit Packages
 
 package "core.ports.repository" {
-  interface IWorkoutRepository {
-    + findByUser(String username) : List<Workout>
-  }
-}
+    interface IWorkoutRepository {
+        + saveWorkout(workout)
+        + findAll()
+        + findById(id)
+        + findByUser(username)
+        + deleteById(id)
+    }
+   }
 
 package "core.ports.session" {
   interface IUserSessionService {
     + getLoggedInUser() : Optional<User>
+    + isLoggedIn() : boolean
+    + logout() : void
+    + setLoggedInUser(User updatedUser) : void
+    + getCurrentUsername : String
+    + registerObserver(IUserSessionObserver observer) : void
+    + unregisterObserver(IUserSessionObserver observer) : void
   }
 }
 

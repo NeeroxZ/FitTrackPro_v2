@@ -13,18 +13,21 @@ package "core.domain.workout" {
   }
 }
 
-package "core.domain.exercise" {
-  class TrainingDay {
-    - dayNumber : int
+class core.domain.exercise.TrainingDay {
+    - name : String
     - exercises : List<Exercise>
-  }
+}
 
-  class Exercise {
+class core.domain.exercise.Exercise {
     - id : int
     - name : String
-    - duration : int
-  }
+    - category : ExerciseCategory
+    - difficulty : Difficulty
+    - description : String
+    - targetMuscles : List<MuscleGroup>
+    + compareTo(other: Exercise) : int
 }
+
 
 Workout "1" *-- "many" TrainingDay : besteht aus
 TrainingDay "1" *-- "many" Exercise : enthält

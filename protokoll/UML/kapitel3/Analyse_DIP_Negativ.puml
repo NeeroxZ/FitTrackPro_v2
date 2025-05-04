@@ -1,35 +1,137 @@
 @startuml
-class AppPanel {
-    +showPanel(): void
-    -userSettings(): void
-    -selectTraining(): void
-    -exitApp(): void
+abstract adapters.cli.panels.AbstractConsolePanel {
+    - menuActions : List<MenuAction>
+    - scanner : Scanner
+    + AbstractConsolePanel()
+    # addMenuAction(name: String, action: Runnable)
+    # removeMainMenu()
+    # getMenuActionCount() : int
+    + handleInput()
+    # isExitOption(choice: int) : boolean
+    # exitPanel()
+    # clearConsole()
+    + showPanel() : void
 }
 
-class LoginPanel {
+class adapters.cli.panels.AppPanel {
+    - workoutUseCaseFactory : WorkoutUseCaseFactory
+    - exerciseService : GetExercisesUseCase
+    - userUseCaseFactory : UserUseCaseFactory
+    - inputReader : IInputReader
+    - userSessionService : IUserSessionService
+    + AppPanel(workoutUseCaseFactory: WorkoutUseCaseFactory, exerciseService: GetExercisesUseCase, userUseCaseFactory: UserUseCaseFactory, inputReader: IInputReader, userSessionService: IUserSessionService)
+    + showPanel()
+    - startWorkout()
+    - userSettings()
+    - selectTraining()
+    - exitApp()
+    + onUserLogout()
+    # isExitOption(choice: int) : boolean
+}
+
+ AbstractConsolePanel <|-- AppPanel
+
+
+class adapters.cli.panels.LoginPanel {
+ +  authenticationUserUseCase : uthenticationUserUseCase;
+    +  registerUserUseCase : RegisterUserUseCase;
+    + validator  :UserInputValidator;
+    +  updateUserUseCase : UpdateUserUseCase;
+    + LoginPanel(UserUseCaseFactory , S) {
+
+    +showPanel(): void
+
+}
+
+class adapters.cli.panels.UserPanel {
+    - userUseCaseFactory: UserUseCaseFactory;
+    -  userSessionService : IUserSessionService;
+    +UserPanel(UserUseCaseFactory , IUserSessionService , IInputReader)
     +showPanel(): void
 }
 
-class UserPanel {
+class adapters.cli.panels.ExercisePanel {
+    -  workoutManager : WorkoutManagerCLI;
+    -  inputReader : IInputReader;
+    -  exerciseService : GetExercisesUseCase;
+    + ExercisePanel(WorkoutUseCaseFactory ,
+                               GetExercisesUseCase,
+                               IInputReader )
+    private final WorkoutUseCaseFactory workoutUseCaseFactory;
     +showPanel(): void
 }
 
-class ExercisePanel {
-    +showPanel(): void
+package "core.ports.session" {
+  interface IUserSessionService {
+    + getLoggedInUser() : Optional<User>
+    + isLoggedIn() : boolean
+    + logout() : void
+    + setLoggedInUser(User updatedUser) : void
+    + getCurrentUsername : String
+    + registerObserver(IUserSessionObserver observer) : void
+    + unregisterObserver(IUserSessionObserver observer) : void
+  }
+}
+class core.usecase.workout.WorkoutUseCaseFactory {
+    - workoutRepository : IWorkoutRepository
+    - userSessionService : IUserSessionService
+    - customWorkoutGenerator : ICustomWorkoutGenerator
+    - randomWorkoutGenerator : IRandomWorkoutGenerator
+    + WorkoutUseCaseFactory(workoutRepository: IWorkoutRepository, exerciseRepository: IExerciseRepository, userSessionService: IUserSessionService, plans: List<IWorkoutPlan>)
+    + generateRandomWorkoutUseCase() : GenerateRandomWorkoutUseCase
+    + createCustomWorkoutUseCase() : CreateCustomWorkoutUseCase
+    + getUserWorkoutsUseCase() : GetUserWorkoutsUseCase
+    + removeWorkoutUseCase() : RemoveWorkoutUseCase
 }
 
-interface IUserSessionService <<interface>>
-interface IInputReader <<interface>>
-class WorkoutUseCaseFactory
-class UserUseCaseFactory
-class ExercisesUseCaseFactory
+class core.usecase.exercise.ExercisesUseCaseFactory {
+    - getExerciseByIdUseCase : GetExerciseByIdUseCase
+    - getAllExercisesUseCase : GetAllExercisesUseCase
+    - createExerciseUseCase : CreateExerciseUseCase
+    - getExercisesByTypeUseCase : GetExercisesByTypeUseCase
+    - filterExercisesBySplitUseCase : FilterExercisesBySplitUseCase
+    + ExercisesUseCaseFactory(exerciseRepository: IExerciseRepository)
+    + getExerciseById(id: int) : Optional<Exercise>
+    + getAllExercises() : List<Exercise>
+    + createExercise(exercise: Exercise)
+    + getExercisesByType(type: WorkoutType) : List<Exercise>
+    + filterExercisesBySplit(split: TrainingSplit) : List<Exercise>
+}
+
+class core.usecase.user.UserUseCaseFactory {
+    - userRepository : IUserRepository
+    - passwordHasher : IPasswordHasher
+    - userSessionService : IUserSessionService
+    + UserUseCaseFactory(userRepository: IUserRepository, passwordHasher: IPasswordHasher, userSessionService: IUserSessionService)
+    + authenticationUserUseCase() : AuthenticationUserUseCase
+    + registerUserUseCase() : RegisterUserUseCase
+    + updateUserUseCase() : UpdateUserUseCase
+    + deleteAccountUseCase() : DeleteUserUseCase
+    + changeUserNameUseCase() : ChangeUserNameUseCase
+    + changeWeightUseCase() : ChangeWeightUseCase
+    + findUserByUsernameUseCase() : FindUserByUsernameUseCase
+    + userSessionService() : IUserSessionService
+}
+
+
+  class core.usecase.user.GetExercisesUseCaseFactory {
+    - getExerciseByIdUseCase : GetExerciseByIdUseCase
+    - getAllExercisesUseCase : GetAllExercisesUseCase
+    - createExerciseUseCase : CreateExerciseUseCase
+    - getExercisesByTypeUseCase : GetExercisesByTypeUseCase
+    - filterExercisesBySplitUseCase : FilterExercisesBySplitUseCase
+    + getExerciseById(int id) : Optional<Exercise>
+    + getAllExercises() : List<Exercise>
+    + createExercise(Exercise exercise)
+    + getExercisesByType(WorkoutType type) : List<Exercise>
+    + filterExercisesBySplit(TrainingSplit split) : List<Exercise>
+  }
 
 AppPanel --> LoginPanel : instanziert direkt
 AppPanel --> UserPanel : instanziert direkt
 AppPanel --> ExercisePanel : instanziert direkt
 
 AppPanel --> IUserSessionService : verwendet
-AppPanel --> IInputReader : verwendet
 AppPanel --> WorkoutUseCaseFactory : verwendet
 AppPanel --> UserUseCaseFactory : verwendet
 AppPanel --> ExercisesUseCaseFactory : verwendet

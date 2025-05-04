@@ -35,7 +35,7 @@ package "core.usecase.exercise" {
   }
 
   ' Der GetExercisesUseCase kapselt alle spezifischen Use Cases
-  class GetExercisesUseCase {
+  class GetExercisesUseCaseFactory {
     - getExerciseByIdUseCase : GetExerciseByIdUseCase
     - getAllExercisesUseCase : GetAllExercisesUseCase
     - createExerciseUseCase : CreateExerciseUseCase
@@ -64,16 +64,16 @@ IExerciseRepository --> GetExercisesByTypeUseCase : "wird verwendet von"
 IExerciseRepository --> FilterExercisesBySplitUseCase : "wird verwendet von"
 
 ' Aggregation der spezifischen Use Cases im GetExercisesUseCase
-GetExercisesUseCase --> GetExerciseByIdUseCase : "aggregiert"
-GetExercisesUseCase --> GetAllExercisesUseCase : "aggregiert"
-GetExercisesUseCase --> CreateExerciseUseCase : "aggregiert"
-GetExercisesUseCase --> GetExercisesByTypeUseCase : "aggregiert"
-GetExercisesUseCase --> FilterExercisesBySplitUseCase : "aggregiert"
+GetExercisesUseCaseFactory --> GetExerciseByIdUseCase : "aggregiert"
+GetExercisesUseCaseFactory --> GetAllExercisesUseCase : "aggregiert"
+GetExercisesUseCaseFactory --> CreateExerciseUseCase : "aggregiert"
+GetExercisesUseCaseFactory --> GetExercisesByTypeUseCase : "aggregiert"
+GetExercisesUseCaseFactory --> FilterExercisesBySplitUseCase : "aggregiert"
 
 ' Das ExercisePanel nutzt den GetExercisesUseCase
-ExercisePanel --> GetExercisesUseCase : "nutzt"
+ExercisePanel --> GetExercisesUseCaseFactory : "nutzt"
 
-note right of GetExercisesUseCase
+note right of GetExercisesUseCaseFactory
   GetExercisesUseCase fungiert als Factory/Facade,
   die mehrere spezifische Exercise-UseCases kapselt
   und dem Aufrufer (hier ExercisePanel) eine einheitliche Schnittstelle bietet.

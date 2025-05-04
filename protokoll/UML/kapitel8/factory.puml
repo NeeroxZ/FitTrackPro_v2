@@ -1,5 +1,7 @@
 @startuml
+title WorkoutUseCaseFactory & UseCases (OCP-konform)
 
+' === UseCase Layer ===
 package "core.usecase.workout" {
   class WorkoutUseCaseFactory {
     +generateRandomWorkoutUseCase()
@@ -7,22 +9,63 @@ package "core.usecase.workout" {
     +getUserWorkoutsUseCase()
     +removeWorkoutUseCase()
   }
+
+  class GenerateRandomWorkoutUseCase {
+    +generate(name, type, split, frequency) : List<Workout>
+  }
+
+  class CreateCustomWorkoutUseCase {
+    +create(name, type, days) : Workout
+  }
+
+  class GetUserWorkoutsUseCase {
+    +getUserWorkouts() : List<Workout>
+  }
+
+  class RemoveWorkoutUseCase {
+    +removeWorkout(id) : boolean
+  }
 }
 
-interface IWorkoutRepository
-interface IUserSessionService
-interface ICustomWorkoutGenerator
-interface IRandomWorkoutGenerator
+' === Interfaces ===
+package "core.ports.workout" {
+  interface ICustomWorkoutGenerator {
+    +create(name, type, days, username) : Workout
+  }
 
-class RandomWorkoutGenerator
-class CustomWorkoutGenerator
+  interface IRandomWorkoutGenerator {
+    +generate(baseName, type, split, frequency, username) : List<Workout>
+  }
+}
+
+package "core.ports.repository" {
+  interface IWorkoutRepository {
+    +saveWorkout(workout)
+    +deleteById(id)
+    +findByUser(username) : List<Workout>
+  }
+}
+
+package "core.ports.session" {
+  interface IUserSessionService {
+    +getLoggedInUser() : Optional<User>
+  }
+}
+
+' === Beziehungen ===
+
+WorkoutUseCaseFactory --> GenerateRandomWorkoutUseCase
+WorkoutUseCaseFactory --> CreateCustomWorkoutUseCase
+WorkoutUseCaseFactory --> GetUserWorkoutsUseCase
+WorkoutUseCaseFactory --> RemoveWorkoutUseCase
 
 WorkoutUseCaseFactory --> IWorkoutRepository
 WorkoutUseCaseFactory --> IUserSessionService
 WorkoutUseCaseFactory --> ICustomWorkoutGenerator
 WorkoutUseCaseFactory --> IRandomWorkoutGenerator
 
-RandomWorkoutGenerator ..|> IRandomWorkoutGenerator
-CustomWorkoutGenerator ..|> ICustomWorkoutGenerator
+
+
+
 
 @enduml

@@ -1,0 +1,87 @@
+@startuml OCP_WorkoutGenerator_Refactored
+
+title OCP-konformes Design mit WorkoutUseCaseFactory
+
+package "core.ports.workout" {
+  interface IRandomWorkoutGenerator {
+    + generate(baseName, type, split, frequency, username) : List<Workout>
+  }
+
+  interface ICustomWorkoutGenerator {
+    + create(name, type, days, username) : Workout
+  }
+}
+
+package "core.domain.workout.generator" {
+  class RandomWorkoutGenerator {
+    - exerciseRepository : IExerciseRepository
+    - plans : Map<TrainingSplit, IWorkoutPlan>
+    + generate(...) : List<Workout>
+  }
+
+  class CustomWorkoutGenerator {
+    + create(...) : Workout
+  }
+}
+
+package "core.usecase.workout" {
+  class WorkoutUseCaseFactory {
+    - workoutRepository : IWorkoutRepository
+    - userSessionService : IUserSessionService
+    - randomWorkoutGenerator : IRandomWorkoutGenerator
+    - customWorkoutGenerator : ICustomWorkoutGenerator
+    + generateRandomWorkoutUseCase() : GenerateRandomWorkoutUseCase
+    + createCustomWorkoutUseCase() : CreateCustomWorkoutUseCase
+  }
+
+  class GenerateRandomWorkoutUseCase {
+    - generator : IRandomWorkoutGenerator
+  }
+
+  class CreateCustomWorkoutUseCase {
+    - generator : ICustomWorkoutGenerator
+  }
+}
+
+package "core.ports.repository" {
+  interface IExerciseRepository
+  interface IWorkoutRepository
+}
+
+package "core.domain.workout.plans" {
+  interface IWorkoutPlan {
+    + appliesTo() : TrainingSplit
+    + selectExercises(pool, index) : List<Exercise>
+  }
+}
+
+package "core.domain.workout" {
+  class Workout
+  enum WorkoutType
+}
+
+package "core.domain.exercise" {
+  class TrainingDay
+  class Exercise
+  enum TrainingSplit
+}
+
+' Beziehungen
+IRandomWorkoutGenerator <|.. RandomWorkoutGenerator
+ICustomWorkoutGenerator <|.. CustomWorkoutGenerator
+
+WorkoutUseCaseFactory --> IRandomWorkoutGenerator
+WorkoutUseCaseFactory --> ICustomWorkoutGenerator
+WorkoutUseCaseFactory --> IWorkoutRepository
+WorkoutUseCaseFactory --> IUserSessionService
+
+RandomWorkoutGenerator --> IExerciseRepository
+RandomWorkoutGenerator --> IWorkoutPlan
+RandomWorkoutGenerator --> Workout
+RandomWorkoutGenerator --> TrainingDay
+RandomWorkoutGenerator --> Exercise
+
+GenerateRandomWorkoutUseCase --> IRandomWorkoutGenerator
+CreateCustomWorkoutUseCase --> ICustomWorkoutGenerator
+
+@enduml
