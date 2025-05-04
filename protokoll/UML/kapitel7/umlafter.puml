@@ -6,8 +6,6 @@ class ExercisePanel {
   --
   + createOwnExercise()
   + createWorkoutPanel()
-  + individuellWorkoutPanel()
-  + randomWorkoutPanel()
   + showPanel()
 }
 

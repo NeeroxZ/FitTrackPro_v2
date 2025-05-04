@@ -1,0 +1,26 @@
+@startuml
+title "Bevor Refactoring – FoodThingPanel (bad names)"
+
+package "CLI Panels" {
+    abstract class AbstractConsolePanel
+
+    class FoodThingPanel {
+        - List<String> a
+        - List<String> b
+        - List<String> c
+        - List<String> d
+        - Random r
+        - List<String> h
+        --
+        + FoodThingPanel()
+        - x()
+        - y()
+        - z()
+        - p()
+        - q()
+        + showPanel()
+    }
+
+    AbstractConsolePanel <|-- FoodThingPanel
+}
+@enduml

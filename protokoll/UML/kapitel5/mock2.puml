@@ -1,0 +1,85 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "core.usecase.workout" {
+    class GetUserWorkoutsUseCase {
+        - workoutRepository: IWorkoutRepository
+        - userSessionService: IUserSessionService
+        + getUserWorkouts(): List<Workout>
+    }
+
+    class GetUserWorkoutsUseCaseTest {
+        - exerciseRepository: IExerciseRepository
+        - workoutRepository: IWorkoutRepository
+        - userSessionService: IUserSessionService
+        - getUserWorkoutsUseCase: GetUserWorkoutsUseCase
+        - testUser: User
+        + setUp()
+        + tearDown()
+        + shouldReturnEmptyListForUserWithoutWorkouts()
+        + shouldReturnWorkoutsForUserWithWorkouts()
+    }
+}
+
+package "core.ports.repository" {
+    interface IWorkoutRepository {
+        + saveWorkout(workout)
+        + findAll()
+        + findById(id)
+        + findByUser(username)
+        + deleteById(id)
+    }
+
+    class InMemoryWorkoutRepositoryMock {
+        - storage: Map
+        + saveWorkout(workout)
+        + findAll()
+        + findById(id)
+        + findByUser(username)
+        + deleteById(id)
+        + clear()
+        + count()
+    }
+
+    interface IExerciseRepository
+}
+
+package "adapters.persistence.inmemory" {
+    class InMemoryWorkoutRepository {
+        - workouts: List
+        - idCounter: AtomicInteger
+        + saveWorkout(workout)
+        + findAll()
+        + findById(id)
+        + findByUser(username)
+        + deleteById(id)
+    }
+}
+
+package "core.ports.session" {
+    interface IUserSessionService {
+        + setLoggedInUser(user)
+        + getLoggedInUser(): User
+    }
+
+    class InMemoryUserSessionServiceMock {
+        + setLoggedInUser(user)
+        + getLoggedInUser(): User
+    }
+}
+
+
+' Beziehungen
+GetUserWorkoutsUseCase --> IWorkoutRepository
+GetUserWorkoutsUseCase --> IUserSessionService
+GetUserWorkoutsUseCaseTest --> GetUserWorkoutsUseCase
+GetUserWorkoutsUseCaseTest --> InMemoryWorkoutRepositoryMock
+GetUserWorkoutsUseCaseTest --> InMemoryUserSessionServiceMock
+GetUserWorkoutsUseCaseTest --> IExerciseRepository
+
+InMemoryWorkoutRepositoryMock ..|> IWorkoutRepository
+InMemoryWorkoutRepository ..|> IWorkoutRepository
+InMemoryUserSessionServiceMock ..|> IUserSessionService
+
+@enduml

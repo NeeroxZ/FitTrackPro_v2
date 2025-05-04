@@ -3,8 +3,11 @@ title Value Object – Birthday
 
 package "core.domain.user" {
   class Birthday <<value object>> {
-    - date : LocalDate
-    + getFormatted() : String
+    - birthDate : LocalDate
+    + Birthday(LocalDate)
+    + getBirthDate() : LocalDate
+    + calculateAge() : int
+    + isAdult() : boolean
   }
 }
 
