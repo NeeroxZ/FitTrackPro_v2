@@ -1,0 +1,26 @@
+@startuml
+title "Nach Refactoring – MealGeneratorPanel (clear names)"
+
+package "CLI Panels" {
+    abstract class AbstractConsolePanel
+
+    class MealGeneratorPanel {
+        - List<String> carbOptions
+        - List<String> proteinOptions
+        - List<String> sauceOptions
+        - List<String> drinkOptions
+        - Random rand
+        - List<String> mealHistory
+        --
+        + MealGeneratorPanel()
+        - generateRandomMeal()
+        - showLastMeal()
+        - showMealHistory()
+        - clearMealHistory()
+        - clearScreen()
+        + showPanel()
+    }
+
+    AbstractConsolePanel <|-- MealGeneratorPanel
+}
+@enduml
